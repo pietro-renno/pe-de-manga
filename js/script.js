@@ -9,24 +9,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Mobile Menu Toggle ---
+    // --- Better Mobile Menu Toggle ---
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
     
-    menuToggle.addEventListener('click', () => {
-        // Simple toggle for demo, could be improved with a sliding drawer
-        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        if (navLinks.style.display === 'flex') {
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '100%';
-            navLinks.style.left = '0';
-            navLinks.style.width = '100%';
-            navLinks.style.background = 'white';
-            navLinks.style.padding = '2rem';
-            navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-        }
-    });
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+                body.classList.remove('no-scroll');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+                body.classList.remove('no-scroll');
+            }
+        });
+    }
 
     // --- Scroll Reveal Animation ---
     const revealElements = document.querySelectorAll('[data-reveal]');
@@ -42,17 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 0.15
+        threshold: 0.10
     });
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // --- Smooth Scroll for anchor links ---
+    // --- Smooth Scroll for anchor links (only for ID links on same page) ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+            
+            const target = document.querySelector(href);
             if (target) {
+                e.preventDefault();
                 window.scrollTo({
                     top: target.offsetTop - 80,
                     behavior: 'smooth'
