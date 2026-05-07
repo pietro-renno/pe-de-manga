@@ -1,0 +1,63 @@
+========================================
+  Pé de Manga – Cultura e Afeto
+  Site Completo em PHP
+========================================
+
+ESTRUTURA DE ARQUIVOS
+─────────────────────
+index.php              → Página inicial
+quem-somos.php         → Quem Somos
+o-que-fazemos.php      → O Que Fazemos
+produtos.php           → Produtos (Loja)
+parceiros.php          → Parceiros
+colaboradores.php      → Colaboradores
+galeria.php            → Galeria de Eventos
+doacoes.php            → Doações
+transparencia.php      → Transparência
+
+admin/
+  login.php            → Tela de login do painel
+  index.php            → Dashboard
+  colaboradores.php    → Gerenciar colaboradores
+  parceiros.php        → Gerenciar parceiros
+  galeria.php          → Gerenciar galeria de fotos
+
+assets/css/
+  style.css            → Estilos do site público
+  admin.css            → Estilos do painel admin
+
+assets/js/
+  main.js              → JavaScript do site público
+
+includes/
+  config.php           → Configurações e funções PHP
+  nav.php              → Barra de navegação
+  footer.php           → Rodapé
+
+data/
+  colaboradores.json   → Dados dos colaboradores
+  parceiros.json       → Dados dos parceiros
+  galeria.json         → Dados da galeria
+  uploads/             → Imagens enviadas
+
+COMO INSTALAR
+─────────────
+1. Faça upload de todos os arquivos para seu servidor PHP
+2. Certifique-se que data/ e data/uploads/ têm permissão de escrita: chmod 775 data data/uploads
+3. Acesse admin/login.php para entrar no painel
+
+CREDENCIAIS PADRÃO DO PAINEL
+─────────────────────────────
+Usuário: admin
+Senha:   pedemanga2025
+
+IMPORTANTE: Altere a senha após o primeiro acesso.
+Para gerar nova hash: php -r "echo password_hash('nova_senha', PASSWORD_DEFAULT);"
+Substitua ADM_PASS em admin/login.php
+
+REQUISITOS DO SERVIDOR
+──────────────────────
+- PHP 7.4 ou superior
+- Extensão JSON (padrão na maioria dos servidores)
+- Permissão de escrita em data/ e data/uploads/
+========================================
