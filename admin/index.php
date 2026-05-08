@@ -34,6 +34,7 @@
         $n_colabs    = (int) $db->query('SELECT COUNT(*) FROM colaboradores')->fetchColumn();
         $n_parceiros = (int) $db->query('SELECT COUNT(*) FROM parceiros')->fetchColumn();
         $n_galeria   = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
+        $n_usuarios  = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
         ?>
         <div class="stats-grid">
           <div class="stat-card sc-amarelo">
@@ -52,9 +53,9 @@
             <div class="sc-label">Fotos na Galeria</div>
           </div>
           <div class="stat-card sc-coral">
-            <div class="sc-icon">&#127758;</div>
-            <div class="sc-num">9</div>
-            <div class="sc-label">Paginas do Site</div>
+            <div class="sc-icon">&#128100;</div>
+            <div class="sc-num"><?= $n_usuarios ?></div>
+            <div class="sc-label">Usuários Ativos</div>
           </div>
         </div>
 
@@ -69,6 +70,10 @@
               style="padding:14px;text-align:center;justify-content:center;">&#129309; Gerenciar Parceiros</a>
             <a href="galeria.php" class="btn-adm btn-adm-outline"
               style="padding:14px;text-align:center;justify-content:center;">&#128247; Gerenciar Galeria</a>
+            <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
+            <a href="usuarios.php" class="btn-adm btn-adm-outline"
+              style="padding:14px;text-align:center;justify-content:center;">&#128100; Gerenciar Usuários</a>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -78,10 +83,11 @@
           </div>
           <div class="admin-card-body">
             <p style="font-size:.86rem;color:var(--marrom);line-height:1.7;margin-bottom:12px;">
-              <strong>Usuário:</strong> admin &nbsp;|&nbsp;
-              <strong>Senha padrão:</strong> pedemanga2025<br>
-              Recomendamos alterar a senha no arquivo <code>admin/login.php</code> usando
-              <code>password_hash('nova_senha', PASSWORD_DEFAULT)</code>.
+              O acesso ao painel é feito por <strong>e-mail e senha</strong> cadastrados na tabela <code>usuarios</code>.<br>
+              <strong>Admin padrão:</strong> <code>admin@pedemanga.org</code> &nbsp;|&nbsp; senha: <code>pedemanga2025</code><br>
+              <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
+              Gerencie os usuários em <a href="usuarios.php" style="color:var(--amarelo);font-weight:600;">Administração → Usuários</a>.
+              <?php endif; ?>
             </p>
             <p style="font-size:.82rem;color:rgba(136,105,46,.6);">Os dados (colaboradores, parceiros, galeria) são salvos no banco de dados MySQL. As imagens ficam em <code>data/uploads/</code>. Configure a conexão em <code>includes/db.php</code>.</p>
           </div>

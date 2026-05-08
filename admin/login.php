@@ -1,25 +1,33 @@
 <?php
 session_start();
-define('ADM_USER', 'admin');
-define('ADM_PASS', '$2y$10$dg02UFPZhM/8HEit7pvFe.7/RbHpz1Q6wOpuq..HB84SXYQiCEdDS'); // senha: pedemanga2025
 
-if (isset($_SESSION['adm_logado']) && $_SESSION['adm_logado']) {
+if (!empty($_SESSION['adm_logado'])) {
   header('Location: index.php');
   exit;
 }
 
 $erro = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $user = trim($_POST['usuario'] ?? '');
+  require_once __DIR__ . '/../includes/db.php';
+  $email = trim($_POST['email'] ?? '');
   $senha = trim($_POST['senha'] ?? '');
-  if ($user === ADM_USER && password_verify($senha, ADM_PASS)) {
-    $_SESSION['adm_logado'] = true;
-    $_SESSION['adm_user'] = $user;
-    header('Location: index.php');
-    exit;
-  } else {
-    $erro = 'Usuario ou senha incorretos.';
+
+  if ($email !== '' && $senha !== '') {
+    $db   = get_db();
+    $stmt = $db->prepare('SELECT id, nome, senha, perfil FROM usuarios WHERE email = ? AND ativo = 1 LIMIT 1');
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($senha, $user['senha'])) {
+      $_SESSION['adm_logado'] = true;
+      $_SESSION['adm_id']     = $user['id'];
+      $_SESSION['adm_user']   = $user['nome'];
+      $_SESSION['adm_perfil'] = $user['perfil'];
+      header('Location: index.php');
+      exit;
+    }
   }
+  $erro = 'E-mail ou senha incorretos.';
 }
 ?>
 <!DOCTYPE html>
@@ -49,12 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <p class="login-sub">Entre com suas credenciais para acessar o painel.</p>
       <?php if ($erro): ?>
-        <div class="alert alert-erro"><?php echo htmlspecialchars($erro); ?></div>
+        <div class="alert alert-erro"><?= htmlspecialchars($erro) ?></div>
       <?php endif; ?>
       <form method="POST">
         <div class="form-group">
-          <label for="usuario">E-mail</label>
-          <input type="text" id="usuario" name="usuario" required autocomplete="username" placeholder="admin">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" required autocomplete="username"
+            placeholder="seu@email.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
         </div>
         <div class="form-group">
           <label for="senha">Senha</label>
@@ -63,9 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <button type="submit" class="btn-login">Entrar no painel</button>
       </form>
-      <p style="margin-top:20px;text-align:center;font-size:.76rem;color:rgba(136,105,46,.5);">
-        Senha padrao: <code>pedemanga2025</code> — altere após o primeiro acesso.
-      </p>
     </div>
   </div>
 </body>

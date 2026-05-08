@@ -20,6 +20,10 @@ function sa($p)
       Colaboradores</a>
     <a href="parceiros.php" class="<?= sa('parceiros') ?>"><span class="sn-icon">&#129309;</span> Parceiros</a>
     <a href="galeria.php" class="<?= sa('galeria') ?>"><span class="sn-icon">&#128247;</span> Galeria</a>
+    <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
+    <div class="sn-sep">Administração</div>
+    <a href="usuarios.php" class="<?= sa('usuarios') ?>"><span class="sn-icon">&#128100;</span> Usuários</a>
+    <?php endif; ?>
     <div class="sn-sep">Site</div>
     <a href="../index.php" target="_blank"><span class="sn-icon">&#127758;</span> Ver site</a>
   </nav>

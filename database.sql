@@ -47,8 +47,27 @@ CREATE TABLE IF NOT EXISTS `galeria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
+-- Tabela: usuarios
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id`         INT UNSIGNED   NOT NULL AUTO_INCREMENT,
+  `nome`       VARCHAR(255)   NOT NULL,
+  `email`      VARCHAR(320)   NOT NULL,
+  `senha`      VARCHAR(255)   NOT NULL,
+  `perfil`     ENUM('admin','editor') NOT NULL DEFAULT 'editor',
+  `ativo`      TINYINT(1)     NOT NULL DEFAULT 1,
+  `criado_em`  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
 -- Dados de exemplo (migrados dos arquivos JSON originais)
 -- ------------------------------------------------------------
+-- Admin padrão (senha: pedemanga2025)
+INSERT INTO `usuarios` (`nome`, `email`, `senha`, `perfil`) VALUES
+  ('Administrador', 'admin@pedemanga.org', '$2y$10$dg02UFPZhM/8HEit7pvFe.7/RbHpz1Q6wOpuq..HB84SXYQiCEdDS', 'admin');
+
 INSERT INTO `colaboradores` (`nome`, `funcao`, `descricao`, `foto`) VALUES
   ('Prof Luis Felipe Cardoso', 'Professor', 'Teste', 'colab_69fc846657a86.jpg');
 
