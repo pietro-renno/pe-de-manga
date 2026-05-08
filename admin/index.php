@@ -11,8 +11,6 @@
     content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords"
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cognition_2,comedy_mask,compost,diversity_1,local_mall,partner_heart" />
@@ -23,7 +21,7 @@
     <?php require '_sidebar.php'; ?>
     <div class="admin-main">
       <div class="admin-topbar">
-        <h3>&#127968; Dashboard</h3>
+        <h3><span class="material-symbols-outlined">home</span> Dashboard</h3>
         <div class="topbar-actions">
           <span class="topbar-user">Olá, <?= htmlspecialchars($_SESSION['adm_user']) ?></span>
           <a href="../index.php" target="_blank" class="btn-adm btn-adm-outline">Ver site</a>
@@ -37,51 +35,54 @@
         $n_parceiros = (int) $db->query('SELECT COUNT(*) FROM parceiros')->fetchColumn();
         $n_galeria   = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
         $n_usuarios  = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
+        $n_produtos  = (int) $db->query('SELECT COUNT(*) FROM produtos WHERE ativo = 1')->fetchColumn();
         ?>
         <div class="stats-grid">
           <div class="stat-card sc-amarelo">
-            <div class="sc-icon">&#128101;</div>
+            <div class="sc-icon"><span class="material-symbols-outlined mi-xl">group</span></div>
             <div class="sc-num"><?= $n_colabs ?></div>
             <div class="sc-label">Colaboradores</div>
           </div>
           <div class="stat-card sc-verde">
-            <div class="sc-icon">&#129309;</div>
+            <div class="sc-icon"><span class="material-symbols-outlined mi-xl">handshake</span></div>
             <div class="sc-num"><?= $n_parceiros ?></div>
             <div class="sc-label">Parceiros</div>
           </div>
           <div class="stat-card sc-marrom">
-            <div class="sc-icon">&#128247;</div>
+            <div class="sc-icon"><span class="material-symbols-outlined mi-xl">photo_camera</span></div>
             <div class="sc-num"><?= $n_galeria ?></div>
             <div class="sc-label">Fotos na Galeria</div>
           </div>
           <div class="stat-card sc-coral">
-            <div class="sc-icon">&#128100;</div>
-            <div class="sc-num"><?= $n_usuarios ?></div>
-            <div class="sc-label">Usuários Ativos</div>
+            <div class="sc-icon"><span class="material-symbols-outlined mi-xl">local_mall</span></div>
+            <div class="sc-num"><?= $n_produtos ?></div>
+            <div class="sc-label">Produtos Ativos</div>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <h4>&#9881; Acesso rápido</h4>
+            <h4><span class="material-symbols-outlined">settings</span> Acesso rápido</h4>
           </div>
           <div class="admin-card-body" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
             <a href="colaboradores.php" class="btn-adm btn-adm-primary"
-              style="padding:14px;text-align:center;justify-content:center;">&#128101; Gerenciar Colaboradores</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">group</span> Colaboradores</a>
             <a href="parceiros.php" class="btn-adm btn-adm-verde"
-              style="padding:14px;text-align:center;justify-content:center;">&#129309; Gerenciar Parceiros</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">handshake</span> Parceiros</a>
             <a href="galeria.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;">&#128247; Gerenciar Galeria</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">photo_camera</span> Galeria</a>
+            <a href="produtos.php" class="btn-adm btn-adm-outline"
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">local_mall</span> Produtos</a>
             <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
             <a href="usuarios.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;">&#128100; Gerenciar Usuários</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">manage_accounts</span> Usuários</a>
             <?php endif; ?>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <h4>&#128203; Informações de acesso</h4>
+            <h4><span class="material-symbols-outlined">info</span> Informações de acesso</h4>
           </div>
           <div class="admin-card-body">
             <p style="font-size:.86rem;color:var(--marrom);line-height:1.7;margin-bottom:12px;">

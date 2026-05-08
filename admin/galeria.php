@@ -54,7 +54,6 @@ $galeria = get_galeria();
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description" content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords" content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 
@@ -64,8 +63,9 @@ $galeria = get_galeria();
     <div class="admin-main">
       <div class="admin-topbar">
         <h3><span class="material-symbols-outlined pi-icon">photo_camera</span> Galeria de Fotos</h3>
+        <h3><span class="material-symbols-outlined">photo_camera</span> Galeria de Fotos</h3>
         <div class="topbar-actions">
-          <button class="btn-adm btn-adm-primary" onclick="openModal('upload')">+ Adicionar fotos</button>
+          <button class="btn-adm btn-adm-primary" onclick="openModal('upload')"><span class="material-symbols-outlined">add</span> Adicionar fotos</button>
           <a href="logout.php" class="btn-adm btn-adm-danger">Sair</a>
         </div>
       </div>
@@ -91,7 +91,7 @@ $galeria = get_galeria();
                       <form method="POST" onsubmit="return confirm('Remover esta foto?')" style="display:contents;">
                         <input type="hidden" name="acao" value="remover">
                         <input type="hidden" name="id" value="<?= (int) $foto['id'] ?>">
-                        <button type="submit" title="Remover">&#128465;</button>
+                        <button type="submit" title="Remover"><span class="material-symbols-outlined">delete</span></button>
                       </form>
                     </div>
                     <?php if (!empty($foto['descricao'])): ?>
@@ -114,17 +114,19 @@ $galeria = get_galeria();
     <div class="modal-box" onclick="event.stopPropagation()" style="max-width:580px;">
       <button class="modal-close" onclick="closeModal('upload')">&times;</button>
       <h3>Adicionar Fotos</h3>
-      <p class="modal-sub">Selecione uma ou varias imagens para adicionar a galeria</p>
+      <p class="modal-sub">Selecione uma ou várias imagens para adicionar à galeria</p>
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="upload">
         <div class="form-group">
           <label>Descrição (opcional)</label>
           <input type="text" name="descricao" placeholder="ex: Oficina de artesanato - marco 2025">
+          <label>Descrição (opcional)</label>
+          <input type="text" name="descricao" placeholder="ex: Oficina de artesanato - março 2025">
         </div>
         <div class="form-group">
           <label>Imagens *</label>
           <div class="upload-area" id="uploadArea" onclick="document.getElementById('fotosInput').click()">
-            <div class="ua-icon">&#128247;</div>
+            <div class="ua-icon"><span class="material-symbols-outlined mi-xl">upload</span></div>
             <p>Clique para selecionar ou arraste as imagens aqui</p>
             <small>JPG, PNG, WEBP – max 5MB por arquivo</small>
           </div>

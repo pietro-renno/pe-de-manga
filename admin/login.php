@@ -41,8 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords"
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Login – Painel Pé de Manga</title>
   <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
@@ -51,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="login-page">
     <div class="login-card">
       <div class="login-logo">
-        <div class="ll-mango">&#x1F96D;</div>
+        <span class="material-symbols-outlined" style="font-size:3rem;color:var(--verde);">eco</span>
         <h1>Pé de Manga</h1>
         <p>Painel Administrativo</p>
       </div>

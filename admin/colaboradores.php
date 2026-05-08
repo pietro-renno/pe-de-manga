@@ -64,7 +64,7 @@ $colaboradores = get_colaboradores();
       <div class="admin-topbar">
         <h3><span class="material-symbols-outlined pi-icon">group</span> Colaboradores</h3>
         <div class="topbar-actions">
-          <button class="btn-adm btn-adm-primary" onclick="openModal('adicionar')">+ Adicionar colaborador</button>
+          <button class="btn-adm btn-adm-primary" onclick="openModal('adicionar')"><span class="material-symbols-outlined">add</span> Adicionar colaborador</button>
           <a href="logout.php" class="btn-adm btn-adm-danger">Sair</a>
         </div>
       </div>
@@ -98,7 +98,7 @@ $colaboradores = get_colaboradores();
                         <?php if (!empty($c['foto'])): ?>
                           <img src="../data/uploads/<?= htmlspecialchars($c['foto']) ?>" alt="">
                         <?php else: ?>
-                          <div style="width:44px;height:44px;border-radius:50%;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">&#128100;</div>
+                          <div style="width:44px;height:44px;border-radius:50%;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:1.4rem;color:var(--marrom);">person</span></div>
                         <?php endif; ?>
                       </td>
                       <td><strong><?= htmlspecialchars($c['nome']) ?></strong></td>
@@ -106,7 +106,7 @@ $colaboradores = get_colaboradores();
                       <td style="max-width:220px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($c['descricao'] ?? '', 0, 80, '...')) ?></td>
                       <td>
                         <div class="td-actions">
-                          <button class="btn-adm btn-adm-outline" onclick="abrirEdicao(<?= htmlspecialchars(json_encode($c)) ?>)"><span class="material-symbols-outlined pi-icon">edit</span> Editar</button>
+                          <button class="btn-adm btn-adm-outline" onclick="abrirEdicao(<?= htmlspecialchars(json_encode($c)) ?>)">&#9998; Editar</button>
                           <form method="POST" onsubmit="return confirm('Remover este colaborador?')">
                             <input type="hidden" name="acao" value="remover">
                             <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
@@ -165,7 +165,7 @@ $colaboradores = get_colaboradores();
         <div id="edit_foto_preview" style="margin-top:8px;"></div>
         <div class="form-actions">
           <button type="button" class="btn-adm btn-adm-outline" onclick="closeModal('editar')">Cancelar</button>
-          <button type="submit" class="btn-adm btn-adm-primary">Salvar alteracoes</button>
+          <button type="submit" class="btn-adm btn-adm-primary">Salvar alterações</button>
         </div>
       </form>
     </div>

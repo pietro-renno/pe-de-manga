@@ -47,6 +47,20 @@ CREATE TABLE IF NOT EXISTS `galeria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
+-- Tabela: produtos
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `produtos` (
+  `id`          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `nome`        VARCHAR(255)    NOT NULL,
+  `descricao`   TEXT                    DEFAULT NULL,
+  `tag`         VARCHAR(100)            DEFAULT NULL,
+  `cor_fundo`   VARCHAR(150)    NOT NULL DEFAULT 'linear-gradient(135deg,#f4e999,#f2be2c)',
+  `ativo`       TINYINT(1)      NOT NULL DEFAULT 1,
+  `criado_em`   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
 -- Tabela: usuarios
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -64,6 +78,13 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 -- ------------------------------------------------------------
 -- Dados de exemplo (migrados dos arquivos JSON originais)
 -- ------------------------------------------------------------
+-- Produtos iniciais
+INSERT INTO `produtos` (`nome`, `descricao`, `tag`, `cor_fundo`) VALUES
+  ('Camisetas Pé de Manga', 'Coleção limitada em parceria com o Quintal Silk. Arte impressa com amor, raiz e identidade. Cada peça é única.', 'Moda consciente', 'linear-gradient(135deg,#f4e999,#f2be2c)'),
+  ('Pé de Pão', 'Pães artesanais de fermentação natural ou longa fermentação. Feitos com cuidado, tempo e ingredientes de qualidade.', 'Artesanal e natural', 'linear-gradient(135deg,#fde8c6,#f5c870)'),
+  ('Caderno Cultural', 'Caderno artesanal com ilustrações exclusivas do Pé de Manga. Perfeito para anotações, desenhos e registros.', 'Produto exclusivo', 'linear-gradient(135deg,#d4efbd,#83c155)'),
+  ('Ecobag Pé de Manga', 'Sacola de pano estampada com arte local. Sustentável, resistente e com identidade cultural única.', 'Sustentabilidade', 'linear-gradient(135deg,#c8e6f5,#7ec8e3)');
+
 -- Admin padrão (senha: pedemanga2025)
 INSERT INTO `usuarios` (`nome`, `email`, `senha`, `perfil`) VALUES
   ('Administrador', 'admin@pedemanga.org', '$2y$10$dg02UFPZhM/8HEit7pvFe.7/RbHpz1Q6wOpuq..HB84SXYQiCEdDS', 'admin');
