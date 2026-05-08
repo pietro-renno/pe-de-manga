@@ -33,3 +33,12 @@ function get_galeria(): array
 {
     return get_db()->query('SELECT * FROM galeria ORDER BY id')->fetchAll();
 }
+
+// ── DADOS: PRODUTOS ──
+function get_produtos(): array
+{
+    return get_db()->query('SELECT * FROM produtos WHERE ativo = 1 ORDER BY id')->fetchAll();
+}
+
+// ── WHATSAPP ──
+define('WHATSAPP_NUM', '5512997624486');

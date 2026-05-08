@@ -30,6 +30,7 @@
 }
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 body {
   font-family: "Open Sans", sans-serif;
@@ -750,6 +751,14 @@ footer {
   }
 }
 
+/* features grid (homepage) */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 40px;
+}
+
 /* ══════════════════════════════════
    PÁGINA: QUEM SOMOS
 ══════════════════════════════════ */
@@ -913,7 +922,7 @@ footer {
 ══════════════════════════════════ */
 .produtos-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 26px;
   margin-top: 48px;
 }
@@ -1370,6 +1379,16 @@ footer {
   }
   .hamburger {
     display: flex;
+  }
+  /* hero responsivo */
+  .hero-content2 {
+    grid-template-columns: 1fr;
+  }
+  .hero-image {
+    display: none;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
   }
   .quem-grid,
   .doacoes-grid {

@@ -75,7 +75,7 @@
       <p class="section-tag reveal">Explore</p>
       <h2 class="section-title reveal">Tudo que o Pé de Manga <em>oferece</em></h2>
       <div class="divider reveal"></div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px;" class="reveal">
+      <div class="features-grid reveal">
         <a href="o-que-fazemos.php" style="text-decoration:none;">
           <div class="card" style="padding:28px;background:var(--fundo-claro);text-align:center;">
             <div style="margin-bottom:12px; color:#4A2f2A;"><span style="font-size:3.5rem;"
