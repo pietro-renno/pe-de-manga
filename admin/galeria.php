@@ -63,7 +63,7 @@ $galeria = get_galeria();
     <?php require '_sidebar.php'; ?>
     <div class="admin-main">
       <div class="admin-topbar">
-        <h3>&#128247; Galeria de Fotos</h3>
+        <h3><span class="material-symbols-outlined pi-icon">photo_camera</span> Galeria de Fotos</h3>
         <div class="topbar-actions">
           <button class="btn-adm btn-adm-primary" onclick="openModal('upload')">+ Adicionar fotos</button>
           <a href="logout.php" class="btn-adm btn-adm-danger">Sair</a>
@@ -118,7 +118,7 @@ $galeria = get_galeria();
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="upload">
         <div class="form-group">
-          <label>Descricao (opcional)</label>
+          <label>Descrição (opcional)</label>
           <input type="text" name="descricao" placeholder="ex: Oficina de artesanato - marco 2025">
         </div>
         <div class="form-group">

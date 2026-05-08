@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Handlee&family=Open+Sans:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,edit,group,handshake,home,person,photo_camera,visibility");
 
 /* ── VARIÁVEIS ── */
 :root {
@@ -11,6 +13,8 @@
   --fundo-claro: #fdf8ee;
   --text: #2d2d2d;
   --text-light: #444;
+  --erro: #c0392b;
+  --sucesso: #27ae60;
   --sombra-leve: 0 2px 14px rgba(136, 105, 46, 0.1);
   --sombra-media: 0 8px 30px rgba(136, 105, 46, 0.14);
   --sombra-forte: 0 16px 50px rgba(136, 105, 46, 0.18);
@@ -463,6 +467,10 @@ footer {
   padding-bottom: 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+.footer-brand img {
+  height: 90px;
+  margin-bottom: 2rem;
+}
 .footer-brand .fb-name {
   font-family: "Playfair Display", serif;
   font-size: 1.5rem;
@@ -497,12 +505,13 @@ footer {
   text-decoration: underline;
 }
 .footer-col h5 {
-  font-size: 0.7rem;
+  font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.14em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: var(--amarelo);
   margin-bottom: 12px;
+  font-family: "Handlee", cursive;
 }
 .footer-col ul {
   display: flex;
@@ -553,15 +562,15 @@ footer {
 }
 
 .social-links a:hover {
-  background: var(--primary);
-  color: var(--vermelho-manga);
-  border-color: var(--primary);
+  background: var(--amarelo);
+  color: var(--marrom-escuro);
+  border-color: var(--amarelo);
   transform: translateY(-5px);
 }
 
 .footer-links h4,
 .footer-info h4 {
-  color: var(--primary);
+  color: var(--amarelo);
   margin-bottom: 2rem;
   font-size: 1.3rem;
   font-family: "Handlee", cursive;
@@ -571,7 +580,7 @@ footer {
   margin-bottom: 1.2rem;
 }
 .footer-links a:hover {
-  color: var(--primary);
+  color: var(--amarelo);
   padding-left: 5px;
 }
 
@@ -683,7 +692,7 @@ footer {
   font-size: 3.5rem;
   line-height: 1.1;
   margin-bottom: 1.5rem;
-  color: var(--vermelho-manga);
+  color: var(--marrom-escuro);
 }
 .hero-text p {
   font-size: 1.1rem;
@@ -777,6 +786,8 @@ footer {
   padding: 20px 22px;
   border-radius: 0 8px 8px 0;
   transition: transform 0.2s;
+  margin-bottom: 30px;
+
 }
 .mvv-card:hover {
   transform: translateX(4px);
@@ -1242,6 +1253,27 @@ footer {
   color: var(--marrom-escuro);
   margin-bottom: 14px;
 }
+.mvv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 4rem;
+}
+.mvv-card {
+  padding: 2.5rem;
+  border-radius: 30px;
+  background: var(--white);
+  transition: var(--transition);
+  border: 2px dashed var(--marrom);
+}
+.mvv-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-forte);
+}
+.mvv-card h3 {
+  color: var(--);
+  margin-bottom: 1rem;
+}
 
 /* ══════════════════════════════════
    PÁGINA: TRANSPARÊNCIA
@@ -1409,6 +1441,9 @@ footer {
   .colab-grid,
   .transp-grid,
   .parceiros-grid {
+    grid-template-columns: 1fr;
+  }
+  .mvv-grid {
     grid-template-columns: 1fr;
   }
   .galeria-grid {

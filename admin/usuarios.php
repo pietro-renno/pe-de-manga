@@ -100,7 +100,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
     <?php require '_sidebar.php'; ?>
     <div class="admin-main">
       <div class="admin-topbar">
-        <h3>&#128100; Usuários</h3>
+        <h3><span class="material-symbols-outlined pi-icon">person</span> Usuários</h3>
         <div class="topbar-actions">
           <span class="topbar-user">Olá, <?= htmlspecialchars($_SESSION['adm_user']) ?></span>
           <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')">+ Novo usuário</button>
@@ -115,7 +115,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <h4>&#128100; Usuários cadastrados (<?= count($usuarios) ?>)</h4>
+            <h4><span class="material-symbols-outlined pi-icon">person</span> Usuários cadastrados (<?= count($usuarios) ?>)</h4>
             <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')">+ Novo usuário</button>
           </div>
           <div class="admin-card-body" style="padding:0;">
