@@ -50,7 +50,6 @@ $parceiros = get_parceiros();
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description" content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords" content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Parceiros – Admin Pé de Manga</title>
   <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
@@ -60,9 +59,9 @@ $parceiros = get_parceiros();
     <?php require '_sidebar.php'; ?>
     <div class="admin-main">
       <div class="admin-topbar">
-        <h3>&#129309; Parceiros</h3>
+        <h3><span class="material-symbols-outlined">handshake</span> Parceiros</h3>
         <div class="topbar-actions">
-          <button class="btn-adm btn-adm-primary" onclick="openModal('adicionar')">+ Adicionar parceiro</button>
+          <button class="btn-adm btn-adm-primary" onclick="openModal('adicionar')"><span class="material-symbols-outlined">add</span> Adicionar parceiro</button>
           <a href="logout.php" class="btn-adm btn-adm-danger">Sair</a>
         </div>
       </div>
@@ -84,8 +83,8 @@ $parceiros = get_parceiros();
                     <th>Logo</th>
                     <th>Nome</th>
                     <th>Site</th>
-                    <th>Descricao</th>
-                    <th>Acoes</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,7 +94,7 @@ $parceiros = get_parceiros();
                         <?php if (!empty($p['logo'])): ?>
                           <img src="../data/uploads/<?= htmlspecialchars($p['logo']) ?>" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">
                         <?php else: ?>
-                          <div style="width:44px;height:44px;border-radius:6px;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;">&#129309;</div>
+                          <div style="width:44px;height:44px;border-radius:6px;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:1.4rem;color:var(--marrom);">handshake</span></div>
                         <?php endif; ?>
                       </td>
                       <td><strong><?= htmlspecialchars($p['nome']) ?></strong></td>
@@ -107,11 +106,11 @@ $parceiros = get_parceiros();
                       <td style="max-width:200px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($p['desc'] ?? '', 0, 60, '...')) ?></td>
                       <td>
                         <div class="td-actions">
-                          <button class="btn-adm btn-adm-outline" onclick="abrirEdicao(<?= htmlspecialchars(json_encode($p)) ?>)">&#9998; Editar</button>
+                          <button class="btn-adm btn-adm-outline" onclick="abrirEdicao(<?= htmlspecialchars(json_encode($p)) ?>)"><span class="material-symbols-outlined">edit</span> Editar</button>
                           <form method="POST" onsubmit="return confirm('Remover este parceiro?')">
                             <input type="hidden" name="acao" value="remover">
                             <input type="hidden" name="id" value="<?= (int) $p['id'] ?>">
-                            <button type="submit" class="btn-adm btn-adm-danger">&#128465; Remover</button>
+                            <button type="submit" class="btn-adm btn-adm-danger"><span class="material-symbols-outlined">delete</span> Remover</button>
                           </form>
                         </div>
                       </td>
@@ -130,14 +129,14 @@ $parceiros = get_parceiros();
     <div class="modal-box" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('adicionar')">&times;</button>
       <h3>Adicionar Parceiro</h3>
-      <p class="modal-sub">Preencha as informacoes do parceiro</p>
+      <p class="modal-sub">Preencha as informações do parceiro</p>
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="adicionar">
         <div class="form-row">
           <div class="form-group"><label>Nome *</label><input type="text" name="nome" required></div>
           <div class="form-group"><label>Site</label><input type="url" name="site" placeholder="https://"></div>
         </div>
-        <div class="form-group"><label>Descricao</label><textarea name="desc" placeholder="Breve descricao do parceiro"></textarea></div>
+        <div class="form-group"><label>Descrição</label><textarea name="desc" placeholder="Breve descrição do parceiro"></textarea></div>
         <div class="form-group"><label>Logo (opcional)</label><input type="file" name="logo" accept="image/*"></div>
         <div class="form-actions">
           <button type="button" class="btn-adm btn-adm-outline" onclick="closeModal('adicionar')">Cancelar</button>
@@ -158,7 +157,7 @@ $parceiros = get_parceiros();
           <div class="form-group"><label>Nome *</label><input type="text" name="nome" id="edit_nome" required></div>
           <div class="form-group"><label>Site</label><input type="url" name="site" id="edit_site"></div>
         </div>
-        <div class="form-group"><label>Descricao</label><textarea name="desc" id="edit_desc"></textarea></div>
+        <div class="form-group"><label>Descrição</label><textarea name="desc" id="edit_desc"></textarea></div>
         <div class="form-group"><label>Nova logo (deixe vazio para manter)</label><input type="file" name="logo" accept="image/*"></div>
         <div id="edit_logo_prev" style="margin-top:8px;"></div>
         <div class="form-actions">

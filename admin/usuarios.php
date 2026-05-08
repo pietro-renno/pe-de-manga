@@ -90,8 +90,6 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Usuários – Admin Pé de Manga</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 
@@ -100,10 +98,10 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
     <?php require '_sidebar.php'; ?>
     <div class="admin-main">
       <div class="admin-topbar">
-        <h3>&#128100; Usuários</h3>
+        <h3><span class="material-symbols-outlined">manage_accounts</span> Usuários</h3>
         <div class="topbar-actions">
           <span class="topbar-user">Olá, <?= htmlspecialchars($_SESSION['adm_user']) ?></span>
-          <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')">+ Novo usuário</button>
+          <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')"><span class="material-symbols-outlined">add</span> Novo usuário</button>
           <a href="logout.php" class="btn-adm btn-adm-danger">Sair</a>
         </div>
       </div>
@@ -115,8 +113,8 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <h4>&#128100; Usuários cadastrados (<?= count($usuarios) ?>)</h4>
-            <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')">+ Novo usuário</button>
+            <h4><span class="material-symbols-outlined">manage_accounts</span> Usuários cadastrados (<?= count($usuarios) ?>)</h4>
+            <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')"><span class="material-symbols-outlined">add</span> Novo usuário</button>
           </div>
           <div class="admin-card-body" style="padding:0;">
             <table>
@@ -154,7 +152,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
                         <!-- Redefinir senha -->
                         <button class="btn-adm btn-adm-outline"
                           onclick="abrirModalSenha(<?= $u['id'] ?>, '<?= htmlspecialchars(addslashes($u['nome'])) ?>')"
-                          title="Redefinir senha">&#128274;</button>
+                          title="Redefinir senha"><span class="material-symbols-outlined">lock_reset</span></button>
                         <?php if ((int)$u['id'] !== (int)$_SESSION['adm_id']): ?>
                           <!-- Ativar / Desativar -->
                           <form method="POST" style="display:inline;">
@@ -162,7 +160,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
                             <input type="hidden" name="id" value="<?= $u['id'] ?>">
                             <button type="submit" class="btn-adm <?= $u['ativo'] ? 'btn-adm-outline' : 'btn-adm-verde' ?>"
                               title="<?= $u['ativo'] ? 'Desativar' : 'Ativar' ?>">
-                              <?= $u['ativo'] ? '&#9940;' : '&#9989;' ?>
+                              <span class="material-symbols-outlined"><?= $u['ativo'] ? 'block' : 'check_circle' ?></span>
                             </button>
                           </form>
                           <!-- Excluir -->
@@ -170,7 +168,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
                             onsubmit="return confirm('Excluir o usuário <?= htmlspecialchars(addslashes($u['nome'])) ?>?')">
                             <input type="hidden" name="acao" value="excluir">
                             <input type="hidden" name="id" value="<?= $u['id'] ?>">
-                            <button type="submit" class="btn-adm btn-adm-danger" title="Excluir">&#128465;</button>
+                            <button type="submit" class="btn-adm btn-adm-danger" title="Excluir"><span class="material-symbols-outlined">delete</span></button>
                           </form>
                         <?php else: ?>
                           <span style="font-size:.72rem;color:rgba(136,105,46,.4);">(você)</span>
