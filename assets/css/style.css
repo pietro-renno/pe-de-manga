@@ -1373,30 +1373,43 @@ footer {
 .eventos-lista::-webkit-scrollbar { width: 4px; }
 .eventos-lista::-webkit-scrollbar-thumb { background: rgba(136,105,46,.2); border-radius: 4px; }
 
-/* grupo de ano */
-.ev-grupo { border-radius: var(--radius); overflow: hidden; border: 1.5px solid rgba(136,105,46,.13); background: var(--branco); }
+/* separador de ano */
+.ev-ano-label {
+  font-family: 'Playfair Display', serif;
+  font-size: .72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--marrom); opacity: .45;
+  padding: 12px 6px 4px;
+}
+
+/* grupo de mês */
+.ev-grupo { border-radius: var(--radius); overflow: hidden; border: 1.5px solid rgba(136,105,46,.13); background: var(--branco); margin-bottom: 2px; }
 .ev-grupo-header {
   width: 100%; display: flex; align-items: center; gap: 8px;
-  padding: 11px 14px;
+  padding: 10px 13px;
   background: none; border: none; cursor: pointer;
-  font-family: 'Playfair Display', serif;
   text-align: left;
 }
 .ev-grupo-header:hover { background: var(--fundo-claro); }
-.ev-grupo-ano { font-size: 1rem; font-weight: 700; color: var(--marrom-escuro); flex: 1; }
-.ev-grupo-count { font-size: .68rem; font-weight: 600; color: var(--marrom); opacity: .55; letter-spacing: .05em; }
+.ev-grupo-mes { font-size: .88rem; font-weight: 600; color: var(--marrom-escuro); flex: 1; }
+.ev-grupo-count {
+  font-size: .7rem; font-weight: 700;
+  color: var(--branco); background: var(--amarelo);
+  border-radius: 20px; padding: 1px 7px;
+  letter-spacing: .02em;
+}
 .ev-grupo-arrow {
-  font-size: 1.1rem; color: var(--amarelo); font-style: normal;
+  font-size: 1rem; color: rgba(136,105,46,.4); font-style: normal;
   transform: rotate(90deg); transition: transform .25s;
   display: inline-block;
 }
 .ev-grupo-body {
   display: flex; flex-direction: column; gap: 0;
   max-height: 0; overflow: hidden;
-  transition: max-height .3s ease;
+  transition: max-height .35s ease;
 }
 .ev-grupo.open .ev-grupo-arrow { transform: rotate(-90deg); }
-.ev-grupo.open .ev-grupo-body { max-height: 2000px; }
+.ev-grupo.open .ev-grupo-body { max-height: 1200px; }
 
 /* evento individual */
 .evento-item {

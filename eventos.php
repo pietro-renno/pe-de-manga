@@ -4,13 +4,19 @@ require_once 'includes/config.php';
 $db      = get_db();
 $eventos = get_eventos();
 
-// Group events by year (most recent first)
-$por_ano = [];
+// Group events by year → month (most recent first)
+$meses_pt = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+             'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+$por_ano_mes = [];
 foreach ($eventos as $ev) {
-    $ano = date('Y', strtotime($ev['data_evento']));
-    $por_ano[$ano][] = $ev;
+    $ts  = strtotime($ev['data_evento']);
+    $ano = date('Y', $ts);
+    $mes = (int)date('n', $ts);
+    $por_ano_mes[$ano][$mes][] = $ev;
 }
-krsort($por_ano);
+krsort($por_ano_mes);
+foreach ($por_ano_mes as &$meses) { krsort($meses); }
+unset($meses);
 
 // Determine selected event
 $ev_id  = isset($_GET['id']) ? (int)$_GET['id'] : ($eventos[0]['id'] ?? 0);
@@ -31,8 +37,9 @@ if (!$ev_sel && !empty($eventos)) {
     $fotos  = get_evento_fotos($ev_id);
 }
 
-// Year of the active event (to keep its group open)
-$ano_ativo = $ev_sel ? date('Y', strtotime($ev_sel['data_evento'])) : array_key_first($por_ano);
+// Year + month of the active event (to keep its accordion open)
+$ano_ativo = $ev_sel ? date('Y', strtotime($ev_sel['data_evento'])) : '';
+$mes_ativo = $ev_sel ? (int)date('n', strtotime($ev_sel['data_evento'])) : 0;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -63,32 +70,35 @@ $ano_ativo = $ev_sel ? date('Y', strtotime($ev_sel['data_evento'])) : array_key_
         <?php else: ?>
           <div class="eventos-layout">
 
-            <!-- LISTA POR ANO -->
+            <!-- LISTA POR ANO → MÊS -->
             <aside class="eventos-lista">
-              <?php foreach ($por_ano as $ano => $evs_ano): ?>
-                <?php $aberto = ($ano == $ano_ativo); ?>
-                <div class="ev-grupo <?= $aberto ? 'open' : '' ?>">
-                  <button class="ev-grupo-header" onclick="toggleGrupo(this)" aria-expanded="<?= $aberto ? 'true' : 'false' ?>">
-                    <span class="ev-grupo-ano"><?= $ano ?></span>
-                    <span class="ev-grupo-count"><?= count($evs_ano) ?> evento<?= count($evs_ano) != 1 ? 's' : '' ?></span>
-                    <span class="ev-grupo-arrow">&#8250;</span>
-                  </button>
-                  <div class="ev-grupo-body">
-                    <?php foreach ($evs_ano as $ev): ?>
-                      <a href="eventos.php?id=<?= $ev['id'] ?>"
-                         class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
-                        <div class="evento-item-data">
-                          <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
-                          <span class="ev-mes"><?= strftime_mes($ev['data_evento']) ?></span>
-                        </div>
-                        <div class="evento-item-info">
-                          <strong><?= htmlspecialchars($ev['nome']) ?></strong>
-                          <span><?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?></span>
-                        </div>
-                      </a>
-                    <?php endforeach; ?>
+              <?php foreach ($por_ano_mes as $ano => $meses): ?>
+                <div class="ev-ano-label"><?= $ano ?></div>
+                <?php foreach ($meses as $mes_num => $evs_mes): ?>
+                  <?php $aberto = ($ano == $ano_ativo && $mes_num == $mes_ativo); ?>
+                  <div class="ev-grupo <?= $aberto ? 'open' : '' ?>">
+                    <button class="ev-grupo-header" onclick="toggleGrupo(this)" aria-expanded="<?= $aberto ? 'true' : 'false' ?>">
+                      <span class="ev-grupo-mes"><?= $meses_pt[$mes_num - 1] ?></span>
+                      <span class="ev-grupo-count"><?= count($evs_mes) ?></span>
+                      <span class="ev-grupo-arrow">&#8250;</span>
+                    </button>
+                    <div class="ev-grupo-body">
+                      <?php foreach ($evs_mes as $ev): ?>
+                        <a href="eventos.php?id=<?= $ev['id'] ?>"
+                           class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
+                          <div class="evento-item-data">
+                            <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
+                            <span class="ev-mes"><?= strftime_mes($ev['data_evento']) ?></span>
+                          </div>
+                          <div class="evento-item-info">
+                            <strong><?= htmlspecialchars($ev['nome']) ?></strong>
+                            <span><?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?></span>
+                          </div>
+                        </a>
+                      <?php endforeach; ?>
+                    </div>
                   </div>
-                </div>
+                <?php endforeach; ?>
               <?php endforeach; ?>
             </aside>
 
