@@ -4,8 +4,16 @@ require_once 'includes/config.php';
 $db = get_db();
 $eventos = get_eventos();
 
-// evento selecionado via URL ou o mais recente
-$ev_id = isset($_GET['id']) ? (int) $_GET['id'] : ($eventos[0]['id'] ?? 0);
+// Group events by year (most recent first)
+$por_ano = [];
+foreach ($eventos as $ev) {
+    $ano = date('Y', strtotime($ev['data_evento']));
+    $por_ano[$ano][] = $ev;
+}
+krsort($por_ano);
+
+// Determine selected event
+$ev_id  = isset($_GET['id']) ? (int)$_GET['id'] : ($eventos[0]['id'] ?? 0);
 $ev_sel = null;
 $fotos = [];
 
@@ -17,12 +25,14 @@ if ($ev_id > 0) {
     $fotos = get_evento_fotos($ev_id);
   }
 }
-// fallback para primeiro da lista se id inválido
 if (!$ev_sel && !empty($eventos)) {
   $ev_sel = $eventos[0];
   $ev_id = $ev_sel['id'];
   $fotos = get_evento_fotos($ev_id);
 }
+
+// Year of the active event (to keep its group open)
+$ano_ativo = $ev_sel ? date('Y', strtotime($ev_sel['data_evento'])) : array_key_first($por_ano);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -56,20 +66,32 @@ if (!$ev_sel && !empty($eventos)) {
         <?php else: ?>
           <div class="eventos-layout">
 
-            <!-- LISTA DE EVENTOS -->
+            <!-- LISTA POR ANO -->
             <aside class="eventos-lista">
-              <?php foreach ($eventos as $ev): ?>
-                <a href="eventos.php?id=<?= $ev['id'] ?>" class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
-                  <div class="evento-item-data">
-                    <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
-                    <span class="ev-mes"><?= strftime_mes($ev['data_evento']) ?></span>
-                    <span class="ev-ano"><?= date('Y', strtotime($ev['data_evento'])) ?></span>
+              <?php foreach ($por_ano as $ano => $evs_ano): ?>
+                <?php $aberto = ($ano == $ano_ativo); ?>
+                <div class="ev-grupo <?= $aberto ? 'open' : '' ?>">
+                  <button class="ev-grupo-header" onclick="toggleGrupo(this)" aria-expanded="<?= $aberto ? 'true' : 'false' ?>">
+                    <span class="ev-grupo-ano"><?= $ano ?></span>
+                    <span class="ev-grupo-count"><?= count($evs_ano) ?> evento<?= count($evs_ano) != 1 ? 's' : '' ?></span>
+                    <span class="ev-grupo-arrow">&#8250;</span>
+                  </button>
+                  <div class="ev-grupo-body">
+                    <?php foreach ($evs_ano as $ev): ?>
+                      <a href="eventos.php?id=<?= $ev['id'] ?>"
+                         class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
+                        <div class="evento-item-data">
+                          <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
+                          <span class="ev-mes"><?= strftime_mes($ev['data_evento']) ?></span>
+                        </div>
+                        <div class="evento-item-info">
+                          <strong><?= htmlspecialchars($ev['nome']) ?></strong>
+                          <span><?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?></span>
+                        </div>
+                      </a>
+                    <?php endforeach; ?>
                   </div>
-                  <div class="evento-item-info">
-                    <strong><?= htmlspecialchars($ev['nome']) ?></strong>
-                    <span><?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?></span>
-                  </div>
-                </a>
+                </div>
               <?php endforeach; ?>
             </aside>
 
@@ -131,6 +153,12 @@ if (!$ev_sel && !empty($eventos)) {
   <?php require 'includes/footer.php'; ?>
   <script src="assets/js/main.js"></script>
   <script>
+    function toggleGrupo(btn) {
+      const grupo = btn.parentElement;
+      const aberto = grupo.classList.toggle('open');
+      btn.setAttribute('aria-expanded', aberto);
+    }
+
     function abrirLightbox(arquivo, legenda) {
       document.getElementById('lightbox-img').src = 'data/uploads/' + arquivo;
       document.getElementById('lightbox-cap').textContent = legenda;
