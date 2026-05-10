@@ -1,67 +1,71 @@
 <?php
 require '_auth.php';
 
-$db  = get_db();
+$db = get_db();
 $msg = '';
 $tipo_msg = '';
 
 $cores = [
-    'linear-gradient(135deg,#f4e999,#f2be2c)' => 'Amarelo',
-    'linear-gradient(135deg,#fde8c6,#f5c870)' => 'Laranja',
-    'linear-gradient(135deg,#d4efbd,#83c155)'  => 'Verde',
-    'linear-gradient(135deg,#c8e6f5,#7ec8e3)'  => 'Azul',
-    'linear-gradient(135deg,#f5d5e0,#e87a9d)'  => 'Rosa',
-    'linear-gradient(135deg,#e8d5f5,#9b6fd4)'  => 'Roxo',
+  'linear-gradient(135deg,#f4e999,#f2be2c)' => 'Amarelo',
+  'linear-gradient(135deg,#fde8c6,#f5c870)' => 'Laranja',
+  'linear-gradient(135deg,#d4efbd,#83c155)' => 'Verde',
+  'linear-gradient(135deg,#c8e6f5,#7ec8e3)' => 'Azul',
+  'linear-gradient(135deg,#f5d5e0,#e87a9d)' => 'Rosa',
+  'linear-gradient(135deg,#e8d5f5,#9b6fd4)' => 'Roxo',
 ];
 
 // ── CRIAR ────────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar') {
-    $nome   = trim($_POST['nome']      ?? '');
-    $desc   = trim($_POST['descricao'] ?? '');
-    $tag    = trim($_POST['tag']       ?? '');
-    $cor    = $_POST['cor_fundo']      ?? array_key_first($cores);
-    if (!array_key_exists($cor, $cores)) $cor = array_key_first($cores);
+  $nome = trim($_POST['nome'] ?? '');
+  $desc = trim($_POST['descricao'] ?? '');
+  $tag = trim($_POST['tag'] ?? '');
+  $cor = $_POST['cor_fundo'] ?? array_key_first($cores);
+  if (!array_key_exists($cor, $cores))
+    $cor = array_key_first($cores);
 
-    if ($nome === '') {
-        $msg = 'O nome do produto é obrigatório.';
-        $tipo_msg = 'erro';
-    } else {
-        $db->prepare('INSERT INTO produtos (nome, descricao, tag, cor_fundo) VALUES (?, ?, ?, ?)')->execute([$nome, $desc ?: null, $tag ?: null, $cor]);
-        $msg = 'Produto criado com sucesso!';
-        $tipo_msg = 'sucesso';
-    }
+  if ($nome === '') {
+    $msg = 'O nome do produto é obrigatório.';
+    $tipo_msg = 'erro';
+  } else {
+    $db->prepare('INSERT INTO produtos (nome, descricao, tag, cor_fundo) VALUES (?, ?, ?, ?)')->execute([$nome, $desc ?: null, $tag ?: null, $cor]);
+    $msg = 'Produto criado com sucesso!';
+    $tipo_msg = 'sucesso';
+  }
 }
 
 // ── EDITAR ───────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar') {
-    $id   = (int) ($_POST['id'] ?? 0);
-    $nome = trim($_POST['nome']      ?? '');
-    $desc = trim($_POST['descricao'] ?? '');
-    $tag  = trim($_POST['tag']       ?? '');
-    $cor  = $_POST['cor_fundo']      ?? array_key_first($cores);
-    if (!array_key_exists($cor, $cores)) $cor = array_key_first($cores);
+  $id = (int) ($_POST['id'] ?? 0);
+  $nome = trim($_POST['nome'] ?? '');
+  $desc = trim($_POST['descricao'] ?? '');
+  $tag = trim($_POST['tag'] ?? '');
+  $cor = $_POST['cor_fundo'] ?? array_key_first($cores);
+  if (!array_key_exists($cor, $cores))
+    $cor = array_key_first($cores);
 
-    if ($id > 0 && $nome !== '') {
-        $db->prepare('UPDATE produtos SET nome=?, descricao=?, tag=?, cor_fundo=? WHERE id=?')->execute([$nome, $desc ?: null, $tag ?: null, $cor, $id]);
-        $msg = 'Produto atualizado!';
-        $tipo_msg = 'sucesso';
-    }
+  if ($id > 0 && $nome !== '') {
+    $db->prepare('UPDATE produtos SET nome=?, descricao=?, tag=?, cor_fundo=? WHERE id=?')->execute([$nome, $desc ?: null, $tag ?: null, $cor, $id]);
+    $msg = 'Produto atualizado!';
+    $tipo_msg = 'sucesso';
+  }
 }
 
 // ── TOGGLE ATIVO ─────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'toggle_ativo') {
-    $id = (int) ($_POST['id'] ?? 0);
-    if ($id > 0) $db->prepare('UPDATE produtos SET ativo = NOT ativo WHERE id = ?')->execute([$id]);
-    header('Location: produtos.php');
-    exit;
+  $id = (int) ($_POST['id'] ?? 0);
+  if ($id > 0)
+    $db->prepare('UPDATE produtos SET ativo = NOT ativo WHERE id = ?')->execute([$id]);
+  header('Location: produtos.php');
+  exit;
 }
 
 // ── EXCLUIR ──────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir') {
-    $id = (int) ($_POST['id'] ?? 0);
-    if ($id > 0) $db->prepare('DELETE FROM produtos WHERE id = ?')->execute([$id]);
-    header('Location: produtos.php');
-    exit;
+  $id = (int) ($_POST['id'] ?? 0);
+  if ($id > 0)
+    $db->prepare('DELETE FROM produtos WHERE id = ?')->execute([$id]);
+  header('Location: produtos.php');
+  exit;
 }
 
 $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETCH_ASSOC);
@@ -75,6 +79,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
   <title>Produtos – Admin Pé de Manga</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 </head>
 
 <body>
@@ -99,14 +104,16 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <h4><span class="material-symbols-outlined">local_mall</span> Produtos cadastrados (<?= count($produtos) ?>)</h4>
+            <h4><span class="material-symbols-outlined">local_mall</span> Produtos cadastrados (<?= count($produtos) ?>)
+            </h4>
             <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')">
               <span class="material-symbols-outlined">add</span> Novo produto
             </button>
           </div>
           <div class="admin-card-body" style="padding:0;">
             <?php if (empty($produtos)): ?>
-              <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum produto cadastrado ainda.</p>
+              <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum produto cadastrado ainda.
+              </p>
             <?php else: ?>
               <table>
                 <thead>
@@ -123,7 +130,9 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
                   <?php foreach ($produtos as $p): ?>
                     <tr>
                       <td>
-                        <div style="width:36px;height:36px;border-radius:8px;background:<?= htmlspecialchars($p['cor_fundo']) ?>;"></div>
+                        <div
+                          style="width:36px;height:36px;border-radius:8px;background:<?= htmlspecialchars($p['cor_fundo']) ?>;">
+                        </div>
                       </td>
                       <td><strong><?= htmlspecialchars($p['nome']) ?></strong></td>
                       <td>
@@ -131,7 +140,8 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
                           <span class="badge badge-verde"><?= htmlspecialchars($p['tag']) ?></span>
                         <?php else: ?>&mdash;<?php endif; ?>
                       </td>
-                      <td style="max-width:240px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($p['descricao'] ?? '', 0, 70, '...')) ?></td>
+                      <td style="max-width:240px;font-size:.82rem;">
+                        <?= htmlspecialchars(mb_strimwidth($p['descricao'] ?? '', 0, 70, '...')) ?></td>
                       <td>
                         <span class="badge <?= $p['ativo'] ? 'badge-verde' : '' ?>"
                           style="<?= !$p['ativo'] ? 'background:#fde8e8;color:#c0392b;' : '' ?>">
@@ -141,8 +151,8 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
                       <td>
                         <div class="td-actions">
                           <button class="btn-adm btn-adm-outline"
-                            onclick="abrirEdicao(<?= htmlspecialchars(json_encode($p)) ?>)"
-                            title="Editar"><span class="material-symbols-outlined">edit</span></button>
+                            onclick="abrirEdicao(<?= htmlspecialchars(json_encode($p)) ?>)" title="Editar"><span
+                              class="material-symbols-outlined">edit</span></button>
                           <form method="POST" style="display:inline;">
                             <input type="hidden" name="acao" value="toggle_ativo">
                             <input type="hidden" name="id" value="<?= $p['id'] ?>">
@@ -265,13 +275,13 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
   <script>
     function abrirModal(id) { document.getElementById(id).classList.add('open'); }
     function fecharModal(id) { document.getElementById(id).classList.remove('open'); }
-    document.querySelectorAll('.modal-overlay').forEach(function(el) {
-      el.addEventListener('click', function(e) { if (e.target === el) el.classList.remove('open'); });
+    document.querySelectorAll('.modal-overlay').forEach(function (el) {
+      el.addEventListener('click', function (e) { if (e.target === el) el.classList.remove('open'); });
     });
     function abrirEdicao(p) {
-      document.getElementById('edit_id').value   = p.id;
+      document.getElementById('edit_id').value = p.id;
       document.getElementById('edit_nome').value = p.nome;
-      document.getElementById('edit_tag').value  = p.tag  || '';
+      document.getElementById('edit_tag').value = p.tag || '';
       document.getElementById('edit_desc').value = p.descricao || '';
       const sel = document.getElementById('edit_cor');
       for (let i = 0; i < sel.options.length; i++) {

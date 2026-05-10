@@ -12,8 +12,7 @@
   <meta name="keywords"
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
   <link rel="stylesheet" href="../assets/css/admin.css">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cognition_2,comedy_mask,compost,diversity_1,local_mall,partner_heart" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 </head>
 
 <body>
@@ -31,11 +30,11 @@
       <div class="admin-content">
         <?php
         $db = get_db();
-        $n_colabs    = (int) $db->query('SELECT COUNT(*) FROM colaboradores')->fetchColumn();
+        $n_colabs = (int) $db->query('SELECT COUNT(*) FROM colaboradores')->fetchColumn();
         $n_parceiros = (int) $db->query('SELECT COUNT(*) FROM parceiros')->fetchColumn();
-        $n_galeria   = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
-        $n_usuarios  = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
-        $n_produtos  = (int) $db->query('SELECT COUNT(*) FROM produtos WHERE ativo = 1')->fetchColumn();
+        $n_galeria = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
+        $n_usuarios = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
+        $n_produtos = (int) $db->query('SELECT COUNT(*) FROM produtos WHERE ativo = 1')->fetchColumn();
         ?>
         <div class="stats-grid">
           <div class="stat-card sc-amarelo">
@@ -66,16 +65,21 @@
           </div>
           <div class="admin-card-body" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
             <a href="colaboradores.php" class="btn-adm btn-adm-primary"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">group</span> Colaboradores</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
+                class="material-symbols-outlined">group</span> Colaboradores</a>
             <a href="parceiros.php" class="btn-adm btn-adm-verde"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">handshake</span> Parceiros</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
+                class="material-symbols-outlined">handshake</span> Parceiros</a>
             <a href="galeria.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">photo_camera</span> Galeria</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
+                class="material-symbols-outlined">photo_camera</span> Galeria</a>
             <a href="produtos.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">local_mall</span> Produtos</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
+                class="material-symbols-outlined">local_mall</span> Produtos</a>
             <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
-            <a href="usuarios.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">manage_accounts</span> Usuários</a>
+              <a href="usuarios.php" class="btn-adm btn-adm-outline"
+                style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
+                  class="material-symbols-outlined">manage_accounts</span> Usuários</a>
             <?php endif; ?>
           </div>
         </div>
@@ -86,13 +90,19 @@
           </div>
           <div class="admin-card-body">
             <p style="font-size:.86rem;color:var(--marrom);line-height:1.7;margin-bottom:12px;">
-              O acesso ao painel é feito por <strong>e-mail e senha</strong> cadastrados na tabela <code>usuarios</code>.<br>
-              <strong>Admin padrão:</strong> <code>admin@pedemanga.org</code> &nbsp;|&nbsp; senha: <code>pedemanga2025</code><br>
+              O acesso ao painel é feito por <strong>e-mail e senha</strong> cadastrados na tabela
+              <code>usuarios</code>.<br>
+              <strong>Admin padrão:</strong> <code>admin@pedemanga.org</code> &nbsp;|&nbsp; senha:
+              <code>pedemanga2025</code><br>
               <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
-              Gerencie os usuários em <a href="usuarios.php" style="color:var(--amarelo);font-weight:600;">Administração → Usuários</a>.
+                Gerencie os usuários em <a href="usuarios.php" style="color:var(--amarelo);font-weight:600;">Administração
+                  → Usuários</a>.
               <?php endif; ?>
             </p>
-            <p style="font-size:.82rem;color:rgba(136,105,46,.6);">Os dados (colaboradores, parceiros, galeria) são salvos no banco de dados MySQL. As imagens ficam em <code>data/uploads/</code>. Configure a conexão em <code>includes/db.php</code>.</p>
+            <p style="font-size:.82rem;color:rgba(136,105,46,.6);">Os dados (colaboradores, parceiros, galeria) são
+              salvos no banco de dados MySQL. As imagens ficam em <code>data/uploads/</code>. Configure a conexão em
+              <code>includes/db.php</code>.
+            </p>
           </div>
         </div>
       </div>

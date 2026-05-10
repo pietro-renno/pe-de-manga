@@ -15,6 +15,7 @@ $produtos = get_produtos();
     content="Pé de Manga, produtos, loja solidária, camisetas, pão artesanal, cultura">
   <title>Produtos – Pé de Manga</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 </head>
 
 <body>
