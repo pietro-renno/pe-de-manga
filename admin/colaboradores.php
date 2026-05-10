@@ -52,7 +52,6 @@ $colaboradores = get_colaboradores();
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description" content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords" content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -60,9 +59,9 @@ $colaboradores = get_colaboradores();
     <?php require '_sidebar.php'; ?>
     <div class="admin-main">
       <div class="admin-topbar">
-        <h3>&#128101; Colaboradores</h3>
+        <h3><span class="material-symbols-outlined">group</span> Colaboradores</h3>
         <div class="topbar-actions">
-          <button class="btn-adm btn-adm-primary" onclick="openModal('adicionar')">+ Adicionar colaborador</button>
+          <button class="btn-adm btn-adm-primary" onclick="openModal('adicionar')"><span class="material-symbols-outlined">add</span> Adicionar colaborador</button>
           <a href="logout.php" class="btn-adm btn-adm-danger">Sair</a>
         </div>
       </div>
@@ -84,9 +83,9 @@ $colaboradores = get_colaboradores();
                   <tr>
                     <th>Foto</th>
                     <th>Nome</th>
-                    <th>Funcao</th>
-                    <th>Descricao</th>
-                    <th>Acoes</th>
+                    <th>Função</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -96,7 +95,7 @@ $colaboradores = get_colaboradores();
                         <?php if (!empty($c['foto'])): ?>
                           <img src="../data/uploads/<?= htmlspecialchars($c['foto']) ?>" alt="">
                         <?php else: ?>
-                          <div style="width:44px;height:44px;border-radius:50%;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">&#128100;</div>
+                          <div style="width:44px;height:44px;border-radius:50%;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:1.4rem;color:var(--marrom);">person</span></div>
                         <?php endif; ?>
                       </td>
                       <td><strong><?= htmlspecialchars($c['nome']) ?></strong></td>
@@ -104,11 +103,11 @@ $colaboradores = get_colaboradores();
                       <td style="max-width:220px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($c['descricao'] ?? '', 0, 80, '...')) ?></td>
                       <td>
                         <div class="td-actions">
-                          <button class="btn-adm btn-adm-outline" onclick="abrirEdicao(<?= htmlspecialchars(json_encode($c)) ?>)">&#9998; Editar</button>
+                          <button class="btn-adm btn-adm-outline" onclick="abrirEdicao(<?= htmlspecialchars(json_encode($c)) ?>)"><span class="material-symbols-outlined">edit</span> Editar</button>
                           <form method="POST" onsubmit="return confirm('Remover este colaborador?')">
                             <input type="hidden" name="acao" value="remover">
                             <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
-                            <button type="submit" class="btn-adm btn-adm-danger">&#128465; Remover</button>
+                            <button type="submit" class="btn-adm btn-adm-danger"><span class="material-symbols-outlined">delete</span> Remover</button>
                           </form>
                         </div>
                       </td>
@@ -128,14 +127,14 @@ $colaboradores = get_colaboradores();
     <div class="modal-box" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('adicionar')">&times;</button>
       <h3>Adicionar Colaborador</h3>
-      <p class="modal-sub">Preencha as informacoes do novo colaborador</p>
+      <p class="modal-sub">Preencha as informações do novo colaborador</p>
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="adicionar">
         <div class="form-row">
           <div class="form-group"><label>Nome *</label><input type="text" name="nome" required></div>
-          <div class="form-group"><label>Funcao *</label><input type="text" name="funcao" required placeholder="ex: Educadora Cultural"></div>
+          <div class="form-group"><label>Função *</label><input type="text" name="funcao" required placeholder="ex: Educadora Cultural"></div>
         </div>
-        <div class="form-group"><label>Descricao</label><textarea name="descricao" placeholder="Breve descricao sobre o colaborador"></textarea></div>
+        <div class="form-group"><label>Descrição</label><textarea name="descricao" placeholder="Breve descrição sobre o colaborador"></textarea></div>
         <div class="form-group"><label>Foto (opcional)</label><input type="file" name="foto" accept="image/*"></div>
         <div class="form-actions">
           <button type="button" class="btn-adm btn-adm-outline" onclick="closeModal('adicionar')">Cancelar</button>
@@ -150,20 +149,20 @@ $colaboradores = get_colaboradores();
     <div class="modal-box" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('editar')">&times;</button>
       <h3>Editar Colaborador</h3>
-      <p class="modal-sub">Atualize as informacoes</p>
+      <p class="modal-sub">Atualize as informações</p>
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="editar">
         <input type="hidden" name="id" id="edit_id">
         <div class="form-row">
           <div class="form-group"><label>Nome *</label><input type="text" name="nome" id="edit_nome" required></div>
-          <div class="form-group"><label>Funcao *</label><input type="text" name="funcao" id="edit_funcao" required></div>
+          <div class="form-group"><label>Função *</label><input type="text" name="funcao" id="edit_funcao" required></div>
         </div>
-        <div class="form-group"><label>Descricao</label><textarea name="descricao" id="edit_descricao"></textarea></div>
+        <div class="form-group"><label>Descrição</label><textarea name="descricao" id="edit_descricao"></textarea></div>
         <div class="form-group"><label>Nova foto (deixe vazio para manter)</label><input type="file" name="foto" accept="image/*"></div>
         <div id="edit_foto_preview" style="margin-top:8px;"></div>
         <div class="form-actions">
           <button type="button" class="btn-adm btn-adm-outline" onclick="closeModal('editar')">Cancelar</button>
-          <button type="submit" class="btn-adm btn-adm-primary">Salvar alteracoes</button>
+          <button type="submit" class="btn-adm btn-adm-primary">Salvar alterações</button>
         </div>
       </form>
     </div>

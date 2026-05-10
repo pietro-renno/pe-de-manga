@@ -33,3 +33,31 @@ function get_galeria(): array
 {
     return get_db()->query('SELECT * FROM galeria ORDER BY id')->fetchAll();
 }
+
+// ── DADOS: PRODUTOS ──
+function get_produtos(): array
+{
+    return get_db()->query('SELECT * FROM produtos WHERE ativo = 1 ORDER BY id')->fetchAll();
+}
+
+// ── DADOS: EVENTOS ──
+function get_eventos(): array
+{
+    return get_db()->query(
+        'SELECT e.*, COUNT(f.id) AS total_fotos
+         FROM eventos e
+         LEFT JOIN evento_fotos f ON f.evento_id = e.id
+         GROUP BY e.id
+         ORDER BY e.data_evento DESC'
+    )->fetchAll();
+}
+
+function get_evento_fotos(int $evento_id): array
+{
+    $st = get_db()->prepare('SELECT * FROM evento_fotos WHERE evento_id = ? ORDER BY id');
+    $st->execute([$evento_id]);
+    return $st->fetchAll();
+}
+
+// ── WHATSAPP ──
+define('WHATSAPP_NUM', '5512997624486');

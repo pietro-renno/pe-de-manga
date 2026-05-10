@@ -47,8 +47,83 @@ CREATE TABLE IF NOT EXISTS `galeria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
+-- Tabela: produtos
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `produtos` (
+  `id`          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `nome`        VARCHAR(255)    NOT NULL,
+  `descricao`   TEXT                    DEFAULT NULL,
+  `tag`         VARCHAR(100)            DEFAULT NULL,
+  `foto`        VARCHAR(255)            DEFAULT NULL,
+  `cor_fundo`   VARCHAR(150)    NOT NULL DEFAULT 'linear-gradient(135deg,#f4e999,#f2be2c)',
+  `ativo`       TINYINT(1)      NOT NULL DEFAULT 1,
+  `criado_em`   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Tabela: eventos
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `eventos` (
+  `id`           INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `nome`         VARCHAR(255)    NOT NULL,
+  `descricao`    TEXT                    DEFAULT NULL,
+  `data_evento`  DATE            NOT NULL,
+  `criado_em`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Tabela: evento_fotos
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `evento_fotos` (
+  `id`          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `evento_id`   INT UNSIGNED    NOT NULL,
+  `arquivo`     VARCHAR(255)    NOT NULL,
+  `descricao`   VARCHAR(500)            DEFAULT NULL,
+  `criado_em`   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_evfoto_evento` FOREIGN KEY (`evento_id`)
+    REFERENCES `eventos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Tabela: usuarios
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id`         INT UNSIGNED   NOT NULL AUTO_INCREMENT,
+  `nome`       VARCHAR(255)   NOT NULL,
+  `email`      VARCHAR(320)   NOT NULL,
+  `senha`      VARCHAR(255)   NOT NULL,
+  `perfil`     ENUM('admin','editor') NOT NULL DEFAULT 'editor',
+  `ativo`      TINYINT(1)     NOT NULL DEFAULT 1,
+  `criado_em`  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
 -- Dados de exemplo (migrados dos arquivos JSON originais)
 -- ------------------------------------------------------------
+-- Migração (execute apenas se a tabela produtos já existia sem a coluna foto):
+-- ALTER TABLE `produtos` ADD COLUMN `foto` VARCHAR(255) DEFAULT NULL AFTER `tag`;
+
+-- Dados de exemplo: eventos
+INSERT INTO `eventos` (`nome`, `descricao`, `data_evento`) VALUES
+  ('Oficina de Artesanato', 'Oficina aberta à comunidade com técnicas de artesanato sustentável.', '2025-03-15'),
+  ('Apresentação Cultural', 'Apresentações artísticas dos grupos do Pé de Manga na praça central.', '2025-04-20');
+
+-- Produtos iniciais
+INSERT INTO `produtos` (`nome`, `descricao`, `tag`, `cor_fundo`) VALUES
+  ('Camisetas Pé de Manga', 'Coleção limitada em parceria com o Quintal Silk. Arte impressa com amor, raiz e identidade. Cada peça é única.', 'Moda consciente', 'linear-gradient(135deg,#f4e999,#f2be2c)'),
+  ('Pé de Pão', 'Pães artesanais de fermentação natural ou longa fermentação. Feitos com cuidado, tempo e ingredientes de qualidade.', 'Artesanal e natural', 'linear-gradient(135deg,#fde8c6,#f5c870)'),
+  ('Caderno Cultural', 'Caderno artesanal com ilustrações exclusivas do Pé de Manga. Perfeito para anotações, desenhos e registros.', 'Produto exclusivo', 'linear-gradient(135deg,#d4efbd,#83c155)'),
+  ('Ecobag Pé de Manga', 'Sacola de pano estampada com arte local. Sustentável, resistente e com identidade cultural única.', 'Sustentabilidade', 'linear-gradient(135deg,#c8e6f5,#7ec8e3)');
+
+-- Admin padrão (senha: pedemanga2025)
+INSERT INTO `usuarios` (`nome`, `email`, `senha`, `perfil`) VALUES
+  ('Administrador', 'admin@pedemanga.org', '$2y$10$dg02UFPZhM/8HEit7pvFe.7/RbHpz1Q6wOpuq..HB84SXYQiCEdDS', 'admin');
+
 INSERT INTO `colaboradores` (`nome`, `funcao`, `descricao`, `foto`) VALUES
   ('Prof Luis Felipe Cardoso', 'Professor', 'Teste', 'colab_69fc846657a86.jpg');
 
