@@ -6,12 +6,12 @@ $msg      = '';
 $tipo_msg = '';
 
 $cores = [
-    'linear-gradient(135deg,#f4e999,#f2be2c)' => 'Amarelo',
-    'linear-gradient(135deg,#fde8c6,#f5c870)' => 'Laranja',
-    'linear-gradient(135deg,#d4efbd,#83c155)'  => 'Verde',
-    'linear-gradient(135deg,#c8e6f5,#7ec8e3)'  => 'Azul',
-    'linear-gradient(135deg,#f5d5e0,#e87a9d)'  => 'Rosa',
-    'linear-gradient(135deg,#e8d5f5,#9b6fd4)'  => 'Roxo',
+  'linear-gradient(135deg,#f4e999,#f2be2c)' => 'Amarelo',
+  'linear-gradient(135deg,#fde8c6,#f5c870)' => 'Laranja',
+  'linear-gradient(135deg,#d4efbd,#83c155)' => 'Verde',
+  'linear-gradient(135deg,#c8e6f5,#7ec8e3)' => 'Azul',
+  'linear-gradient(135deg,#f5d5e0,#e87a9d)' => 'Rosa',
+  'linear-gradient(135deg,#e8d5f5,#9b6fd4)' => 'Roxo',
 ];
 
 // ── CRIAR ──────────────────────────────────────────────────────────────────
@@ -117,6 +117,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
   <title>Produtos – Admin Pé de Manga</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 </head>
 <body>
   <div class="admin-layout">
@@ -140,14 +141,16 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <h4><span class="material-symbols-outlined">local_mall</span> Produtos cadastrados (<?= count($produtos) ?>)</h4>
+            <h4><span class="material-symbols-outlined">local_mall</span> Produtos cadastrados (<?= count($produtos) ?>)
+            </h4>
             <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')">
               <span class="material-symbols-outlined">add</span> Novo produto
             </button>
           </div>
           <div class="admin-card-body" style="padding:0;">
             <?php if (empty($produtos)): ?>
-              <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum produto cadastrado ainda.</p>
+              <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum produto cadastrado ainda.
+              </p>
             <?php else: ?>
               <table>
                 <thead>
@@ -336,7 +339,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
       el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
     });
     function abrirEdicao(p) {
-      document.getElementById('edit_id').value   = p.id;
+      document.getElementById('edit_id').value = p.id;
       document.getElementById('edit_nome').value = p.nome;
       document.getElementById('edit_tag').value  = p.tag || '';
       document.getElementById('edit_desc').value = p.descricao || '';

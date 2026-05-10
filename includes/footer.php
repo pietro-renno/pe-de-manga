@@ -2,17 +2,12 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <p class="fb-name">&#x1F96D; Pé de Manga</p>
-      <p class="fb-sub">Cultura e Afeto</p>
-      <p>Um território de encontros, formação e criação onde arte e cuidado se encontram para transformar vidas.</p>
-      <div class="footer-contact">
-        <div class="social-links">
-          <a href="https://wa.me/5512997624486" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.youtube.com/watch?v=T-kSSKDsM8I" target="_blank"><i class="fab fa-youtube"></i></a>
-        </div>
-        <a href="tel:+5512997624486"><?php echo $c['telefone']; ?></a>
-        <a href="mailto:<?php echo $c['email']; ?>"><?php echo $c['email']; ?></a>
+      <img src="./assets/img/logo.png" alt="Pé de Manga" style="filter: brightness(0) invert(1);">
+      <p>Cultura Viva e afeto como estratégia de transformação em Caçapava.</p>
+      <div class="social-links">
+        <a href="https://wa.me/5512997624486" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/watch?v=T-kSSKDsM8I" target="_blank"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
     <div class="footer-col">

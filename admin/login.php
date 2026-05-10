@@ -13,15 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $senha = trim($_POST['senha'] ?? '');
 
   if ($email !== '' && $senha !== '') {
-    $db   = get_db();
+    $db = get_db();
     $stmt = $db->prepare('SELECT id, nome, senha, perfil FROM usuarios WHERE email = ? AND ativo = 1 LIMIT 1');
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($senha, $user['senha'])) {
       $_SESSION['adm_logado'] = true;
-      $_SESSION['adm_id']     = $user['id'];
-      $_SESSION['adm_user']   = $user['nome'];
+      $_SESSION['adm_id'] = $user['id'];
+      $_SESSION['adm_user'] = $user['nome'];
       $_SESSION['adm_perfil'] = $user['perfil'];
       header('Location: index.php');
       exit;
@@ -43,14 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
   <title>Login – Painel Pé de Manga</title>
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 </head>
 
 <body>
   <div class="login-page">
     <div class="login-card">
       <div class="login-logo">
-        <span class="material-symbols-outlined" style="font-size:3rem;color:var(--verde);">eco</span>
-        <h1>Pé de Manga</h1>
+        <img style="width: 150px;" src="../assets/img/logo.png" alt="Pé de Manga" class="floating-logo">
         <p>Painel Administrativo</p>
       </div>
       <p class="login-sub">Entre com suas credenciais para acessar o painel.</p>
@@ -60,8 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <form method="POST">
         <div class="form-group">
           <label for="email">E-mail</label>
-          <input type="email" id="email" name="email" required autocomplete="username"
-            placeholder="seu@email.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+          <input type="email" id="email" name="email" required autocomplete="username" placeholder="seu@email.com"
+            value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
         </div>
         <div class="form-group">
           <label for="senha">Senha</label>
