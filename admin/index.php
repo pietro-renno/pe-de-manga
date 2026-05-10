@@ -32,9 +32,10 @@
         $db = get_db();
         $n_colabs = (int) $db->query('SELECT COUNT(*) FROM colaboradores')->fetchColumn();
         $n_parceiros = (int) $db->query('SELECT COUNT(*) FROM parceiros')->fetchColumn();
-        $n_galeria = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
-        $n_usuarios = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
-        $n_produtos = (int) $db->query('SELECT COUNT(*) FROM produtos WHERE ativo = 1')->fetchColumn();
+        $n_galeria   = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
+        $n_usuarios  = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
+        $n_produtos  = (int) $db->query('SELECT COUNT(*) FROM produtos WHERE ativo = 1')->fetchColumn();
+        $n_eventos   = (int) $db->query('SELECT COUNT(*) FROM eventos')->fetchColumn();
         ?>
         <div class="stats-grid">
           <div class="stat-card sc-amarelo">
@@ -57,6 +58,11 @@
             <div class="sc-num"><?= $n_produtos ?></div>
             <div class="sc-label">Produtos Ativos</div>
           </div>
+          <div class="stat-card sc-verde">
+            <div class="sc-icon"><span class="material-symbols-outlined mi-xl">event</span></div>
+            <div class="sc-num"><?= $n_eventos ?></div>
+            <div class="sc-label">Eventos</div>
+          </div>
         </div>
 
         <div class="admin-card">
@@ -74,8 +80,9 @@
               style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
                 class="material-symbols-outlined">photo_camera</span> Galeria</a>
             <a href="produtos.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
-                class="material-symbols-outlined">local_mall</span> Produtos</a>
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">local_mall</span> Produtos</a>
+            <a href="eventos.php" class="btn-adm btn-adm-outline"
+              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">event</span> Eventos</a>
             <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>
               <a href="usuarios.php" class="btn-adm btn-adm-outline"
                 style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span

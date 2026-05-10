@@ -54,10 +54,37 @@ CREATE TABLE IF NOT EXISTS `produtos` (
   `nome`        VARCHAR(255)    NOT NULL,
   `descricao`   TEXT                    DEFAULT NULL,
   `tag`         VARCHAR(100)            DEFAULT NULL,
+  `foto`        VARCHAR(255)            DEFAULT NULL,
   `cor_fundo`   VARCHAR(150)    NOT NULL DEFAULT 'linear-gradient(135deg,#f4e999,#f2be2c)',
   `ativo`       TINYINT(1)      NOT NULL DEFAULT 1,
   `criado_em`   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Tabela: eventos
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `eventos` (
+  `id`           INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `nome`         VARCHAR(255)    NOT NULL,
+  `descricao`    TEXT                    DEFAULT NULL,
+  `data_evento`  DATE            NOT NULL,
+  `criado_em`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Tabela: evento_fotos
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `evento_fotos` (
+  `id`          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `evento_id`   INT UNSIGNED    NOT NULL,
+  `arquivo`     VARCHAR(255)    NOT NULL,
+  `descricao`   VARCHAR(500)            DEFAULT NULL,
+  `criado_em`   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_evfoto_evento` FOREIGN KEY (`evento_id`)
+    REFERENCES `eventos` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
@@ -78,6 +105,14 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 -- ------------------------------------------------------------
 -- Dados de exemplo (migrados dos arquivos JSON originais)
 -- ------------------------------------------------------------
+-- Migração (execute apenas se a tabela produtos já existia sem a coluna foto):
+-- ALTER TABLE `produtos` ADD COLUMN `foto` VARCHAR(255) DEFAULT NULL AFTER `tag`;
+
+-- Dados de exemplo: eventos
+INSERT INTO `eventos` (`nome`, `descricao`, `data_evento`) VALUES
+  ('Oficina de Artesanato', 'Oficina aberta à comunidade com técnicas de artesanato sustentável.', '2025-03-15'),
+  ('Apresentação Cultural', 'Apresentações artísticas dos grupos do Pé de Manga na praça central.', '2025-04-20');
+
 -- Produtos iniciais
 INSERT INTO `produtos` (`nome`, `descricao`, `tag`, `cor_fundo`) VALUES
   ('Camisetas Pé de Manga', 'Coleção limitada em parceria com o Quintal Silk. Arte impressa com amor, raiz e identidade. Cada peça é única.', 'Moda consciente', 'linear-gradient(135deg,#f4e999,#f2be2c)'),

@@ -41,7 +41,12 @@ $produtos = get_produtos();
               $wa_link = 'https://wa.me/' . WHATSAPP_NUM . '?text=' . $wa_msg;
             ?>
               <div class="produto-card reveal">
-                <div class="produto-img" style="background:<?= htmlspecialchars($p['cor_fundo']) ?>;"></div>
+                <div class="produto-img" style="background:<?= htmlspecialchars($p['cor_fundo']) ?>;">
+                  <?php if (!empty($p['foto'])): ?>
+                    <img src="data/uploads/<?= htmlspecialchars($p['foto']) ?>"
+                         alt="<?= htmlspecialchars($p['nome']) ?>">
+                  <?php endif; ?>
+                </div>
                 <div class="produto-body">
                   <?php if (!empty($p['tag'])): ?>
                     <p class="produto-tag"><?= htmlspecialchars($p['tag']) ?></p>

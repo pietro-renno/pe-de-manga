@@ -957,6 +957,15 @@ footer {
   align-items: center;
   justify-content: center;
   font-size: 5rem;
+  overflow: hidden;
+  position: relative;
+}
+.produto-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
 }
 .prod-camiseta .produto-img {
   background: linear-gradient(135deg, #f4e999, #f2be2c);
@@ -1374,6 +1383,85 @@ footer {
 }
 
 /* ══════════════════════════════════
+   PÁGINA: EVENTOS
+══════════════════════════════════ */
+.eventos-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 40px;
+}
+.eventos-lista {
+  position: sticky;
+  top: calc(var(--nav-h) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.evento-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(136,105,46,.14);
+  background: var(--branco);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, background .2s, transform .15s;
+}
+.evento-item:hover { border-color: var(--amarelo); background: var(--fundo-claro); transform: translateX(3px); }
+.evento-item.ativo { border-color: var(--amarelo); background: var(--amarelo-pastel); }
+.evento-item-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 38px;
+  text-align: center;
+}
+.ev-dia  { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--marrom-escuro); line-height: 1; }
+.ev-mes  { font-size: .6rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--verde); }
+.ev-ano  { font-size: .6rem; color: rgba(136,105,46,.4); }
+.evento-item-info { flex: 1; overflow: hidden; }
+.evento-item-info strong { display: block; font-size: .86rem; color: var(--marrom-escuro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.evento-item-info span   { font-size: .72rem; color: var(--marrom); opacity: .65; }
+.eventos-fotos-header { margin-bottom: 24px; }
+.eventos-fotos-header h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--marrom-escuro); margin-bottom: 6px; }
+.eventos-fotos-meta { font-size: .82rem; color: var(--marrom); opacity: .7; }
+.eventos-fotos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.eventos-foto-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  cursor: pointer;
+  background: var(--fundo-claro);
+}
+.eventos-foto-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.eventos-foto-item:hover img { transform: scale(1.05); }
+.eventos-foto-legenda {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(74,47,42,.65); color: #fff;
+  font-size: .65rem; padding: 5px 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* lightbox eventos */
+#lightbox {
+  display: none; position: fixed; inset: 0; z-index: 400;
+  background: rgba(0,0,0,.92);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 90vw; max-height: 82vh; border-radius: 8px; object-fit: contain; }
+#lightbox p { color: rgba(255,255,255,.7); font-size: .84rem; }
+
+/* ══════════════════════════════════
    ANIMAÇÕES
 ══════════════════════════════════ */
 @keyframes fadeUp {
@@ -1391,6 +1479,9 @@ footer {
    RESPONSIVO
 ══════════════════════════════════ */
 @media (max-width: 960px) {
+  .eventos-layout { grid-template-columns: 1fr; }
+  .eventos-lista { position: static; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .evento-item { flex: 1 1 180px; }
   .nav-links {
     display: none;
   }
