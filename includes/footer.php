@@ -16,7 +16,7 @@
         <li><a href="index.php">Início</a></li>
         <li><a href="quem-somos.php">Quem Somos</a></li>
         <li><a href="o-que-fazemos.php">O Que Fazemos</a></li>
-        <li><a href="galeria.php">Galeria</a></li>
+        <li><a href="eventos.php">Eventos</a></li>
       </ul>
     </div>
     <div class="footer-col">

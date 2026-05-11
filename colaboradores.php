@@ -20,7 +20,7 @@
 <body>
   <?php require 'includes/nav.php'; ?>
   <div class="page-wrap">
-    <div class="page-hero" data-emoji="&#128101;">
+    <div class="page-hero">
       <p class="ph-tag">Quem faz acontecer</p>
       <h1>Nossos <em>colaboradores</em></h1>
       <p>O Pé de Manga e feito por pessoas comprometidas com a arte, o cuidado e a transformação social.</p>

@@ -20,7 +20,7 @@
 <body>
   <?php require 'includes/nav.php'; ?>
   <div class="page-wrap">
-    <div class="page-hero" data-emoji="&#129365;">
+    <div class="page-hero">
       <p class="ph-tag">Nossa história</p>
       <h1>Quem <em>somos</em></h1>
       <p>Um espaço dedicado a arte como caminho de cuidado, pertencimento e transformação social.</p>

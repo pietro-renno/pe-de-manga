@@ -47,10 +47,16 @@ $mes_ativo = $ev_sel ? (int)date('n', strtotime($ev_sel['data_evento'])) : 0;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="description" content="Galeria de eventos do Pé de Manga — oficinas, apresentações e muito mais.">
-  <title>Eventos – Pé de Manga</title>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <meta name="description"
+    content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
+  <meta name="keywords"
+    content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <title>Eventos – Pé de Manga</title>
 </head>
 
 <body>

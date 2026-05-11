@@ -20,8 +20,8 @@
 <body>
   <?php require 'includes/nav.php'; ?>
   <div class="page-wrap">
-    <div class="page-hero" data-emoji="&#9989;">
-      <p class="ph-tag">Prestacao de contas</p>
+    <div class="page-hero">
+      <p class="ph-tag">Prestação de contas</p>
       <h1><em>Transparência</em></h1>
       <p>Compartilhamos nossas informações para que parceiros e a comunidade possam acompanhar nosso trabalho.</p>
     </div>

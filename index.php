@@ -48,7 +48,7 @@
 
   <div class="pillars-strip">
     <div class="pillar-item"><span class="material-symbols-outlined pi-icon">comedy_mask</span>Arte & Cultura</div>
-    <div class="pillar-item"><span class="material-symbols-outlined pi-icon">cognition_2</span>Saude Mental</div>
+    <div class="pillar-item"><span class="material-symbols-outlined pi-icon">cognition_2</span>Saúde Mental</div>
     <div class="pillar-item"><span class="material-symbols-outlined pi-icon">compost</span>Sustentabilidade</div>
     <div class="pillar-item"><span class="material-symbols-outlined pi-icon">partner_heart</span>Impacto Comunitário
     </div>
@@ -60,7 +60,7 @@
       <h2 class="section-title reveal">Um lugar de <em>encontro</em></h2>
       <div class="divider reveal"></div>
       <p class="section-lead reveal">Somos um coletivo organizado que une arte, natureza e bem-estar para criar
-        experiências que transformam pessoas e comunidades. Reconhecidos como Ponto de Cultura pelo Ministerio da
+        experiências que transformam pessoas e comunidades. Reconhecidos como Ponto de Cultura pelo Ministério da
         Cultura.</p>
       <div style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;" class="reveal">
         <a href="quem-somos.php" class="btn btn-primary">Saiba mais sobre nós</a>
@@ -82,8 +82,7 @@
             <h3
               style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--marrom-escuro);margin-bottom:8px;">
               Atividades Culturais</h3>
-            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Oficinas, vivencias, apresentações e
-              formações que estimulam a criação e o pensamento crítico.</p>
+            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Oficinas, vivências, apresentações e formações que estimulam a criação e o pensamento crítico.</p>
           </div>
         </a>
         <a href="produtos.php" style="text-decoration:none;">
@@ -104,8 +103,7 @@
             <h3
               style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--marrom-escuro);margin-bottom:8px;">
               Apoie</h3>
-            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Cada contribuição financia acoes culturais
-              gratuitas para a comunidade. Doe via Pix com facilidade.</p>
+            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Cada contribuição financia ações culturais gratuitas para a comunidade. Doe via Pix com facilidade.</p>
           </div>
         </a>
       </div>

@@ -20,7 +20,7 @@
 <body>
   <?php require 'includes/nav.php'; ?>
   <div class="page-wrap">
-    <div class="page-hero" data-emoji="&#127912;">
+    <div class="page-hero">
       <p class="ph-tag">Nosso trabalho</p>
       <h1>O que <em>fazemos</em></h1>
       <p>Quatro pilares que sustentam nossa proposta de cultura, cuidado e transformação coletiva.</p>

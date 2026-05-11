@@ -20,7 +20,7 @@
 <body>
   <?php require 'includes/nav.php'; ?>
   <div class="page-wrap">
-    <div class="page-hero" data-emoji="&#128154;">
+    <div class="page-hero">
       <p class="ph-tag">Faça parte</p>
       <h1>Apoie o Pé de <em>Manga</em></h1>
       <p>Cada doação transforma cultura em cuidado e cuidado em comunidade.</p>
