@@ -4,6 +4,7 @@
     <div class="footer-brand">
       <img src="./assets/img/logo.png" alt="Pé de Manga" style="filter: brightness(0) invert(1);">
       <p>Cultura Viva e afeto como estratégia de transformação em Caçapava.</p>
+      <a href="https://maps.app.goo.gl/WJmJwxNSUe2Vjo5g7" target="_blank" class="btn-footer">Veja nossa localização</a>
       <div class="social-links">
         <a href="https://wa.me/5512997624486" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -33,7 +34,6 @@
         <li><a href="transparencia.php">Transparência</a></li>
         <li><a href="https://culturaviva.cultura.gov.br/agente/14621536/" target="_blank">Ponto de Cultura</a></li>
         <li><a href="mailto:<?php echo $c['email']; ?>">Contato</a></li>
-        <li><a href="https://maps.app.goo.gl/WJmJwxNSUe2Vjo5g7" target="_blank">&#128205; Veja nossa localização</a></li>
         <li><a href="./admin/login.php">Login</a></li>
       </ul>
     </div>
@@ -43,7 +43,7 @@
     <span>Feito com <span class="fb-heart">&#9829;</span> e cultura</span>
   </div>
   <div class="footer-devs">
-    <span>Site desenvolvido pelos alunos da <strong>SmartWeb</strong> &nbsp;·&nbsp;</span>
+    <span>Site desenvolvido pelos alunos do <strong>Sesi|Senai</strong> &nbsp;·&nbsp;</span>
     <div class="footer-devs-list">
       <a href="https://github.com/Tomate3181" target="_blank" rel="noopener">Samuel Mioni</a>
       <a href="https://github.com/felipenhoslol" target="_blank" rel="noopener">Luiz Felipe Leite</a>

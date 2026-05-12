@@ -516,6 +516,31 @@ footer {
   margin-bottom: 12px;
   font-family: "Handlee", cursive;
 }
+
+.btn-footer {
+  margin-top: 15px;
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  background: var(--amarelo) !important;
+  color: var(--marrom-escuro) !important;
+}
+
+.btn-footer:hover {
+  background: var(--marrom) !important;
+  color: var(--branco) !important;
+}
 .footer-col ul {
   display: flex;
   flex-direction: column;
