@@ -42,6 +42,17 @@
     <span>&copy; <?php echo date('Y'); ?> Pé de Manga – Cultura e Afeto. CNPJ 23.456.588/0001-98</span>
     <span>Feito com <span class="fb-heart">&#9829;</span> e cultura</span>
   </div>
+  <div class="footer-devs">
+    <span>Site desenvolvido pelos alunos da <strong>SmartWeb</strong> &nbsp;·&nbsp;</span>
+    <div class="footer-devs-list">
+      <a href="https://github.com/Tomate3181" target="_blank" rel="noopener">Samuel Mioni</a>
+      <a href="https://github.com/felipenhoslol" target="_blank" rel="noopener">Luiz Felipe Leite</a>
+      <a href="https://github.com/Vinicius3442" target="_blank" rel="noopener">Vinícius Montuani</a>
+      <a href="https://github.com/pietro-renno" target="_blank" rel="noopener">Pietro Rennò</a>
+      <a href="https://linktr.ee/cardoso30s" target="_blank" rel="noopener">Luis Felipe Cardoso</a>
+      <a href="https://github.com/lucasmsdev" target="_blank" rel="noopener">Lucas Machado</a>
+    </div>
+  </div>
 </footer>
 <div id="toast"></div>
 <script src="assets/js/main.js"></script>
