@@ -25,7 +25,7 @@
       <div class="hero-text" data-reveal="left">
         <span class="hero-eyebrow">&#10022; Ponto de Cultura - Cultura Viva em Caçapava</span>
         <h1 class="hero-title">Arte como<br><em>cuidado</em> e<br>pertencimento</h1>
-        <p class="hero-sub">O Pé de Manga é um espaço onde cultura, saude mental, sustentabilidade e afeto se encontram
+        <p class="hero-sub">O Pé de Manga é um espaço onde cultura, saúde mental, sustentabilidade e afeto se encontram
           para transformar vidas e comunidades.</p>
         <div class="hero-btns">
           <a href="quem-somos.php" class="btn btn-primary">Conheça a Gente</a>
@@ -50,8 +50,7 @@
     <div class="pillar-item"><span class="material-symbols-outlined pi-icon">comedy_mask</span>Arte & Cultura</div>
     <div class="pillar-item"><span class="material-symbols-outlined pi-icon">cognition_2</span>Saúde Mental</div>
     <div class="pillar-item"><span class="material-symbols-outlined pi-icon">compost</span>Sustentabilidade</div>
-    <div class="pillar-item"><span class="material-symbols-outlined pi-icon">partner_heart</span>Impacto Comunitário
-    </div>
+    <div class="pillar-item"><span class="material-symbols-outlined pi-icon">partner_heart</span>Impacto Comunitário</div>
   </div>
 
   <section style="background:var(--fundo-claro);">

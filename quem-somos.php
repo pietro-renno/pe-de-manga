@@ -33,7 +33,7 @@
               caminho de cuidado, pertencimento e transformacao social. Atuamos na interseccao entre cultura, saude
               mental, sustentabilidade e bem-estar, promovendo experiências que fortalecem vinculos e ampliam
               possibilidades individuais e coletivas.</p>
-            <p class="reveal">Somos um territorio de encontros, formação e criação. Aqui, o fazer artístico dialoga com
+            <p class="reveal">Somos um território de encontros, formação e criação. Aqui, o fazer artístico dialoga com
               a escuta, a natureza e a responsabilidade social. Nosso espaço acolhe pessoas de diferentes idades para
               vivencias culturais, ações formativas e práticas de cuidado coletivo.</p>
             <p class="reveal">Cada atividade realizada no Pé de Manga carrega um compromisso: tornar a cultura acessível

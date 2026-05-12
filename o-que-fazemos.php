@@ -27,9 +27,9 @@
     </div>
     <section style="background:var(--fundo-claro);">
       <div class="section-inner">
-        <p class="section-lead reveal">O Pé de Manga organiza suas acoes a partir de pilares estruturantes que se
-          entrelacam e sustentam uma proposta que integra sensibilidade e organizacao, arte e responsabilidade, cuidado
-          individual e transformacao coletiva.</p>
+        <p class="section-lead reveal">O Pé de Manga organiza suas ações a partir de pilares estruturantes que se
+          entrelaçam e sustentam uma proposta que integra sensibilidade e organização, arte e responsabilidade, cuidado
+          individual e transformação coletiva.</p>
         <div class="pilares-grid" style="margin-top:50px;">
           <div class="pilar-card social reveal">
             <h3>Arte e Cultura</h3>
