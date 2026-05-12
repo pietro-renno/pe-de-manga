@@ -1126,6 +1126,15 @@ footer {
   opacity: 0.6;
 }
 
+/* ── seção colaboradores em quem-somos ── */
+.colaboradores-section { margin-top: 80px; }
+.colaboradores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  margin-top: 36px;
+}
+
 /* ══════════════════════════════════
    PÁGINA: GALERIA
 ══════════════════════════════════ */
@@ -1692,7 +1701,8 @@ footer {
   .produtos-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .colab-grid {
+  .colab-grid,
+  .colaboradores-grid {
     grid-template-columns: 1fr 1fr;
   }
   .transp-grid {
@@ -1717,6 +1727,7 @@ footer {
 @media (max-width: 600px) {
   .produtos-grid,
   .colab-grid,
+  .colaboradores-grid,
   .transp-grid,
   .parceiros-grid {
     grid-template-columns: 1fr;

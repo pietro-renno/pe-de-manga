@@ -99,6 +99,41 @@
             style="margin-right:12px;">&#9654; Assista ao nosso vídeo</a>
           <a href="doacoes.php" class="btn btn-verde">Apoie o Pé de Manga</a>
         </div>
+
+        <!-- ── COLABORADORES ── -->
+        <?php $colaboradores = get_colaboradores(); ?>
+        <div class="colaboradores-section reveal">
+          <p class="section-tag">Quem faz acontecer</p>
+          <h2 class="section-title">Nossos <em>colaboradores</em></h2>
+          <div class="divider"></div>
+
+          <?php if (empty($colaboradores)): ?>
+            <div class="colab-empty">
+              <span class="material-symbols-outlined" style="font-size:3rem;color:var(--amarelo);display:block;margin-bottom:14px;">group</span>
+              <p>Em breve você conhecerá as pessoas incríveis que fazem o Pé de Manga acontecer.</p>
+            </div>
+          <?php else: ?>
+            <div class="colaboradores-grid">
+              <?php foreach ($colaboradores as $c): ?>
+                <div class="colab-card reveal">
+                  <div class="colab-avatar">
+                    <?php if (!empty($c['foto'])): ?>
+                      <img src="data/uploads/<?= htmlspecialchars($c['foto']) ?>"
+                           alt="<?= htmlspecialchars($c['nome']) ?>">
+                    <?php else: ?>
+                      <span class="material-symbols-outlined" style="font-size:2rem;color:var(--marrom);opacity:.5;">person</span>
+                    <?php endif; ?>
+                  </div>
+                  <h4><?= htmlspecialchars($c['nome']) ?></h4>
+                  <span class="colab-role"><?= htmlspecialchars($c['funcao']) ?></span>
+                  <?php if (!empty($c['descricao'])): ?>
+                    <p><?= htmlspecialchars($c['descricao']) ?></p>
+                  <?php endif; ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </div>
       </div>
     </section>
   </div>
