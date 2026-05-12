@@ -69,6 +69,25 @@
             </div>
           </div>
         </div>
+
+        <!-- MAPA -->
+        <div class="mapa-section reveal">
+          <p class="section-tag">Onde estamos</p>
+          <h2 class="section-title">Nossa <em>localização</em></h2>
+          <div class="divider"></div>
+          <div class="mapa-wrap">
+            <iframe
+              src="https://maps.google.com/maps?q=Pé+de+Manga+Caçapava+SP&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade" title="Localização do Pé de Manga">
+            </iframe>
+          </div>
+          <div class="mapa-cta">
+            <a href="https://maps.app.goo.gl/WJmJwxNSUe2Vjo5g7" target="_blank" class="btn btn-primary">
+              <span style="vertical-align:middle;">&#9873;</span> Abrir no Google Maps
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </div>

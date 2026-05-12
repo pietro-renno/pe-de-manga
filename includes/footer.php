@@ -33,6 +33,7 @@
         <li><a href="transparencia.php">Transparência</a></li>
         <li><a href="https://culturaviva.cultura.gov.br/agente/14621536/" target="_blank">Ponto de Cultura</a></li>
         <li><a href="mailto:<?php echo $c['email']; ?>">Contato</a></li>
+        <li><a href="https://maps.app.goo.gl/WJmJwxNSUe2Vjo5g7" target="_blank">&#128205; Veja nossa localização</a></li>
         <li><a href="./admin/login.php">Login</a></li>
       </ul>
     </div>

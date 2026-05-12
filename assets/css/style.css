@@ -929,6 +929,18 @@ footer {
   flex-wrap: wrap;
 }
 
+/* ── mapa em o-que-fazemos ── */
+.mapa-section { margin-top: 70px; }
+.mapa-wrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sombra-media);
+  border: 2px solid rgba(242,190,44,.25);
+  margin-top: 28px;
+}
+.mapa-wrap iframe { display: block; }
+.mapa-cta { margin-top: 18px; text-align: center; }
+
 /* ══════════════════════════════════
    PÁGINA: PRODUTOS
 ══════════════════════════════════ */
