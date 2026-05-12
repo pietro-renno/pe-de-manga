@@ -11,7 +11,7 @@ function nav_active($page)
   <a href="index.php" class="nav-logo">
     <span class="nav-mango"><img src="./assets/img/logo-semtexto.png" alt="Pé de Manga Icon" id="nav-logo"></span>
     <div class="logo-text">
-      Pé de Manga |
+      <p class="nav-logo-text">Pé de Manga</p>
       <span>Cultura e Afeto</span>
     </div>
   </a>
