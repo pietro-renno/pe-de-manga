@@ -125,19 +125,19 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
             <table>
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th class="th-hide-mobile">#</th>
                   <th>Nome</th>
                   <th>E-mail</th>
                   <th>Perfil</th>
                   <th>Status</th>
-                  <th>Criado em</th>
+                  <th class="th-hide-mobile">Criado em</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 <?php foreach ($usuarios as $u): ?>
                   <tr>
-                    <td><?= $u['id'] ?></td>
+                    <td class="td-hide-mobile"><?= $u['id'] ?></td>
                     <td><?= htmlspecialchars($u['nome']) ?></td>
                     <td><?= htmlspecialchars($u['email']) ?></td>
                     <td>
@@ -151,7 +151,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
                         <?= $u['ativo'] ? 'Ativo' : 'Inativo' ?>
                       </span>
                     </td>
-                    <td><?= date('d/m/Y', strtotime($u['criado_em'])) ?></td>
+                    <td class="td-hide-mobile"><?= date('d/m/Y', strtotime($u['criado_em'])) ?></td>
                     <td>
                       <div class="td-actions">
                         <!-- Redefinir senha -->
