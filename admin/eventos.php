@@ -243,6 +243,7 @@ if ($ev_id > 0) {
             <?php if (empty($eventos)): ?>
               <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum evento cadastrado ainda.</p>
             <?php else: ?>
+              <div class="table-scroll">
               <table>
                 <thead>
                   <tr>
@@ -286,6 +287,7 @@ if ($ev_id > 0) {
                   <?php endforeach; ?>
                 </tbody>
               </table>
+              </div>
             <?php endif; ?>
           </div>
         </div>

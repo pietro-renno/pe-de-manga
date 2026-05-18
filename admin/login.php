@@ -70,6 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <button type="submit" class="btn-login">Entrar no painel</button>
       </form>
+      <a href="../index.php" class="btn-voltar-site">
+        <span class="material-symbols-outlined">arrow_back</span> Voltar ao site
+      </a>
     </div>
   </div>
 </body>
