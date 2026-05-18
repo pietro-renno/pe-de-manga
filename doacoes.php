@@ -34,7 +34,7 @@
               com o apoio de pessoas que acreditam na cultura como direito.</p>
             <p class="reveal">Toda doação de qualquer valor é transformada em arte, cuidado e pertencimento.</p>
             <blockquote class="quote-block reveal" style="margin-top:28px;">
-              "O que importa, realmente, ao ajudar-se o homem é ajuda-lo a ajudar-se."
+              "O que importa, realmente, ao ajudar-se o homem é ajudá-lo a ajudar-se."
               <cite>Paulo Freire</cite>
             </blockquote>
             <div
