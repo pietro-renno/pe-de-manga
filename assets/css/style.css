@@ -1780,6 +1780,9 @@ footer {
   #hero {
     padding: 90px 5vw 40px;
   }
+  .hero-text h1 {
+    font-size: 3rem !important;
+  }
   /* pillars: 2 colunas em vez de linha */
   .pillars-strip {
     display: grid;
@@ -1834,6 +1837,12 @@ footer {
   .agenda-note {
     flex-direction: column;
   }
+  .btn {
+      margin: 5px;
+  }
+  .card-comunica {
+        grid-template-columns: 1fr !important;
+  }
 }
 @media (max-width: 600px) {
   .produtos-grid,
@@ -1868,7 +1877,7 @@ footer {
     margin-bottom: 24px;
   }
   .hero-eyebrow {
-    font-size: .6rem;
+    font-size: .5rem;
     padding: 4px 10px;
     margin-bottom: 14px;
   }
@@ -1883,5 +1892,14 @@ footer {
   }
   .footer-devs-list {
     gap: 2px 0;
+  }
+  .btn {
+      margin: 5px;
+  }
+  .hero-text h1 {
+    font-size: 3rem !important;
+  }
+  .card-comunica {
+        grid-template-columns: 1fr !important;
   }
 }

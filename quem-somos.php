@@ -75,7 +75,7 @@
           <p class="section-tag">Nossa identidade</p>
           <h2 class="section-title">O que a nossa marca <em>comunica</em></h2>
           <div class="divider"></div>
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:30px;">
+          <div class="card-comunica" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:30px;">
             <?php
             $valores = [
               ['<span style="font-size:2.5rem;" class="material-symbols-outlined">mood_heart</span>', 'Acolhimento'],
