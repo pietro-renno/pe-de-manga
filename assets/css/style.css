@@ -1758,6 +1758,46 @@ footer {
   .hero-image {
     display: none;
   }
+  /* botões do hero em coluna, sem corte */
+  .hero-btns {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+  .hero-btns .btn {
+    width: 100%;
+    text-align: center;
+  }
+  /* quote não estoura */
+  .hero-quote {
+    margin-top: 32px;
+    font-size: .88rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  /* hero padding menor */
+  #hero {
+    padding: 90px 5vw 40px;
+  }
+  /* pillars: 2 colunas em vez de linha */
+  .pillars-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow-x: hidden;
+  }
+  .pillar-item {
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    padding: 16px 8px;
+  }
+  .pillar-item:nth-child(odd) {
+    border-right: 1px solid rgba(255,255,255,.1);
+  }
+  .pillar-item:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
   .features-grid {
     grid-template-columns: 1fr;
   }
@@ -1818,5 +1858,30 @@ footer {
   }
   .galeria-yt {
     flex-direction: column;
+  }
+  /* hero ainda mais compacto em telas pequenas */
+  .hero-title {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+  .hero-sub {
+    font-size: .92rem;
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow {
+    font-size: .6rem;
+    padding: 4px 10px;
+    margin-bottom: 14px;
+  }
+  .container {
+    padding: 0 1.2rem;
+  }
+  /* footer devs em coluna */
+  .footer-devs {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .footer-devs-list {
+    gap: 2px 0;
   }
 }
