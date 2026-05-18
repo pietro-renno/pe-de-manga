@@ -731,6 +731,10 @@ td img {
     overflow-x: hidden;
   }
 
+  .admin-card-body{
+    grid-template-columns: 1fr !important;
+  }
+
   /* hamburger visível */
   .adm-hamburger { display: flex; }
 
