@@ -122,6 +122,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
                 class="material-symbols-outlined">add</span> Novo usuário</button>
           </div>
           <div class="admin-card-body" style="padding:0;">
+            <div class="table-scroll">
             <table>
               <thead>
                 <tr>
@@ -185,6 +186,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
                 <?php endforeach; ?>
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

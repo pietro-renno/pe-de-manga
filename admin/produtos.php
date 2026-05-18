@@ -152,6 +152,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
               <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum produto cadastrado ainda.
               </p>
             <?php else: ?>
+              <div class="table-scroll">
               <table>
                 <thead>
                   <tr>
@@ -225,6 +226,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
                   <?php endforeach; ?>
                 </tbody>
               </table>
+              </div>
             <?php endif; ?>
           </div>
         </div>
