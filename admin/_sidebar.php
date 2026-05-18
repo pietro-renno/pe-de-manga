@@ -22,7 +22,6 @@ function sa($p)
     <div class="sn-sep">Conteúdo</div>
     <a href="colaboradores.php" class="<?= sa('colaboradores') ?>"><span class="sn-icon"><span class="material-symbols-outlined">group</span></span> Colaboradores</a>
     <a href="parceiros.php" class="<?= sa('parceiros') ?>"><span class="sn-icon"><span class="material-symbols-outlined">handshake</span></span> Parceiros</a>
-    <a href="galeria.php" class="<?= sa('galeria') ?>"><span class="sn-icon"><span class="material-symbols-outlined">photo_camera</span></span> Galeria</a>
     <a href="produtos.php" class="<?= sa('produtos') ?>"><span class="sn-icon"><span class="material-symbols-outlined">local_mall</span></span> Produtos</a>
     <a href="eventos.php" class="<?= sa('eventos') ?>"><span class="sn-icon"><span class="material-symbols-outlined">event</span></span> Eventos</a>
     <?php if (($_SESSION['adm_perfil'] ?? '') === 'admin'): ?>

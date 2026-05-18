@@ -32,7 +32,7 @@
         $db = get_db();
         $n_colabs = (int) $db->query('SELECT COUNT(*) FROM colaboradores')->fetchColumn();
         $n_parceiros = (int) $db->query('SELECT COUNT(*) FROM parceiros')->fetchColumn();
-        $n_galeria   = (int) $db->query('SELECT COUNT(*) FROM galeria')->fetchColumn();
+        $n_galeria   = (int) $db->query('SELECT COUNT(*) FROM evento_fotos')->fetchColumn();
         $n_usuarios  = (int) $db->query('SELECT COUNT(*) FROM usuarios WHERE ativo = 1')->fetchColumn();
         $n_produtos  = (int) $db->query('SELECT COUNT(*) FROM produtos WHERE ativo = 1')->fetchColumn();
         $n_eventos   = (int) $db->query('SELECT COUNT(*) FROM eventos')->fetchColumn();
@@ -76,9 +76,6 @@
             <a href="parceiros.php" class="btn-adm btn-adm-verde"
               style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
                 class="material-symbols-outlined">handshake</span> Parceiros</a>
-            <a href="galeria.php" class="btn-adm btn-adm-outline"
-              style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span
-                class="material-symbols-outlined">photo_camera</span> Galeria</a>
             <a href="produtos.php" class="btn-adm btn-adm-outline"
               style="padding:14px;text-align:center;justify-content:center;gap:8px;"><span class="material-symbols-outlined">local_mall</span> Produtos</a>
             <a href="eventos.php" class="btn-adm btn-adm-outline"
@@ -105,10 +102,6 @@
                 Gerencie os usuários em <a href="usuarios.php" style="color:var(--amarelo);font-weight:600;">Administração
                   → Usuários</a>.
               <?php endif; ?>
-            </p>
-            <p style="font-size:.82rem;color:rgba(136,105,46,.6);">Os dados (colaboradores, parceiros, galeria) são
-              salvos no banco de dados MySQL. As imagens ficam em <code>data/uploads/</code>. Configure a conexão em
-              <code>includes/db.php</code>.
             </p>
           </div>
         </div>
