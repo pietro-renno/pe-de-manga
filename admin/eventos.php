@@ -248,7 +248,7 @@ if ($ev_id > 0) {
                   <tr>
                     <th>Data</th>
                     <th>Nome</th>
-                    <th>Descrição</th>
+                    <th class="th-hide-mobile">Descrição</th>
                     <th>Fotos</th>
                     <th>Ações</th>
                   </tr>
@@ -260,7 +260,7 @@ if ($ev_id > 0) {
                         <strong><?= date('d/m/Y', strtotime($ev['data_evento'])) ?></strong>
                       </td>
                       <td><strong><?= htmlspecialchars($ev['nome']) ?></strong></td>
-                      <td style="max-width:220px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($ev['descricao'] ?? '', 0, 60, '...')) ?></td>
+                      <td class="td-hide-mobile" style="max-width:220px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($ev['descricao'] ?? '', 0, 60, '...')) ?></td>
                       <td>
                         <span class="badge badge-verde"><?= $ev['total_fotos'] ?> foto(s)</span>
                       </td>

@@ -157,8 +157,8 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
                   <tr>
                     <th>Imagem</th>
                     <th>Nome</th>
-                    <th>Tag</th>
-                    <th>Descrição</th>
+                    <th class="th-hide-mobile">Tag</th>
+                    <th class="th-hide-mobile">Descrição</th>
                     <th>Status</th>
                     <th>Ações</th>
                   </tr>
@@ -175,12 +175,12 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
                         <?php endif; ?>
                       </td>
                       <td><strong><?= htmlspecialchars($p['nome']) ?></strong></td>
-                      <td>
+                      <td class="td-hide-mobile">
                         <?php if (!empty($p['tag'])): ?>
                           <span class="badge badge-verde"><?= htmlspecialchars($p['tag']) ?></span>
                         <?php else: ?>&mdash;<?php endif; ?>
                       </td>
-                      <td style="max-width:220px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($p['descricao'] ?? '', 0, 65, '...')) ?></td>
+                      <td class="td-hide-mobile" style="max-width:220px;font-size:.82rem;"><?= htmlspecialchars(mb_strimwidth($p['descricao'] ?? '', 0, 65, '...')) ?></td>
                       <td>
                         <span class="badge <?= $p['ativo'] ? 'badge-verde' : '' ?>"
                           style="<?= !$p['ativo'] ? 'background:#fde8e8;color:#c0392b;' : '' ?>">

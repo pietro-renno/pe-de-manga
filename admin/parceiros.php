@@ -87,8 +87,8 @@ $parceiros = get_parceiros();
                   <tr>
                     <th>Logo</th>
                     <th>Nome</th>
-                    <th>Site</th>
-                    <th>Descrição</th>
+                    <th class="th-hide-mobile">Site</th>
+                    <th class="th-hide-mobile">Descrição</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -108,13 +108,13 @@ $parceiros = get_parceiros();
                         <?php endif; ?>
                       </td>
                       <td><strong><?= htmlspecialchars($p['nome']) ?></strong></td>
-                      <td>
+                      <td class="td-hide-mobile">
                         <?php if (!empty($p['site'])): ?>
                           <a href="<?= htmlspecialchars($p['site']) ?>" target="_blank"
                             style="color:var(--verde);font-size:.82rem;"><?= htmlspecialchars($p['site']) ?></a>
                         <?php else: ?>—<?php endif; ?>
                       </td>
-                      <td style="max-width:200px;font-size:.82rem;">
+                      <td class="td-hide-mobile" style="max-width:200px;font-size:.82rem;">
                         <?= htmlspecialchars(mb_strimwidth($p['desc'] ?? '', 0, 60, '...')) ?>
                       </td>
                       <td>

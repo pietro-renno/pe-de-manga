@@ -90,7 +90,7 @@ $colaboradores = get_colaboradores();
                     <th>Foto</th>
                     <th>Nome</th>
                     <th>Função</th>
-                    <th>Descrição</th>
+                    <th class="th-hide-mobile">Descrição</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -110,7 +110,7 @@ $colaboradores = get_colaboradores();
                       </td>
                       <td><strong><?= htmlspecialchars($c['nome']) ?></strong></td>
                       <td><span class="badge badge-verde"><?= htmlspecialchars($c['funcao']) ?></span></td>
-                      <td style="max-width:220px;font-size:.82rem;">
+                      <td class="td-hide-mobile" style="max-width:220px;font-size:.82rem;">
                         <?= htmlspecialchars(mb_strimwidth($c['descricao'] ?? '', 0, 80, '...')) ?>
                       </td>
                       <td>
