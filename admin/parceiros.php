@@ -82,6 +82,7 @@ $parceiros = get_parceiros();
               <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum parceiro cadastrado ainda.
               </p>
             <?php else: ?>
+              <div class="table-scroll">
               <table>
                 <thead>
                   <tr>
@@ -134,6 +135,7 @@ $parceiros = get_parceiros();
                   <?php endforeach; ?>
                 </tbody>
               </table>
+              </div>
             <?php endif; ?>
           </div>
         </div>

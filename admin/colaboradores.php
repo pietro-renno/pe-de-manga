@@ -84,6 +84,7 @@ $colaboradores = get_colaboradores();
               <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum colaborador cadastrado
                 ainda.</p>
             <?php else: ?>
+              <div class="table-scroll">
               <table>
                 <thead>
                   <tr>
@@ -129,6 +130,7 @@ $colaboradores = get_colaboradores();
                   <?php endforeach; ?>
                 </tbody>
               </table>
+              </div>
             <?php endif; ?>
           </div>
         </div>
