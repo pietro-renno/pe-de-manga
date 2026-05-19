@@ -4,7 +4,6 @@ require '_auth.php';
 $msg = '';
 $db = get_db();
 
-// ADICIONAR
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'adicionar') {
   $foto = fazer_upload('foto', 'colab_');
   $st = $db->prepare('INSERT INTO colaboradores (nome, funcao, descricao, foto) VALUES (?, ?, ?, ?)');
@@ -17,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'adicion
   $msg = 'sucesso:Colaborador adicionado com sucesso!';
 }
 
-// EDITAR
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar') {
   $id = (int) ($_POST['id'] ?? 0);
   $nova_foto = fazer_upload('foto', 'colab_');
@@ -31,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar'
   $msg = 'sucesso:Colaborador atualizado!';
 }
 
-// REMOVER
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'remover') {
   $id = (int) ($_POST['id'] ?? 0);
   $db->prepare('DELETE FROM colaboradores WHERE id=?')->execute([$id]);

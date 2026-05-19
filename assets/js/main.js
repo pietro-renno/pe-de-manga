@@ -1,7 +1,3 @@
-/* ═══════════════════════════════════
-   PÉ DE MANGA – main.js
-   ═══════════════════════════════════ */
-
 // ── NAV TOGGLE ──
 function toggleNav() {
   document.getElementById('navLinks').classList.toggle('open');

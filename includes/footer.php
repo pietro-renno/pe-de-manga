@@ -7,8 +7,8 @@
       <a href="https://maps.app.goo.gl/WJmJwxNSUe2Vjo5g7" target="_blank" class="btn-footer">Veja nossa localização</a>
       <div class="social-links">
         <a href="https://wa.me/5512997624486" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.youtube.com/watch?v=T-kSSKDsM8I" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/pedemangacpv/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@PedeMangaCPV" target="_blank"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
     <div class="footer-col">

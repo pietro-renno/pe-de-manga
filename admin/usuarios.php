@@ -1,7 +1,7 @@
 <?php
 require '_auth.php';
 
-// Somente admin pode acessar esta página
+// somente quem é admin pode acessar esta página
 if ($_SESSION['adm_perfil'] !== 'admin') {
   header('Location: index.php');
   exit;
@@ -11,7 +11,6 @@ $db = get_db();
 $msg = '';
 $tipo_msg = '';
 
-// ── CRIAR ──────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar') {
   $nome = trim($_POST['nome'] ?? '');
   $email = trim($_POST['email'] ?? '');
@@ -43,10 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar')
   }
 }
 
-// ── ATIVAR / DESATIVAR ──────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'toggle_ativo') {
   $id = (int) ($_POST['id'] ?? 0);
-  // Impede desativar a si mesmo
+  // não deixa desativar a si mesmo
   if ($id > 0 && $id !== (int) $_SESSION['adm_id']) {
     $db->prepare('UPDATE usuarios SET ativo = NOT ativo WHERE id = ?')->execute([$id]);
   }
@@ -54,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'toggle_
   exit;
 }
 
-// ── EXCLUIR ─────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir') {
   $id = (int) ($_POST['id'] ?? 0);
   if ($id > 0 && $id !== (int) $_SESSION['adm_id']) {
@@ -64,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir
   exit;
 }
 
-// ── REDEFINIR SENHA ──────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'reset_senha') {
   $id = (int) ($_POST['id'] ?? 0);
   $nova_senha = trim($_POST['nova_senha'] ?? '');
@@ -79,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'reset_s
   }
 }
 
-// ── LISTAR ───────────────────────────────────────────────────────────────────
 $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM usuarios ORDER BY criado_em DESC')->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -261,14 +256,14 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
       document.getElementById('modalSenhaSub').textContent = 'Redefinindo senha de: ' + nome;
       abrirModal('modalSenha');
     }
-    // Fechar modal ao clicar fora
+    // fechar modal clicando em qalquer lugar
     document.querySelectorAll('.modal-overlay').forEach(function (el) {
       el.addEventListener('click', function (e) {
         if (e.target === el) el.classList.remove('open');
       });
     });
     <?php if ($msg && $tipo_msg === 'sucesso'): ?>
-      // Reabre modal de criação em caso de erro (não fecha se sucesso)
+      // reabre modal de criação em caso de erro
     <?php endif; ?>
   </script>
 </body>

@@ -14,7 +14,6 @@ $cores = [
   'linear-gradient(135deg,#e8d5f5,#9b6fd4)' => 'Roxo',
 ];
 
-// ── CRIAR ──────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar') {
     $nome = trim($_POST['nome']      ?? '');
     $desc = trim($_POST['descricao'] ?? '');
@@ -34,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar')
     }
 }
 
-// ── EDITAR ─────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar') {
     $id   = (int)($_POST['id'] ?? 0);
     $nome = trim($_POST['nome']      ?? '');
@@ -46,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar'
 
     if ($id > 0 && $nome !== '') {
         if ($nova_foto) {
-            // apaga foto antiga
+            // apaga a foto antiga
             $old = $db->prepare('SELECT foto FROM produtos WHERE id = ?');
             $old->execute([$id]);
             $old_foto = $old->fetchColumn();
@@ -65,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar'
     }
 }
 
-// ── REMOVER FOTO ───────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'remover_foto') {
     $id = (int)($_POST['id'] ?? 0);
     if ($id > 0) {
@@ -82,7 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'remover
     exit;
 }
 
-// ── TOGGLE ATIVO ──────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'toggle_ativo') {
     $id = (int)($_POST['id'] ?? 0);
     if ($id > 0) $db->prepare('UPDATE produtos SET ativo = NOT ativo WHERE id = ?')->execute([$id]);
@@ -90,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'toggle_
     exit;
 }
 
-// ── EXCLUIR ───────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir') {
     $id = (int)($_POST['id'] ?? 0);
     if ($id > 0) {
