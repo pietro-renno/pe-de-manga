@@ -51,13 +51,13 @@ function sa($p)
     document.getElementById('adminSidebar').classList.remove('open');
     document.getElementById('sidebarOverlay').classList.remove('open');
   }
-  // Fecha sidebar ao clicar em qualquer link dentro dela (mobile)
+  // fecha o sidebar ao clicar em qualquer link 
   document.querySelectorAll('.sidebar-nav a').forEach(function(a) {
     a.addEventListener('click', function() {
       if (window.innerWidth <= 900) admCloseSidebar();
     });
   });
-  // Injeta botão hamburger no topbar ao carregar
+  // botão hamburguinho para abrir lateralmente
   document.addEventListener('DOMContentLoaded', function() {
     var topbar = document.querySelector('.admin-topbar');
     if (!topbar) return;

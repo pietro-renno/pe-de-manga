@@ -4,11 +4,9 @@ if (empty($_SESSION['adm_logado'])) {
     header('Location: login.php');
     exit;
 }
-// Garante variáveis de sessão para templates
 if (!isset($_SESSION['adm_perfil'])) $_SESSION['adm_perfil'] = 'editor';
 require_once __DIR__ . '/../includes/config.php';
 
-// Helper: upload de imagem
 function fazer_upload(string $campo, string $prefixo = ''): string
 {
     if (empty($_FILES[$campo]['name'])) return '';

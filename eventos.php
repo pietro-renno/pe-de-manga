@@ -4,7 +4,6 @@ require_once 'includes/config.php';
 $db = get_db();
 $eventos = get_eventos();
 
-// Group events by year → month (most recent first)
 $meses_pt = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
              'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 $por_ano_mes = [];
@@ -18,7 +17,6 @@ krsort($por_ano_mes);
 foreach ($por_ano_mes as &$meses) { krsort($meses); }
 unset($meses);
 
-// Determine selected event
 $ev_id  = isset($_GET['id']) ? (int)$_GET['id'] : ($eventos[0]['id'] ?? 0);
 $ev_sel = null;
 $fotos = [];
@@ -37,7 +35,6 @@ if (!$ev_sel && !empty($eventos)) {
   $fotos = get_evento_fotos($ev_id);
 }
 
-// Year + month of the active event (to keep its accordion open)
 $ano_ativo = $ev_sel ? date('Y', strtotime($ev_sel['data_evento'])) : '';
 $mes_ativo = $ev_sel ? (int)date('n', strtotime($ev_sel['data_evento'])) : 0;
 ?>
@@ -111,7 +108,7 @@ $mes_ativo = $ev_sel ? (int)date('n', strtotime($ev_sel['data_evento'])) : 0;
               <?php endforeach; ?>
             </aside>
 
-            <!-- FOTOS DO EVENTO SELECIONADO -->
+            <!-- FOTOS DO EVENTO SELECIONAdo -->
             <div class="eventos-fotos">
               <?php if ($ev_sel): ?>
                 <div class="eventos-fotos-header">
@@ -158,7 +155,6 @@ $mes_ativo = $ev_sel ? (int)date('n', strtotime($ev_sel['data_evento'])) : 0;
 
   </div>
 
-  <!-- Lightbox -->
   <div id="lightbox" onclick="fecharLightbox()">
     <button onclick="fecharLightbox()"
       style="position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:401;">&times;</button>

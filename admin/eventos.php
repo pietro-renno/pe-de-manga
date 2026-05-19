@@ -5,7 +5,6 @@ $db       = get_db();
 $msg      = '';
 $tipo_msg = '';
 
-// ── CRIAR EVENTO ───────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar_evento') {
     $nome = trim($_POST['nome']        ?? '');
     $desc = trim($_POST['descricao']   ?? '');
@@ -21,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'criar_e
     }
 }
 
-// ── EDITAR EVENTO ──────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar_evento') {
     $id   = (int)($_POST['id']          ?? 0);
     $nome = trim($_POST['nome']         ?? '');
@@ -35,11 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar_
     }
 }
 
-// ── EXCLUIR EVENTO ─────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir_evento') {
     $id = (int)($_POST['id'] ?? 0);
     if ($id > 0) {
-        // apaga arquivos de fotos do evento
         $fotos = $db->prepare('SELECT arquivo FROM evento_fotos WHERE evento_id = ?');
         $fotos->execute([$id]);
         foreach ($fotos->fetchAll(PDO::FETCH_COLUMN) as $arq) {
@@ -52,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir
     exit;
 }
 
-// ── UPLOAD DE FOTOS ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'upload_fotos') {
     $evento_id = (int)($_POST['evento_id'] ?? 0);
     $desc_foto = trim($_POST['descricao'] ?? '');
@@ -77,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'upload_
     }
 }
 
-// ── EXCLUIR FOTO ──────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir_foto') {
     $foto_id   = (int)($_POST['foto_id']   ?? 0);
     $evento_id = (int)($_POST['evento_id'] ?? 0);
@@ -95,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir
     exit;
 }
 
-// ── LISTAGEM ──────────────────────────────────────────────────────────────
 $eventos = $db->query(
     'SELECT e.*, COUNT(f.id) AS total_fotos
      FROM eventos e
@@ -103,7 +96,6 @@ $eventos = $db->query(
      GROUP BY e.id ORDER BY e.data_evento DESC'
 )->fetchAll(PDO::FETCH_ASSOC);
 
-// evento selecionado para gerenciar fotos
 $ev_id    = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $ev_sel   = null;
 $ev_fotos = [];
@@ -156,7 +148,6 @@ if ($ev_id > 0) {
         <?php endif; ?>
 
         <?php if ($ev_sel): ?>
-        <!-- ── GERENCIAR FOTOS DE UM EVENTO ── -->
         <div class="admin-card">
           <div class="admin-card-header">
             <h4><span class="material-symbols-outlined">photo_library</span>
@@ -198,7 +189,6 @@ if ($ev_id > 0) {
           </div>
         </div>
 
-        <!-- Modal upload de fotos -->
         <div class="modal-overlay" id="modalUpload">
           <div class="modal-box" style="max-width:560px;">
             <button class="modal-close" onclick="fecharModal('modalUpload')">&times;</button>
@@ -231,7 +221,6 @@ if ($ev_id > 0) {
         </div>
 
         <?php else: ?>
-        <!-- ── LISTA DE EVENTOS ── -->
         <div class="admin-card">
           <div class="admin-card-header">
             <h4><span class="material-symbols-outlined">event</span> Eventos cadastrados (<?= count($eventos) ?>)</h4>
@@ -292,7 +281,7 @@ if ($ev_id > 0) {
           </div>
         </div>
 
-        <!-- Modal: Criar evento -->
+        <!-- Modal de criar evento -->
         <div class="modal-overlay" id="modalCriar">
           <div class="modal-box">
             <button class="modal-close" onclick="fecharModal('modalCriar')">&times;</button>
@@ -322,7 +311,7 @@ if ($ev_id > 0) {
           </div>
         </div>
 
-        <!-- Modal: Editar evento -->
+        <!-- Modal de editar evento -->
         <div class="modal-overlay" id="modalEditar">
           <div class="modal-box">
             <button class="modal-close" onclick="fecharModal('modalEditar')">&times;</button>

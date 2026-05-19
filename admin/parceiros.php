@@ -4,7 +4,6 @@ require '_auth.php';
 $msg = '';
 $db = get_db();
 
-// ADICIONAR
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'adicionar') {
   $logo = fazer_upload('logo', 'parceiro_');
   $st = $db->prepare('INSERT INTO parceiros (nome, site, `desc`, logo) VALUES (?, ?, ?, ?)');
@@ -17,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'adicion
   $msg = 'sucesso:Parceiro adicionado!';
 }
 
-// EDITAR
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar') {
   $id = (int) ($_POST['id'] ?? 0);
   $novo_logo = fazer_upload('logo', 'parceiro_');
@@ -31,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar'
   $msg = 'sucesso:Parceiro atualizado!';
 }
 
-// REMOVER
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'remover') {
   $id = (int) ($_POST['id'] ?? 0);
   $db->prepare('DELETE FROM parceiros WHERE id=?')->execute([$id]);
