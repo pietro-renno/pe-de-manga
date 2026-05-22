@@ -1,0 +1,36 @@
+# Dependências / pacotes
+/vendor/
+node_modules/
+
+# Arquivos de ambiente e configuração local
+.env
+.env.local
+*.local.php
+
+# Imagens enviadas pelos usuários (não versionadas)
+/data/uploads/*
+!/data/uploads/.gitkeep
+
+# Arquivos JSON legados (substituídos pelo banco de dados)
+/data/*.json
+
+# Logs e cache
+*.log
+/logs/
+/cache/
+*.cache
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# PHP
+*.phar
