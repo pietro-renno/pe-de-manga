@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/05/2026 às 19:06
+-- Tempo de geração: 25/05/2026 às 17:07
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.3.31
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,6 @@ USE `pedemanga`;
 -- Estrutura para tabela `colaboradores`
 --
 
-DROP TABLE IF EXISTS `colaboradores`;
 CREATE TABLE `colaboradores` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(255) NOT NULL,
@@ -45,7 +44,6 @@ CREATE TABLE `colaboradores` (
 -- Estrutura para tabela `eventos`
 --
 
-DROP TABLE IF EXISTS `eventos`;
 CREATE TABLE `eventos` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(255) NOT NULL,
@@ -60,7 +58,6 @@ CREATE TABLE `eventos` (
 -- Estrutura para tabela `evento_fotos`
 --
 
-DROP TABLE IF EXISTS `evento_fotos`;
 CREATE TABLE `evento_fotos` (
   `id` int(10) UNSIGNED NOT NULL,
   `evento_id` int(10) UNSIGNED NOT NULL,
@@ -69,14 +66,12 @@ CREATE TABLE `evento_fotos` (
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
 -- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `parceiros`
 --
 
-DROP TABLE IF EXISTS `parceiros`;
 CREATE TABLE `parceiros` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(255) NOT NULL,
@@ -91,7 +86,12 @@ CREATE TABLE `parceiros` (
 --
 
 INSERT INTO `parceiros` (`id`, `nome`, `site`, `desc`, `logo`, `criado_em`) VALUES
-(1, 'Senai Taubaté', 'https://www.sp.senai.br/unidade/taubate/', 'Escola e Faculdade Félix Guisard', 'parceiro_69fc84a733ca8.png', '2026-05-08 13:54:53');
+(1, 'Senai Taubaté', 'https://www.sp.senai.br/unidade/taubate/', 'Escola e Faculdade Félix Guisard', 'parceiro_6a14652591eed.png', '2026-05-08 13:54:53'),
+(2, 'Chef Thais Okamoto', 'https://www.instagram.com/chefthaisokamoto?igsh=a3Q3MTQyZGZhN3Iz', NULL, 'parceiro_6a1463c49c2d5.jpg', '2026-05-25 14:59:16'),
+(3, 'Alambique Sítio São João', 'http://instagram.com/alambiquesitiosaojoao?igsh=NnR5cmQxcGF5N3Jw', NULL, 'parceiro_6a1463f059d1e.jpg', '2026-05-25 15:00:00'),
+(4, 'Turistando Por Aí', 'https://www.instagram.com/turistando_por_ai8?igsh=MWM4ZTZsbTE0ZzU5bg%3D%3D', NULL, 'parceiro_6a146455563d8.jpg', '2026-05-25 15:01:41'),
+(5, 'Ohquidea', 'https://www.ohquidea.com.br/sobre', NULL, 'parceiro_6a1464a418629.png', '2026-05-25 15:03:00'),
+(6, 'Smart link telecom', 'https://smartlinktelecom.net.br/', NULL, 'parceiro_6a1464e8d4a51.png', '2026-05-25 15:04:08');
 
 -- --------------------------------------------------------
 
@@ -99,7 +99,6 @@ INSERT INTO `parceiros` (`id`, `nome`, `site`, `desc`, `logo`, `criado_em`) VALU
 -- Estrutura para tabela `produtos`
 --
 
-DROP TABLE IF EXISTS `produtos`;
 CREATE TABLE `produtos` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(255) NOT NULL,
@@ -127,7 +126,6 @@ INSERT INTO `produtos` (`id`, `nome`, `descricao`, `tag`, `foto`, `cor_fundo`, `
 -- Estrutura para tabela `usuarios`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(255) NOT NULL,
@@ -144,15 +142,10 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `perfil`, `ativo`, `criado_em`) VALUES
 (1, 'Administrador', 'admin@pedemanga.org', '$2y$10$dg02UFPZhM/8HEit7pvFe.7/RbHpz1Q6wOpuq..HB84SXYQiCEdDS', 'admin', 1, '2026-05-08 14:15:43');
+
 --
 -- Índices para tabelas despejadas
 --
-
---
--- Índices de tabela `colaboradores`
---
-ALTER TABLE `colaboradores`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `eventos`
@@ -191,12 +184,6 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de tabela `colaboradores`
---
-ALTER TABLE `colaboradores`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT de tabela `eventos`
 --
 ALTER TABLE `eventos`
@@ -212,7 +199,7 @@ ALTER TABLE `evento_fotos`
 -- AUTO_INCREMENT de tabela `parceiros`
 --
 ALTER TABLE `parceiros`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
