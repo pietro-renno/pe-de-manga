@@ -40,7 +40,6 @@
   </div>
   <div class="footer-bottom">
     <span>&copy; <?php echo date('Y'); ?> Pé de Manga – Cultura e Afeto. CNPJ 23.456.588/0001-98</span>
-    <span>Feito com <span class="fb-heart">&#9829;</span> e cultura</span>
   </div>
   <div class="footer-devs">
     <span>Site desenvolvido pelos alunos do <strong>Sesi|Senai</strong> &nbsp;·&nbsp;</span>
