@@ -89,6 +89,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'upload_mes_imagem') {
+    $mes = (int)($_POST['mes'] ?? 0);
+    $ano = (int)($_POST['ano'] ?? 0);
+    if ($mes >= 1 && $mes <= 12 && $ano > 2000 && !empty($_FILES['imagem_mes']['name'])) {
+        $file = $_FILES['imagem_mes'];
+        if ($file['error'] === 0) {
+            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $file['size'] <= 5 * 1024 * 1024) {
+                // Checa se já existe imagem para este mês e ano
+                $st_chk = $db->prepare('SELECT id, arquivo_imagem FROM eventos_mes_imagem WHERE mes = ? AND ano = ?');
+                $st_chk->execute([$mes, $ano]);
+                $old = $st_chk->fetch(PDO::FETCH_ASSOC);
+                
+                $nome_arq = 'mes_' . $ano . '_' . $mes . '_' . uniqid() . '.' . $ext;
+                $dest = __DIR__ . '/../data/uploads/' . $nome_arq;
+                if (move_uploaded_file($file['tmp_name'], $dest)) {
+                    if ($old) {
+                        $old_path = __DIR__ . '/../data/uploads/' . $old['arquivo_imagem'];
+                        if (file_exists($old_path)) unlink($old_path);
+                        $db->prepare('UPDATE eventos_mes_imagem SET arquivo_imagem = ? WHERE id = ?')->execute([$nome_arq, $old['id']]);
+                    } else {
+                        $db->prepare('INSERT INTO eventos_mes_imagem (mes, ano, arquivo_imagem) VALUES (?, ?, ?)')->execute([$mes, $ano, $nome_arq]);
+                    }
+                    $msg = 'Imagem do mês enviada com sucesso!';
+                    $tipo_msg = 'sucesso';
+                }
+            } else {
+                $msg = 'Arquivo inválido ou muito grande.';
+                $tipo_msg = 'erro';
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir_mes_imagem') {
+    $id = (int)($_POST['id'] ?? 0);
+    if ($id > 0) {
+        $row = $db->prepare('SELECT arquivo_imagem FROM eventos_mes_imagem WHERE id = ?');
+        $row->execute([$id]);
+        $arq = $row->fetchColumn();
+        if ($arq) {
+            $path = __DIR__ . '/../data/uploads/' . $arq;
+            if (file_exists($path)) unlink($path);
+            $db->prepare('DELETE FROM eventos_mes_imagem WHERE id = ?')->execute([$id]);
+        }
+        $msg = 'Imagem do mês excluída.';
+        $tipo_msg = 'sucesso';
+    }
+}
+
 $eventos = $db->query(
     'SELECT e.*, COUNT(f.id) AS total_fotos
      FROM eventos e
@@ -108,6 +158,14 @@ if ($ev_id > 0) {
         $st2->execute([$ev_id]);
         $ev_fotos = $st2->fetchAll(PDO::FETCH_ASSOC);
     }
+}
+
+// Busca as imagens dos meses
+$imagens_mes = [];
+try {
+    $imagens_mes = $db->query('SELECT * FROM eventos_mes_imagem ORDER BY ano DESC, mes DESC')->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    // Ignora se a tabela ainda não existir (antes da migração)
 }
 ?>
 <!DOCTYPE html>
@@ -281,6 +339,39 @@ if ($ev_id > 0) {
           </div>
         </div>
 
+        <div class="admin-card" style="margin-top: 2rem;">
+          <div class="admin-card-header">
+            <h4><span class="material-symbols-outlined">calendar_month</span> Flyer do Mês (Calendário)</h4>
+            <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalMesImagem')">
+              <span class="material-symbols-outlined">add</span> Adicionar Flyer
+            </button>
+          </div>
+          <div class="admin-card-body">
+            <p style="font-size:.9rem;color:var(--marrom);opacity:.8;margin-bottom:15px;">A imagem adicionada aparecerá em destaque na agenda pública. Formato ideal: Vertical (Stories/Instagram).</p>
+            <?php if (empty($imagens_mes)): ?>
+              <p style="text-align:center;padding:20px;color:var(--marrom);opacity:.6;">Nenhum flyer mensal cadastrado.</p>
+            <?php else: ?>
+              <div class="galeria-adm-grid">
+                <?php foreach ($imagens_mes as $img): ?>
+                  <div class="gal-thumb" style="aspect-ratio: 9/16; border: 2px solid #eee;">
+                    <img src="../data/uploads/<?= htmlspecialchars($img['arquivo_imagem']) ?>" alt="Mês <?= $img['mes'] ?>/<?= $img['ano'] ?>">
+                    <div class="gal-overlay">
+                      <form method="POST" onsubmit="return confirm('Remover a imagem de <?= $img['mes'] ?>/<?= $img['ano'] ?>?')" style="display:contents;">
+                        <input type="hidden" name="acao" value="excluir_mes_imagem">
+                        <input type="hidden" name="id" value="<?= $img['id'] ?>">
+                        <button type="submit" title="Remover"><span class="material-symbols-outlined">delete</span></button>
+                      </form>
+                    </div>
+                    <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);color:#fff;font-size:.8rem;padding:6px;text-align:center;">
+                      <?= sprintf('%02d/%04d', $img['mes'], $img['ano']) ?>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
+
         <!-- Modal de criar evento -->
         <div class="modal-overlay" id="modalCriar">
           <div class="modal-box">
@@ -336,6 +427,43 @@ if ($ev_id > 0) {
               <div class="form-actions">
                 <button type="button" class="btn-adm btn-adm-outline" onclick="fecharModal('modalEditar')">Cancelar</button>
                 <button type="submit" class="btn-adm btn-adm-primary">Salvar alterações</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modal Imagem do Mês -->
+        <div class="modal-overlay" id="modalMesImagem">
+          <div class="modal-box">
+            <button class="modal-close" onclick="fecharModal('modalMesImagem')">&times;</button>
+            <h3>Flyer do Mês</h3>
+            <p class="modal-sub">Envie a imagem resumo com a programação do mês.</p>
+            <form method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="acao" value="upload_mes_imagem">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Mês *</label>
+                  <select name="mes" required>
+                    <?php 
+                    $meses_nome = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+                    $mes_atual = (int)date('n');
+                    for($i=1; $i<=12; $i++): ?>
+                      <option value="<?= $i ?>" <?= $i === $mes_atual ? 'selected' : '' ?>><?= sprintf('%02d', $i) ?> - <?= $meses_nome[$i-1] ?></option>
+                    <?php endfor; ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Ano *</label>
+                  <input type="number" name="ano" required value="<?= date('Y') ?>" min="2000" max="2099">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Imagem (JPG, PNG, WEBP) *</label>
+                <input type="file" name="imagem_mes" required accept="image/*" style="padding:10px 0;">
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn-adm btn-adm-outline" onclick="fecharModal('modalMesImagem')">Cancelar</button>
+                <button type="submit" class="btn-adm btn-adm-primary">Enviar</button>
               </div>
             </form>
           </div>

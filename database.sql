@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/05/2026 às 17:07
+-- Tempo de geração: 15/06/2026 às 01:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -49,6 +49,20 @@ CREATE TABLE `eventos` (
   `nome` varchar(255) NOT NULL,
   `descricao` text DEFAULT NULL,
   `data_evento` date NOT NULL,
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `eventos_mes_imagem`
+--
+
+CREATE TABLE `eventos_mes_imagem` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `mes` int(2) NOT NULL,
+  `ano` int(4) NOT NULL,
+  `arquivo_imagem` varchar(255) NOT NULL,
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -154,6 +168,12 @@ ALTER TABLE `eventos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `eventos_mes_imagem`
+--
+ALTER TABLE `eventos_mes_imagem`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `evento_fotos`
 --
 ALTER TABLE `evento_fotos`
@@ -188,6 +208,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `eventos`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de tabela `eventos_mes_imagem`
+--
+ALTER TABLE `eventos_mes_imagem`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `evento_fotos`

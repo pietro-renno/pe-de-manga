@@ -17,6 +17,15 @@ krsort($por_ano_mes);
 foreach ($por_ano_mes as &$meses) { krsort($meses); }
 unset($meses);
 
+// Busca Flyers do Mês
+$flyers_mes = [];
+try {
+    $rows = $db->query("SELECT * FROM eventos_mes_imagem")->fetchAll(PDO::FETCH_ASSOC);
+    foreach($rows as $r) {
+        $flyers_mes[$r['ano']][$r['mes']] = $r['arquivo_imagem'];
+    }
+} catch (Exception $e) {}
+
 $ev_id  = isset($_GET['id']) ? (int)$_GET['id'] : ($eventos[0]['id'] ?? 0);
 $ev_sel = null;
 $fotos = [];
@@ -89,19 +98,63 @@ $mes_ativo = $ev_sel ? (int)date('n', strtotime($ev_sel['data_evento'])) : 0;
                       <span class="ev-grupo-arrow">&#8250;</span>
                     </button>
                     <div class="ev-grupo-body">
-                      <?php foreach ($evs_mes as $ev): ?>
-                        <a href="eventos.php?id=<?= $ev['id'] ?>"
-                           class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
-                          <div class="evento-item-data">
-                            <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
-                            <span class="ev-mes"><?= strftime_mes($ev['data_evento']) ?></span>
-                          </div>
-                          <div class="evento-item-info">
-                            <strong><?= htmlspecialchars($ev['nome']) ?></strong>
-                            <span><?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?></span>
-                          </div>
-                        </a>
-                      <?php endforeach; ?>
+                      <?php if (!empty($flyers_mes[$ano][$mes_num])): ?>
+                        <div class="flyer-mes">
+                          <img src="data/uploads/<?= htmlspecialchars($flyers_mes[$ano][$mes_num]) ?>" alt="Agenda de <?= $meses_pt[$mes_num - 1] ?> de <?= $ano ?>">
+                        </div>
+                      <?php endif; ?>
+
+                      <!-- Calendário Visual -->
+                      <div class="calendario-mini">
+                        <div class="cal-header">
+                          <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+                        </div>
+                        <div class="cal-grid">
+                          <?php
+                            $dias_no_mes = cal_days_in_month(CAL_GREGORIAN, $mes_num, (int)$ano);
+                            $primeiro_dia_semana = date('w', strtotime("$ano-$mes_num-01"));
+                            
+                            // Espaços vazios iniciais
+                            for ($i = 0; $i < $primeiro_dia_semana; $i++) {
+                                echo '<div class="cal-dia vazio"></div>';
+                            }
+                            
+                            // Mapear dias que têm evento
+                            $dias_com_evento = [];
+                            foreach ($evs_mes as $ev) {
+                                $dia_ev = (int)date('j', strtotime($ev['data_evento']));
+                                $dias_com_evento[$dia_ev][] = $ev;
+                            }
+                            
+                            for ($d = 1; $d <= $dias_no_mes; $d++) {
+                                if (isset($dias_com_evento[$d])) {
+                                    // Pega o primeiro evento do dia para o link principal (ou poderia listar todos no tooltip)
+                                    $ev_principal = $dias_com_evento[$d][0];
+                                    $is_ativo = ($ev_principal['id'] == $ev_id) ? 'ativo' : '';
+                                    echo '<a href="eventos.php?id=' . $ev_principal['id'] . '" class="cal-dia evento ' . $is_ativo . '" title="' . htmlspecialchars($ev_principal['nome']) . '">' . $d . '</a>';
+                                } else {
+                                    echo '<div class="cal-dia">' . $d . '</div>';
+                                }
+                            }
+                          ?>
+                        </div>
+                      </div>
+
+                      <div class="ev-lista-dias">
+                        <?php foreach ($evs_mes as $ev): ?>
+                          <a href="eventos.php?id=<?= $ev['id'] ?>"
+                             class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
+                            <div class="evento-item-data">
+                              <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
+                              <span class="ev-mes"><?= strftime_mes($ev['data_evento']) ?></span>
+                            </div>
+                            <div class="evento-item-info">
+                              <strong><?= htmlspecialchars($ev['nome']) ?></strong>
+                              <span><?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?></span>
+                            </div>
+                          </a>
+                        <?php endforeach; ?>
+                      </div>
                     </div>
                   </div>
                 <?php endforeach; ?>
