@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description"
-    content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
+    content="O Pé de Manga é um Ponto de Cultura dedicado à arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords"
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
   <!-- Font Awesome -->
@@ -34,24 +34,31 @@
           <div class="parceiros-grid">
             <?php foreach ($parceiros as $p): ?>
               <div class="parceiro-card">
-                <?php if (!empty($p['logo'])): ?>
-                  <img src="data/uploads/<?php echo htmlspecialchars($p['logo']); ?>"
-                    alt="<?php echo htmlspecialchars($p['nome']); ?>">
-                <?php else: ?>
-                  <div style="font-size:2rem;">&#129309;</div>
-                <?php endif; ?>
-                <span class="pc-name"><?php echo htmlspecialchars($p['nome']); ?></span>
-                <?php if (!empty($p['site'])): ?>
-                  <a href="<?php echo htmlspecialchars($p['site']); ?>" target="_blank"
-                    style="font-size:.72rem;color:var(--verde);">Ver site &rarr;</a>
-                <?php endif; ?>
+                <div class="parceiro-img-wrapper">
+                  <?php if (!empty($p['logo'])): ?>
+                    <img src="data/uploads/<?php echo htmlspecialchars($p['logo']); ?>"
+                      alt="<?php echo htmlspecialchars($p['nome']); ?>">
+                  <?php else: ?>
+                    <div class="parceiro-placeholder">&#129309;</div>
+                  <?php endif; ?>
+                </div>
+                <div class="parceiro-info">
+                  <h3 class="pc-name"><?php echo htmlspecialchars($p['nome']); ?></h3>
+                  <?php if (!empty($p['desc'])): ?>
+                    <p class="pc-desc"><?php echo htmlspecialchars($p['desc']); ?></p>
+                  <?php endif; ?>
+                  <?php if (!empty($p['site'])): ?>
+                    <a href="<?php echo htmlspecialchars($p['site']); ?>" target="_blank"
+                      class="pc-link">Ver site &rarr;</a>
+                  <?php endif; ?>
+                </div>
               </div>
             <?php endforeach; ?>
           </div>
         <?php else: ?>
-          <div style="text-align:center;padding:60px 20px;color:var(--marrom);opacity:.6;">
+          <div style="text-align:center;padding:60px 20px;color:var(--marrom-escuro);opacity:.85;">
             <div style="font-size:3rem;margin-bottom:16px;">&#129309;</div>
-            <p>Os parceiros serao apresentados em breve.</p>
+            <p>Os parceiros serão apresentados em breve.</p>
           </div>
         <?php endif; ?>
         <div class="parceiros-cta reveal">

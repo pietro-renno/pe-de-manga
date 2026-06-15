@@ -95,7 +95,6 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
     <div class="admin-main">
       <div class="admin-topbar">
         <h3><span class="material-symbols-outlined">manage_accounts</span> Usuários</h3>
-        <h3><span class="material-symbols-outlined pi-icon">person</span> Usuários</h3>
         <div class="topbar-actions">
           <span class="topbar-user">Olá, <?= htmlspecialchars($_SESSION['adm_user']) ?></span>
           <button class="btn-adm btn-adm-primary" onclick="abrirModal('modalCriar')"><span
@@ -256,7 +255,7 @@ $usuarios = $db->query('SELECT id, nome, email, perfil, ativo, criado_em FROM us
       document.getElementById('modalSenhaSub').textContent = 'Redefinindo senha de: ' + nome;
       abrirModal('modalSenha');
     }
-    // fechar modal clicando em qalquer lugar
+    // fechar modal clicando em qualquer lugar
     document.querySelectorAll('.modal-overlay').forEach(function (el) {
       el.addEventListener('click', function (e) {
         if (e.target === el) el.classList.remove('open');

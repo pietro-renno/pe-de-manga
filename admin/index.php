@@ -93,7 +93,7 @@
             <h4><span class="material-symbols-outlined">info</span> Informações de acesso</h4>
           </div>
           <div class="admin-card-body">
-            <p style="font-size:.86rem;color:var(--marrom);line-height:1.7;margin-bottom:12px;">
+            <p style="font-size:.86rem;color:var(--marrom-escuro);line-height:1.7;margin-bottom:12px;">
               O acesso ao painel é feito por <strong>e-mail e senha</strong> cadastrados na tabela
               <code>usuarios</code>.<br>
               <strong>Admin padrão:</strong> <code>admin@pedemanga.org</code> &nbsp;|&nbsp; senha:

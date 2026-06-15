@@ -76,7 +76,7 @@ $parceiros = get_parceiros();
           </div>
           <div class="admin-card-body">
             <?php if (empty($parceiros)): ?>
-              <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum parceiro cadastrado ainda.
+              <p style="text-align:center;padding:40px;color:var(--marrom-escuro);opacity:.85;">Nenhum parceiro cadastrado ainda.
               </p>
             <?php else: ?>
               <div class="table-scroll">
@@ -101,7 +101,7 @@ $parceiros = get_parceiros();
                           <div
                             style="width:44px;height:44px;border-radius:6px;background:var(--amarelo-pastel);display:flex;align-items:center;justify-content:center;">
                             <span class="material-symbols-outlined"
-                              style="font-size:1.4rem;color:var(--marrom);">handshake</span>
+                              style="font-size:1.4rem;color:var(--marrom-escuro);opacity:.75;">handshake</span>
                           </div>
                         <?php endif; ?>
                       </td>

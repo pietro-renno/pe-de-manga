@@ -144,7 +144,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
           </div>
           <div class="admin-card-body" style="padding:0;">
             <?php if (empty($produtos)): ?>
-              <p style="text-align:center;padding:40px;color:var(--marrom);opacity:.6;">Nenhum produto cadastrado ainda.
+              <p style="text-align:center;padding:40px;color:var(--marrom-escuro);opacity:.85;">Nenhum produto cadastrado ainda.
               </p>
             <?php else: ?>
               <div class="table-scroll">
@@ -231,7 +231,7 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
             <h4><span class="material-symbols-outlined">info</span> Como funciona o botão Comprar</h4>
           </div>
           <div class="admin-card-body">
-            <p style="font-size:.86rem;color:var(--marrom);line-height:1.7;">
+            <p style="font-size:.86rem;color:var(--marrom-escuro);line-height:1.7;">
               O botão <strong>Comprar</strong> na loja abre o WhatsApp com a mensagem:<br>
               <code>"Olá! Gostaria de comprar: [Nome do produto]"</code><br>
               para o número <strong>(12) 99762-4486</strong>. Produtos <em>inativos</em> não aparecem na loja.

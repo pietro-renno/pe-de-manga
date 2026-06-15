@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description"
-    content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
+    content="O Pé de Manga é um Ponto de Cultura dedicado à arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords"
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
   <!-- Font Awesome -->
@@ -81,7 +81,7 @@
             <h3
               style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--marrom-escuro);margin-bottom:8px;">
               Atividades Culturais</h3>
-            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Oficinas, vivências, apresentações e formações que estimulam a criação e o pensamento crítico.</p>
+            <p style="font-size:.84rem;color:var(--marrom-escuro);line-height:1.65;">Oficinas, vivências, apresentações e formações que estimulam a criação e o pensamento crítico.</p>
           </div>
         </a>
         <a href="produtos.php" style="text-decoration:none;">
@@ -91,7 +91,7 @@
             <h3
               style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--marrom-escuro);margin-bottom:8px;">
               Loja Solidária</h3>
-            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Camisetas artesanais, pães de fermentação
+            <p style="font-size:.84rem;color:var(--marrom-escuro);line-height:1.65;">Camisetas artesanais, pães de fermentação
               natural e outros produtos que sustentam nossa missão.</p>
           </div>
         </a>
@@ -102,7 +102,7 @@
             <h3
               style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--marrom-escuro);margin-bottom:8px;">
               Apoie</h3>
-            <p style="font-size:.84rem;color:var(--marrom);line-height:1.65;">Cada contribuição financia ações culturais gratuitas para a comunidade. Doe via Pix com facilidade.</p>
+            <p style="font-size:.84rem;color:var(--marrom-escuro);line-height:1.65;">Cada contribuição financia ações culturais gratuitas para a comunidade. Doe via Pix com facilidade.</p>
           </div>
         </a>
       </div>

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description"
-    content="O Pé de Manga e um Ponto de Cultura dedicado a arte como caminho de cuidado, pertencimento e transformação social.">
+    content="O Pé de Manga é um Ponto de Cultura dedicado à arte como caminho de cuidado, pertencimento e transformação social.">
   <meta name="keywords"
     content="Pé de Manga, Cultura Viva, Ponto de Cultura, arte e cultura, saúde mental, sustentabilidade, responsabilidade social, oficinas culturais, vivências artísticas, impacto comunitário, coletivo cultural, transformação social, cultura acessível, arte como cuidado">
   <!-- Font Awesome -->
@@ -45,20 +45,22 @@
             </div>
             <h4>Ponto de Cultura</h4>
             <p>Reconhecidos pelo Programa Cultura Viva do Ministério da Cultura como Ponto de Cultura, certificando
-              nossas ações culturais de base comunitaria.</p>
+              nossas ações culturais de base comunitária.</p>
             <span class="transp-badge">Certificado ativo</span>
           </div>
           <div class="transp-card reveal">
             <div class="transp-icon"><span style="font-size:2.5rem;"
                 class="material-symbols-outlined pi-icon">money_range</span></div>
             <h4>Uso de Recursos</h4>
-            <p>Todos os recursos arrecadados são destinados à manutenção do espaço e as ações culturais. Relatórios
+            <p>Todos os recursos arrecadados são destinados à manutenção do espaço e às ações culturais. Relatórios
               financeiros serão disponibilizados periodicamente.</p>
             <span class="transp-badge">Em breve</span>
           </div>
         </div>
         <div class="transp-ponto reveal">
-          <div class="tp-icon"><span style="font-size:3.5rem;" class="material-symbols-outlined">globe</span></div>
+          <div class="tp-icon">
+            <img src="assets/img/cultura_viva.png" alt="Programa Cultura Viva" style="height: 64px; width: auto; object-fit: contain; display: block;">
+          </div>
           <div>
             <h4>Verifique nossa certificação no portal oficial</h4>
             <p>O Pé de Manga está registrado e certificado na plataforma do Programa Cultura Viva. Consulte nossa ficha

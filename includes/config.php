@@ -41,6 +41,30 @@ function get_eventos(): array
     )->fetchAll();
 }
 
+/**
+ * Busca a imagem da programação mensal para um mês/ano específico.
+ * Retorna null se não houver imagem cadastrada.
+ */
+function get_programacao_mes(int $mes, int $ano): ?array
+{
+    $st = get_db()->prepare(
+        'SELECT * FROM programacao_mes WHERE mes = ? AND ano = ? LIMIT 1'
+    );
+    $st->execute([$mes, $ano]);
+    $row = $st->fetch();
+    return $row ?: null;
+}
+
+/**
+ * Lista todas as programações mensais cadastradas (mais recentes primeiro).
+ */
+function get_todas_programacoes(): array
+{
+    return get_db()->query(
+        'SELECT * FROM programacao_mes ORDER BY ano DESC, mes DESC'
+    )->fetchAll();
+}
+
 function get_evento_fotos(int $evento_id): array
 {
     $st = get_db()->prepare('SELECT * FROM evento_fotos WHERE evento_id = ? ORDER BY id');

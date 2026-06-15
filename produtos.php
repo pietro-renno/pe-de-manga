@@ -31,7 +31,7 @@ $produtos = get_produtos();
     <section>
       <div class="section-inner">
         <?php if (empty($produtos)): ?>
-          <p style="text-align:center;padding:60px 0;color:var(--marrom);opacity:.6;">
+          <p style="text-align:center;padding:60px 0;color:var(--marrom-escuro);opacity:.85;">
             Nenhum produto disponível no momento.
           </p>
         <?php else: ?>

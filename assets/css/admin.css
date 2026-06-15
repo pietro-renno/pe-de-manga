@@ -98,7 +98,7 @@ img {
 .login-sub {
   text-align: center;
   font-size: 0.82rem;
-  color: var(--marrom);
+  color: var(--marrom-escuro);
   margin-bottom: 28px;
 }
 .form-group {
@@ -110,7 +110,7 @@ img {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--marrom);
+  color: var(--marrom-escuro);
   margin-bottom: 7px;
 }
 .form-group input,
@@ -418,7 +418,7 @@ th {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--marrom);
+  color: var(--marrom-escuro);
   text-align: left;
 }
 tbody tr {
@@ -526,7 +526,7 @@ td img {
 }
 .modal-box .modal-sub {
   font-size: 0.8rem;
-  color: var(--marrom);
+  color: var(--marrom-escuro);
   margin-bottom: 22px;
 }
 .modal-close {
@@ -578,7 +578,7 @@ td img {
 }
 .upload-area p {
   font-size: 0.84rem;
-  color: var(--marrom);
+  color: var(--marrom-escuro);
 }
 .upload-area small {
   font-size: 0.72rem;
@@ -637,7 +637,7 @@ td img {
 }
 .badge-amarelo {
   background: var(--amarelo-pastel);
-  color: var(--marrom);
+  color: var(--marrom-escuro);
 }
 
 /* ── GALERIA GRID (admin) ── */
@@ -836,4 +836,93 @@ td img {
   /* oculta colunas secundárias */
   .td-hide-mobile { display: none; }
   .th-hide-mobile { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ABAS ADMIN (Eventos / Programação do Mês)
+══════════════════════════════════════════════════════════ */
+.adm-tab-switcher {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(136,105,46,.15);
+  padding-bottom: 0;
+}
+.adm-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 8px 8px 0 0;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--marrom);
+  text-decoration: none;
+  background: rgba(136,105,46,.06);
+  border: 1px solid transparent;
+  border-bottom: none;
+  margin-bottom: -2px;
+  transition: background .2s, color .2s;
+}
+.adm-tab:hover {
+  background: var(--amarelo-pastel);
+  color: var(--marrom-escuro);
+}
+.adm-tab.active {
+  background: #fff;
+  color: var(--marrom-escuro);
+  border-color: rgba(136,105,46,.2);
+  border-bottom-color: #fff;
+}
+.adm-tab .material-symbols-outlined {
+  font-size: 1.05rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   GRID DE PROGRAMAÇÕES CADASTRADAS
+══════════════════════════════════════════════════════════ */
+.prog-adm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.prog-adm-item {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(136,105,46,.15);
+  box-shadow: var(--sombra-leve);
+  background: #fff;
+  transition: box-shadow .25s;
+}
+.prog-adm-item:hover { box-shadow: var(--sombra-media); }
+.prog-adm-item > img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  cursor: zoom-in;
+  transition: transform .3s;
+  display: block;
+}
+.prog-adm-item:hover > img { transform: scale(1.03); }
+.prog-adm-info {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.prog-adm-info strong {
+  font-size: .82rem;
+  color: var(--marrom-escuro);
+}
+
+/* badge amarelo (horário) */
+.badge-amarelo {
+  background: var(--amarelo-pastel);
+  color: var(--marrom-escuro);
+  font-size: .7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
 }
