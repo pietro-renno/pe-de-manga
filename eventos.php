@@ -246,8 +246,24 @@ function strftime_mes_abr(string $date): string
   <script>
     function toggleGrupo(btn) {
       const grupo = btn.parentElement;
-      const aberto = grupo.classList.toggle('open');
-      btn.setAttribute('aria-expanded', aberto);
+      // Determine whether we're opening this group (if not already open)
+      const abrir = !grupo.classList.contains('open');
+      // Close other groups inside the eventos-lista
+      document.querySelectorAll('.eventos-lista .ev-grupo').forEach(g => {
+        if (g !== grupo) {
+          g.classList.remove('open');
+          const header = g.querySelector('.ev-grupo-header');
+          if (header) header.setAttribute('aria-expanded', 'false');
+        }
+      });
+      // Toggle current group according to abrir
+      if (abrir) {
+        grupo.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        grupo.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
     }
     function abrirLightbox(arquivo, legenda) {
       document.getElementById('lightbox-img').src = 'data/uploads/' + arquivo;
