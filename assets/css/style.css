@@ -621,13 +621,13 @@ footer {
   font-size: 1.3rem;
   color: var(--white);
   border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
 }
 
 .social-links a:hover {
   background: var(--amarelo);
   color: var(--marrom-escuro);
   border-color: var(--amarelo);
-  transform: translateY(-5px);
 }
 
 .footer-links h4,
