@@ -1617,13 +1617,18 @@ footer {
   gap: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.24s ease, transform 0.28s ease;
 }
 .ev-grupo.open .ev-grupo-arrow {
   transform: rotate(-90deg);
 }
 .ev-grupo.open .ev-grupo-body {
   max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* evento individual */
@@ -2104,11 +2109,22 @@ footer {
 .ev-grupo.open .ev-grupo-arrow { transform: rotate(90deg); }
 
 .ev-grupo-body {
-  display: none;
+  display: flex;
   flex-direction: column;
+  gap: 0;
   background: rgba(255,255,255,.55);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.24s ease, transform 0.28s ease;
 }
-.ev-grupo.open .ev-grupo-body { display: flex; }
+.ev-grupo.open .ev-grupo-body {
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .evento-item {
   display: flex;
