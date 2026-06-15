@@ -128,7 +128,12 @@ CREATE TABLE `parceiros` (
 --
 
 INSERT INTO `parceiros` (`id`, `nome`, `site`, `desc`, `logo`, `criado_em`) VALUES
-(1, 'Senai Taubaté', 'https://www.sp.senai.br/unidade/taubate/', 'Escola e Faculdade Félix Guisard', 'parceiro_69fc84a733ca8.png', '2026-05-08 13:54:53');
+(1, 'Senai Taubaté', 'https://www.sp.senai.br/unidade/taubate/', 'Escola e Faculdade Félix Guisard', 'parceiro_6a14652591eed.png', '2026-05-08 13:54:53'),
+(2, 'Chef Thais Okamoto', 'https://www.instagram.com/chefthaisokamoto?igsh=a3Q3MTQyZGZhN3Iz', NULL, 'parceiro_6a1463c49c2d5.jpg', '2026-05-25 14:59:16'),
+(3, 'Alambique Sítio São João', 'http://instagram.com/alambiquesitiosaojoao?igsh=NnR5cmQxcGF5N3Jw', NULL, 'parceiro_6a1463f059d1e.jpg', '2026-05-25 15:00:00'),
+(4, 'Turistando Por Aí', 'https://www.instagram.com/turistando_por_ai8?igsh=MWM4ZTZsbTE0ZzU5bg%3D%3D', NULL, 'parceiro_6a146455563d8.jpg', '2026-05-25 15:01:41'),
+(5, 'Ohquidea', 'https://www.ohquidea.com.br/sobre', NULL, 'parceiro_6a1464a418629.png', '2026-05-25 15:03:00'),
+(6, 'Smart link telecom', 'https://smartlinktelecom.net.br/', NULL, 'parceiro_6a1464e8d4a51.png', '2026-05-25 15:04:08');
 
 -- --------------------------------------------------------
 

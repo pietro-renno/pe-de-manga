@@ -137,7 +137,7 @@ Acesse em: `seu-dominio.com/admin/login.php`
 
 | Campo   | Valor          |
 |---------|----------------|
-| Usuário | `admin`        |
+| Usuário | `admin@pedemanga.org`        |
 | Senha   | `pedemanga2025`|
 
 > **Importante:** Altere a senha após o primeiro acesso.  
