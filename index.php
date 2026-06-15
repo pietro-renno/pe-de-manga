@@ -76,6 +76,9 @@
       <div class="features-grid reveal">
         <a href="o-que-fazemos.php" style="text-decoration:none;">
           <div class="card" style="padding:28px;background:var(--fundo-claro);text-align:center;">
+            <span class="card-cta-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#4a2f2a"><path d="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z"/></svg>
+            </span>
             <div style="margin-bottom:12px; color:#4A2f2A;"><span style="font-size:3.5rem;"
                 class="material-symbols-outlined pi-icon">comedy_mask</span></div>
             <h3
@@ -86,6 +89,9 @@
         </a>
         <a href="produtos.php" style="text-decoration:none;">
           <div class="card" style="padding:28px;background:var(--fundo-claro);text-align:center;">
+            <span class="card-cta-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#4a2f2a"><path d="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z"/></svg>
+            </span>
             <div style="margin-bottom:12px; color:#4A2f2A;"><span style="font-size:3.5rem;"
                 class="material-symbols-outlined pi-icon">local_mall</span></div>
             <h3
@@ -97,6 +103,9 @@
         </a>
         <a href="doacoes.php" style="text-decoration:none;">
           <div class="card" style="padding:28px;background:var(--fundo-claro);text-align:center;">
+            <span class="card-cta-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#4a2f2a"><path d="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z"/></svg>
+            </span>
             <div style="margin-bottom:12px; color:#4A2f2A;"><span style="font-size:3.5rem;"
                 class="material-symbols-outlined pi-icon">diversity_1</span></div>
             <h3

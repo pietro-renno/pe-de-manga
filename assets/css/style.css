@@ -362,10 +362,29 @@ nav {
     transform 0.25s,
     box-shadow 0.25s;
   overflow: hidden;
+  position: relative;
 }
 .card:hover {
   transform: translateY(-5px);
   box-shadow: var(--sombra-forte);
+}
+
+.card .card-cta-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #e3e3e3;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+@media (max-width: 600px) {
+  .card .card-cta-icon { display: none; }
 }
 
 /* ── QUOTE BLOCK ── */
