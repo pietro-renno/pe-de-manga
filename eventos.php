@@ -3,60 +3,13 @@ require_once 'includes/config.php';
 
 $db = get_db();
 
-// ── Dados dos eventos ──────────────────────────────────────
+// ── Todos os eventos (para o calendário JS) ────────────────
 $eventos = get_eventos();
 
 $meses_pt = [
-  '',
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro'
+  '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
-
-// Organiza por ano → mês
-$por_ano_mes = [];
-foreach ($eventos as $ev) {
-  $ts = strtotime($ev['data_evento']);
-  $ano = (int) date('Y', $ts);
-  $mes = (int) date('n', $ts);
-  $por_ano_mes[$ano][$mes][] = $ev;
-}
-krsort($por_ano_mes);
-foreach ($por_ano_mes as &$meses) {
-  krsort($meses);
-}
-unset($meses);
-
-// ── Evento selecionado (para ver fotos) ──────────────────────
-$ev_id = isset($_GET['id']) ? (int) $_GET['id'] : ($eventos[0]['id'] ?? 0);
-$ev_sel = null;
-$fotos = [];
-
-if ($ev_id > 0) {
-  $st = $db->prepare('SELECT * FROM eventos WHERE id = ?');
-  $st->execute([$ev_id]);
-  $ev_sel = $st->fetch(PDO::FETCH_ASSOC);
-  if ($ev_sel) {
-    $fotos = get_evento_fotos($ev_id);
-  }
-}
-if (!$ev_sel && !empty($eventos)) {
-  $ev_sel = $eventos[0];
-  $ev_id = $ev_sel['id'];
-  $fotos = get_evento_fotos($ev_id);
-}
-
-$ano_ativo = $ev_sel ? (int) date('Y', strtotime($ev_sel['data_evento'])) : 0;
-$mes_ativo = $ev_sel ? (int) date('n', strtotime($ev_sel['data_evento'])) : 0;
 
 // ── Programação do mês atual ────────────────────────────────
 $mes_atual = (int) date('n');
@@ -67,11 +20,12 @@ try {
   $prog_atual = null;
 }
 
-function strftime_mes_abr(string $date): string
-{
-  $meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-  return $meses[(int) date('n', strtotime($date)) - 1];
-}
+// ── Caminho base para o JS ──────────────────────────────────
+// Detecta o subfolder caso o site não esteja na raiz
+$base_url = rtrim(
+  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']),
+  '/'
+) . '/';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -86,6 +40,7 @@ function strftime_mes_abr(string $date): string
     content="Pé de Manga, eventos culturais, programação, Caçapava, Ponto de Cultura, oficinas, arte">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/calendario.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet" />
@@ -107,11 +62,11 @@ function strftime_mes_abr(string $date): string
     </div>
 
     <!-- ══════════════════════════════════════
-         CALENDÁRIO DE EVENTOS & PROGRAMAÇÃO
+         SEÇÃO PRINCIPAL
     ══════════════════════════════════════ -->
     <section style="background:var(--fundo-claro);">
       <div class="section-inner">
-        <p class="section-tag reveal">Galeria & Calendário</p>
+        <p class="section-tag reveal">Galeria &amp; Calendário</p>
         <h2 class="section-title reveal">Nossos <em>encontros</em></h2>
         <div class="divider reveal"></div>
 
@@ -123,169 +78,162 @@ function strftime_mes_abr(string $date): string
           </div>
         <?php else: ?>
 
-          <div class="eventos-layout reveal <?= $prog_atual ? 'has-prog' : '' ?>">
+          <!-- ══ Layout principal: calendário + painel ══ -->
+          <div class="cal-shell reveal">
 
-            <!-- Programação Lateral do Mês (Instagram Card) -->
-            <?php if ($prog_atual): ?>
-              <aside class="eventos-prog-lateral">
-                <h3>Programação de <em><?= $meses_pt[$prog_atual['mes']] ?></em></h3>
-                <img src="data/uploads/<?= htmlspecialchars($prog_atual['imagem']) ?>"
-                  alt="Programação de <?= $meses_pt[$prog_atual['mes']] ?>"
-                  onclick="abrirProg(this.src)">
-                <p>Confira a programação mensal do Pé de Manga! Clique na imagem para ampliar.</p>
-                <a href="https://www.instagram.com/pedemangacpv/" target="_blank" rel="noopener" class="insta-link">
-                  <i class="fab fa-instagram"></i> Ver no Instagram
-                </a>
-              </aside>
-            <?php endif; ?>
+            <!-- ══ COLUNA ESQUERDA: Widget do Calendário ══ -->
+            <div class="cal-widget" id="cal-widget" aria-label="Calendário de eventos">
+              <div class="cal-widget-inner">
 
-            <!-- LISTA LATERAL: Acordeão por Ano → Mês -->
-            <aside class="eventos-lista">
-              <?php foreach ($por_ano_mes as $ano => $meses): ?>
-                <div class="ev-ano-label"><?= $ano ?></div>
-                <?php foreach ($meses as $mes_num => $evs_mes): ?>
-                  <?php $aberto = ($ano === $ano_ativo && $mes_num === $mes_ativo); ?>
-                  <div class="ev-grupo <?= $aberto ? 'open' : '' ?>">
-                    <button class="ev-grupo-header" onclick="toggleGrupo(this)"
-                      aria-expanded="<?= $aberto ? 'true' : 'false' ?>">
-                      <span class="ev-grupo-mes"><?= $meses_pt[$mes_num] ?></span>
-                      <span class="ev-grupo-count"><?= count($evs_mes) ?></span>
-                      <span class="ev-grupo-arrow">&#8250;</span>
-                    </button>
-                    <div class="ev-grupo-body">
-                      <?php foreach ($evs_mes as $ev): ?>
-                        <a href="eventos.php?id=<?= $ev['id'] ?>" class="evento-item <?= $ev['id'] == $ev_id ? 'ativo' : '' ?>">
-                          <div class="evento-item-data">
-                            <span class="ev-dia"><?= date('d', strtotime($ev['data_evento'])) ?></span>
-                            <span class="ev-mes"><?= strftime_mes_abr($ev['data_evento']) ?></span>
-                          </div>
-                          <div class="evento-item-info">
-                            <strong><?= htmlspecialchars($ev['nome']) ?></strong>
-                            <span>
-                              <?php if (!empty($ev['horario'])): ?>
-                                <span class="ev-horario-tag"><?= htmlspecialchars($ev['horario']) ?></span> ·
-                              <?php endif; ?>
-                              <?= $ev['total_fotos'] ?> foto<?= $ev['total_fotos'] != 1 ? 's' : '' ?>
-                            </span>
-                          </div>
-                        </a>
-                      <?php endforeach; ?>
-                    </div>
-                  </div>
-                <?php endforeach; ?>
-              <?php endforeach; ?>
-            </aside>
+                <!-- Header: navegação de mês -->
+                <div class="cal-header">
+                  <button id="cal-prev" class="cal-nav-btn" type="button" aria-label="Mês anterior">
+                    &#8249;
+                  </button>
+                  <span id="cal-mes-ano"></span>
+                  <button id="cal-next" class="cal-nav-btn" type="button" aria-label="Próximo mês">
+                    &#8250;
+                  </button>
+                </div>
 
-          </div><!-- /eventos-layout -->
+                <!-- Grade de dias -->
+                <div class="cal-grid" id="cal-grid" role="grid" aria-label="Dias do mês">
+                  <!-- Cabeçalho com dias da semana -->
+                  <div class="cal-dow" aria-hidden="true">Dom</div>
+                  <div class="cal-dow" aria-hidden="true">Seg</div>
+                  <div class="cal-dow" aria-hidden="true">Ter</div>
+                  <div class="cal-dow" aria-hidden="true">Qua</div>
+                  <div class="cal-dow" aria-hidden="true">Qui</div>
+                  <div class="cal-dow" aria-hidden="true">Sex</div>
+                  <div class="cal-dow" aria-hidden="true">Sáb</div>
+                  <!-- Células geradas pelo JS -->
+                </div>
 
-          <!-- PAINEL DE FOTOS DO EVENTO SELECIONADO -->
-          <div class="eventos-fotos reveal">
-            <?php if ($ev_sel): ?>
-              <div class="eventos-fotos-header">
-                <h2><?= htmlspecialchars($ev_sel['nome']) ?></h2>
-                <p class="eventos-fotos-meta">
-                  <?= date('d/m/Y', strtotime($ev_sel['data_evento'])) ?>
-                  <?php if (!empty($ev_sel['horario'])): ?>
-                    &nbsp;·&nbsp;
-                    <span class="ev-horario-pill">
-                      <span class="material-symbols-outlined" style="font-size:.9rem;vertical-align:middle;">schedule</span>
-                      <?= htmlspecialchars($ev_sel['horario']) ?>
-                    </span>
-                  <?php endif; ?>
-                  <?php if (!empty($ev_sel['descricao'])): ?>
-                    &nbsp;·&nbsp; <?= htmlspecialchars($ev_sel['descricao']) ?>
-                  <?php endif; ?>
-                </p>
+                <!-- Lista de eventos do dia (quando há múltiplos) -->
+                <div class="cal-events-list" id="cal-events-list" role="listbox"
+                  aria-label="Eventos do dia selecionado"></div>
+
+              </div><!-- /cal-widget-inner -->
+
+              <!-- Legenda -->
+              <div class="cal-legenda" aria-hidden="true">
+                <div class="cal-legenda-item">
+                  <span class="cal-legenda-dot cal-legenda-dot--evento"></span>
+                  Evento
+                </div>
+                <div class="cal-legenda-item">
+                  <span class="cal-legenda-dot cal-legenda-dot--hoje"></span>
+                  Hoje
+                </div>
+                <div class="cal-legenda-item">
+                  <span class="cal-legenda-dot cal-legenda-dot--sel"></span>
+                  Selecionado
+                </div>
               </div>
-              <?php if (empty($fotos)): ?>
-                <div class="eventos-sem-fotos">
+            </div><!-- /cal-widget -->
+
+            <!-- ══ COLUNA DIREITA: programação + painel de fotos ══ -->
+            <div class="cal-right">
+
+              <!-- Programação mensal (se houver) -->
+              <?php if ($prog_atual): ?>
+                <div class="cal-prog-card">
+                  <img class="cal-prog-thumb"
+                    src="data/uploads/<?= htmlspecialchars($prog_atual['imagem']) ?>"
+                    alt="Programação de <?= $meses_pt[$prog_atual['mes']] ?>"
+                    onclick="abrirProg(this.src)">
+                  <div class="cal-prog-info">
+                    <h4>Programação de <em><?= $meses_pt[$prog_atual['mes']] ?></em></h4>
+                    <p>Confira nossa programação mensal! Clique na imagem para ampliar.</p>
+                    <a href="https://www.instagram.com/pedemangacpv/" target="_blank" rel="noopener"
+                      class="insta-link">
+                      <i class="fab fa-instagram"></i> Ver no Instagram
+                    </a>
+                  </div>
+                </div>
+              <?php endif; ?>
+
+              <!-- Painel de fotos do evento selecionado -->
+              <div class="cal-panel" id="cal-panel">
+
+                <!-- Header: título + meta -->
+                <div id="panel-header" hidden>
+                  <h2 id="panel-titulo"></h2>
+                  <p id="panel-meta"></p>
+                </div>
+
+                <!-- Estado: loading -->
+                <div id="panel-loading" hidden>
+                  <div class="cal-spinner"></div>
+                  <span>Carregando fotos…</span>
+                </div>
+
+                <!-- Estado: sem fotos -->
+                <div id="panel-sem-fotos" hidden>
                   <span class="material-symbols-outlined">photo_library</span>
                   <p>Nenhuma foto neste evento ainda.</p>
                 </div>
-              <?php else: ?>
-                <div class="eventos-fotos-grid" id="fotosGrid">
-                  <?php foreach ($fotos as $foto): ?>
-                    <div class="eventos-foto-item"
-                      onclick="abrirLightbox('<?= htmlspecialchars($foto['arquivo']) ?>','<?= htmlspecialchars(addslashes($foto['descricao'] ?? '')) ?>')">
-                      <img src="data/uploads/<?= htmlspecialchars($foto['arquivo']) ?>"
-                        alt="<?= htmlspecialchars($foto['descricao'] ?? $ev_sel['nome']) ?>" loading="lazy">
-                      <?php if (!empty($foto['descricao'])): ?>
-                        <div class="eventos-foto-legenda"><?= htmlspecialchars($foto['descricao']) ?></div>
-                      <?php endif; ?>
-                    </div>
-                  <?php endforeach; ?>
+
+                <!-- Grade de fotos -->
+                <div id="panel-fotos-grid" hidden></div>
+
+                <!-- Placeholder: nenhum evento selecionado -->
+                <div id="panel-placeholder">
+                  <span class="material-symbols-outlined">calendar_month</span>
+                  <p>Selecione um dia no calendário para ver as fotos do evento.</p>
                 </div>
-              <?php endif; ?>
-            <?php endif; ?>
-          </div>
+
+              </div><!-- /cal-panel -->
+
+            </div><!-- /cal-right -->
+
+          </div><!-- /cal-shell -->
+
         <?php endif; ?>
-      </div>
+      </div><!-- /section-inner -->
     </section>
 
   </div><!-- /page-wrap -->
 
   <!-- Lightbox fotos do evento -->
-  <div id="lightbox" onclick="fecharLightbox()">
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
     <button onclick="fecharLightbox()"
-      style="position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:401;">&times;</button>
+      style="position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:401;"
+      aria-label="Fechar lightbox">&times;</button>
     <img id="lightbox-img" src="" alt="">
     <p id="lightbox-cap"></p>
   </div>
 
   <!-- Lightbox imagem programação do mês -->
   <div id="progLightbox" onclick="this.style.display='none'"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;cursor:zoom-out;">
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;cursor:zoom-out;"
+    role="dialog" aria-modal="true" aria-label="Programação do mês ampliada">
     <button onclick="document.getElementById('progLightbox').style.display='none'"
-      style="position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:501;">&times;</button>
-    <img id="progLightboxImg" src="" alt=""
+      style="position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:501;"
+      aria-label="Fechar">&times;</button>
+    <img id="progLightboxImg" src="" alt="Programação do mês"
       style="max-width:94vw;max-height:94vh;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6);">
   </div>
 
   <?php require 'includes/footer.php'; ?>
-  <script src="assets/js/main.js"></script>
+
+  <!-- Dados dos eventos injetados para o JS -->
   <script>
-    function toggleGrupo(btn) {
-      const grupo = btn.parentElement;
-      // Determine whether we're opening this group (if not already open)
-      const abrir = !grupo.classList.contains('open');
-      // Close other groups inside the eventos-lista
-      document.querySelectorAll('.eventos-lista .ev-grupo').forEach(g => {
-        if (g !== grupo) {
-          g.classList.remove('open');
-          const header = g.querySelector('.ev-grupo-header');
-          if (header) header.setAttribute('aria-expanded', 'false');
-        }
-      });
-      // Toggle current group according to abrir
-      if (abrir) {
-        grupo.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      } else {
-        grupo.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    }
-    function abrirLightbox(arquivo, legenda) {
-      document.getElementById('lightbox-img').src = 'data/uploads/' + arquivo;
-      document.getElementById('lightbox-cap').textContent = legenda;
-      document.getElementById('lightbox').classList.add('open');
-    }
-    function fecharLightbox() {
-      document.getElementById('lightbox').classList.remove('open');
-      document.getElementById('lightbox-img').src = '';
-    }
-    function abrirProg(src) {
-      const lb = document.getElementById('progLightbox');
-      document.getElementById('progLightboxImg').src = src;
-      lb.style.display = 'flex';
-    }
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        fecharLightbox();
-        document.getElementById('progLightbox').style.display = 'none';
-      }
-    });
+    window.PdM_Eventos = <?= json_encode(
+      array_map(fn($ev) => [
+        'id'          => (int) $ev['id'],
+        'nome'        => $ev['nome'],
+        'data_evento' => $ev['data_evento'],
+        'horario'     => $ev['horario'] ?? null,
+        'total_fotos' => (int) $ev['total_fotos'],
+      ], $eventos),
+      JSON_UNESCAPED_UNICODE
+    ) ?>;
+    window.PdM_Base = <?= json_encode($base_url) ?>;
   </script>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/calendario.js"></script>
 </body>
 
 </html>
