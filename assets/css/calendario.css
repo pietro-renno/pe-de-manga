@@ -297,9 +297,17 @@
   gap: 16px;
 }
 
+/* Carrossel da programação (uma ou várias imagens) */
+.cal-prog-carousel {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+
 .cal-prog-thumb {
-  width: 80px;
-  height: 80px;
+  width: 96px;
+  height: 96px;
   object-fit: cover;
   border-radius: 8px;
   cursor: zoom-in;
@@ -307,9 +315,64 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.cal-prog-carousel .cal-prog-thumb {
+  position: absolute;
+  inset: 0;
+}
+
 .cal-prog-thumb:hover {
   transform: scale(1.06);
   box-shadow: var(--sombra-media);
+}
+
+/* Setas de navegação do carrossel */
+.cal-prog-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--marrom-escuro);
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  transition: background 0.16s, transform 0.16s;
+  z-index: 2;
+}
+
+.cal-prog-nav:hover {
+  background: var(--amarelo);
+  transform: translateY(-50%) scale(1.12);
+}
+
+.cal-prog-prev {
+  left: -10px;
+}
+
+.cal-prog-next {
+  right: -10px;
+}
+
+/* Contador "1/3" */
+.cal-prog-counter {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .cal-prog-info h4 {
@@ -530,10 +593,29 @@
     align-items: flex-start;
   }
 
+  .cal-prog-carousel {
+    width: 100%;
+    height: 200px;
+  }
+
   .cal-prog-thumb {
     width: 100%;
-    height: 160px;
+    height: 200px;
     border-radius: calc(var(--radius) - 4px);
+  }
+
+  .cal-prog-prev {
+    left: 8px;
+  }
+
+  .cal-prog-next {
+    right: 8px;
+  }
+
+  .cal-prog-nav {
+    width: 34px;
+    height: 34px;
+    font-size: 1.3rem;
   }
 
   #panel-fotos-grid {

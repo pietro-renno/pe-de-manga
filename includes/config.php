@@ -48,11 +48,24 @@ function get_eventos(): array
 function get_programacao_mes(int $mes, int $ano): ?array
 {
     $st = get_db()->prepare(
-        'SELECT * FROM programacao_mes WHERE mes = ? AND ano = ? LIMIT 1'
+        'SELECT * FROM programacao_mes WHERE mes = ? AND ano = ? ORDER BY id LIMIT 1'
     );
     $st->execute([$mes, $ano]);
     $row = $st->fetch();
     return $row ?: null;
+}
+
+/**
+ * Busca TODAS as imagens da programação mensal de um mês/ano.
+ * Um mês pode ter várias imagens (exibidas em carrossel).
+ */
+function get_programacoes_mes(int $mes, int $ano): array
+{
+    $st = get_db()->prepare(
+        'SELECT * FROM programacao_mes WHERE mes = ? AND ano = ? ORDER BY id'
+    );
+    $st->execute([$mes, $ano]);
+    return $st->fetchAll();
 }
 
 /**

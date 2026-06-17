@@ -35,6 +35,11 @@ mysql -u root -p < database.sql
 
 O script cria o banco `pedemanga`, todas as tabelas e insere os dados de exemplo.
 
+> **Atualizando um banco já existente?** Execute também as migrações incrementais,
+> nesta ordem: `add_programacao_mes.sql` (programação do mês + horário dos eventos)
+> e `add_programacao_multi.sql` (permite várias imagens de programação por mês).
+> Elas não afetam dados existentes.
+
 ### 3. Configure a conexão com o banco
 
 Edite o arquivo `includes/db.php` com suas credenciais:

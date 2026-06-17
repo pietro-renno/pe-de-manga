@@ -101,39 +101,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir
   exit;
 }
 
-// ── SALVAR PROGRAMAÇÃO DO MÊS ───────────────────────────────
+// ── SALVAR PROGRAMAÇÃO DO MÊS (uma ou várias imagens) ───────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'salvar_programacao') {
   $mes = (int) ($_POST['mes'] ?? 0);
   $ano = (int) ($_POST['ano'] ?? 0);
-  if ($mes >= 1 && $mes <= 12 && $ano >= 2000 && !empty($_FILES['imagem']['name'])) {
-    $f = $_FILES['imagem'];
-    $ext = strtolower(pathinfo($f['name'], PATHINFO_EXTENSION));
-    if ($f['error'] === 0 && in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && $f['size'] <= 10 * 1024 * 1024) {
-      // Remove imagem antiga se existir
-      $old = $db->prepare('SELECT imagem FROM programacao_mes WHERE mes=? AND ano=?');
-      $old->execute([$mes, $ano]);
-      $old_img = $old->fetchColumn();
-      if ($old_img) {
-        $old_path = __DIR__ . '/../data/uploads/' . $old_img;
-        if (file_exists($old_path))
-          unlink($old_path);
+  if ($mes >= 1 && $mes <= 12 && $ano >= 2000 && !empty($_FILES['imagens']['name'][0])) {
+    $files = $_FILES['imagens'];
+    $st = $db->prepare('INSERT INTO programacao_mes (mes, ano, imagem) VALUES (?,?,?)');
+    $adicionadas = 0;
+    $ignoradas = 0;
+    foreach ($files['name'] as $i => $fname) {
+      if ($files['error'][$i] !== 0) {
+        continue;
+      }
+      $ext = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+      if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']) || $files['size'][$i] > 10 * 1024 * 1024) {
+        $ignoradas++;
+        continue;
       }
       $nome_arq = 'prog_' . $mes . '_' . $ano . '_' . uniqid() . '.' . $ext;
       $dest = __DIR__ . '/../data/uploads/' . $nome_arq;
-      if (move_uploaded_file($f['tmp_name'], $dest)) {
-        $db->prepare(
-          'INSERT INTO programacao_mes (mes, ano, imagem) VALUES (?,?,?)
-                     ON DUPLICATE KEY UPDATE imagem=VALUES(imagem)'
-        )->execute([$mes, $ano, $nome_arq]);
-        $msg = 'Programação do mês salva!';
-        $tipo_msg = 'sucesso';
+      if (move_uploaded_file($files['tmp_name'][$i], $dest)) {
+        $st->execute([$mes, $ano, $nome_arq]);
+        $adicionadas++;
       }
+    }
+    if ($adicionadas > 0) {
+      $msg = "{$adicionadas} imagem(ns) adicionada(s) à programação!"
+        . ($ignoradas > 0 ? " {$ignoradas} ignorada(s) (formato/tamanho inválido)." : '');
+      $tipo_msg = 'sucesso';
     } else {
-      $msg = 'Arquivo inválido. Use JPG/PNG/WEBP até 10 MB.';
+      $msg = 'Nenhuma imagem válida enviada. Use JPG/PNG/WEBP até 10 MB.';
       $tipo_msg = 'erro';
     }
   } else {
-    $msg = 'Selecione mês, ano e uma imagem.';
+    $msg = 'Selecione mês, ano e ao menos uma imagem.';
     $tipo_msg = 'erro';
   }
 }
@@ -497,8 +499,9 @@ $meses_nome = [
               </div>
               <div class="admin-card-body">
                 <p style="font-size:.88rem;color:var(--marrom-escuro);margin-bottom:20px;line-height:1.6;">
-                  Faça o upload da imagem de programação do mês.
-                  Uma imagem por mês — se já existir, será substituída automaticamente.
+                  Faça o upload das imagens de programação do mês. Você pode enviar
+                  <strong>várias imagens para o mesmo mês</strong> — elas aparecem num
+                  carrossel na página de eventos. As imagens já cadastradas são mantidas.
                 </p>
                 <form method="POST" enctype="multipart/form-data" style="max-width:480px;">
                   <input type="hidden" name="acao" value="salvar_programacao">
@@ -526,15 +529,15 @@ $meses_nome = [
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Imagem da Programação *</label>
+                    <label>Imagens da Programação *</label>
                     <div class="upload-area" onclick="document.getElementById('progImgInput').click()">
                       <div class="ua-icon"><span class="material-symbols-outlined">image</span></div>
-                      <p>Clique para selecionar a imagem</p>
-                      <small>JPG, PNG, WEBP – máx. 10 MB</small>
+                      <p>Clique para selecionar uma ou várias imagens</p>
+                      <small>JPG, PNG, WEBP – máx. 10 MB por arquivo</small>
                     </div>
-                    <input type="file" id="progImgInput" name="imagem" accept="image/*" style="display:none"
+                    <input type="file" id="progImgInput" name="imagens[]" accept="image/*" multiple style="display:none"
                       onchange="previewProgImg(this)">
-                    <div id="progImgPreview" style="margin-top:12px;"></div>
+                    <div class="upload-preview" id="progImgPreview" style="margin-top:12px;"></div>
                   </div>
                   <div class="form-actions" style="justify-content:flex-start;">
                     <button type="submit" class="btn-adm btn-adm-primary">
@@ -623,12 +626,17 @@ $meses_nome = [
 
     function previewProgImg(input) {
       const prev = document.getElementById('progImgPreview');
-      if (!input.files[0]) { prev.innerHTML = ''; return; }
-      const reader = new FileReader();
-      reader.onload = e => {
-        prev.innerHTML = '<img src="' + e.target.result + '" alt="Preview" style="max-width:100%;max-height:300px;border-radius:8px;border:2px solid var(--amarelo);">';
-      };
-      reader.readAsDataURL(input.files[0]);
+      prev.innerHTML = '';
+      Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const div = document.createElement('div');
+          div.className = 'up-thumb';
+          div.innerHTML = '<img src="' + e.target.result + '" alt="">';
+          prev.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+      });
     }
 
     function abrirProgImg(src) {

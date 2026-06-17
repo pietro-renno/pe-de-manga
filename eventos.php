@@ -11,13 +11,13 @@ $meses_pt = [
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
 
-// ── Programação do mês atual ────────────────────────────────
+// ── Programação do mês atual (uma ou várias imagens) ────────
 $mes_atual = (int) date('n');
 $ano_atual = (int) date('Y');
 try {
-  $prog_atual = get_programacao_mes($mes_atual, $ano_atual);
+  $progs_atual = get_programacoes_mes($mes_atual, $ano_atual);
 } catch (\Exception $e) {
-  $prog_atual = null;
+  $progs_atual = [];
 }
 
 // ── Caminho base para o JS ──────────────────────────────────
@@ -135,16 +135,35 @@ $base_url = rtrim(
             <!-- ══ COLUNA DIREITA: programação + painel de fotos ══ -->
             <div class="cal-right">
 
-              <!-- Programação mensal (se houver) -->
-              <?php if ($prog_atual): ?>
+              <!-- Programação mensal (se houver) — carrossel de imagens -->
+              <?php if (!empty($progs_atual)): ?>
                 <div class="cal-prog-card">
-                  <img class="cal-prog-thumb"
-                    src="data/uploads/<?= htmlspecialchars($prog_atual['imagem']) ?>"
-                    alt="Programação de <?= $meses_pt[$prog_atual['mes']] ?>"
-                    onclick="abrirProg(this.src)">
+                  <div class="cal-prog-carousel" id="progCarousel">
+                    <?php foreach ($progs_atual as $i => $prog): ?>
+                      <img class="cal-prog-thumb<?= $i === 0 ? ' is-active' : '' ?>"
+                        src="data/uploads/<?= htmlspecialchars($prog['imagem']) ?>"
+                        alt="Programação de <?= $meses_pt[$mes_atual] ?> (<?= $i + 1 ?>)"
+                        data-index="<?= $i ?>" <?= $i === 0 ? '' : 'hidden' ?>
+                        onclick="abrirProg(this.src)">
+                    <?php endforeach; ?>
+
+                    <?php if (count($progs_atual) > 1): ?>
+                      <button type="button" class="cal-prog-nav cal-prog-prev" id="progPrev"
+                        aria-label="Imagem anterior">&#8249;</button>
+                      <button type="button" class="cal-prog-nav cal-prog-next" id="progNext"
+                        aria-label="Próxima imagem">&#8250;</button>
+                      <span class="cal-prog-counter" id="progCounter">1/<?= count($progs_atual) ?></span>
+                    <?php endif; ?>
+                  </div>
                   <div class="cal-prog-info">
-                    <h4>Programação de <em><?= $meses_pt[$prog_atual['mes']] ?></em></h4>
-                    <p>Confira nossa programação mensal! Clique na imagem para ampliar.</p>
+                    <h4>Programação de <em><?= $meses_pt[$mes_atual] ?></em></h4>
+                    <p>
+                      <?php if (count($progs_atual) > 1): ?>
+                        <?= count($progs_atual) ?> imagens nesta programação. Use as setas para navegar e clique para ampliar.
+                      <?php else: ?>
+                        Confira nossa programação mensal! Clique na imagem para ampliar.
+                      <?php endif; ?>
+                    </p>
                     <a href="https://www.instagram.com/pedemangacpv/" target="_blank" rel="noopener"
                       class="insta-link">
                       <i class="fab fa-instagram"></i> Ver no Instagram

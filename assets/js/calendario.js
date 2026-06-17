@@ -309,6 +309,45 @@
   });
 
   /* ─────────────────────────────────────────────
+     CARROSSEL — PROGRAMAÇÃO DO MÊS
+  ───────────────────────────────────────────── */
+  function initProgCarousel() {
+    const carousel = document.getElementById('progCarousel');
+    if (!carousel) return;
+
+    const imgs = Array.from(carousel.querySelectorAll('.cal-prog-thumb'));
+    if (imgs.length <= 1) return; // sem navegação para 1 só imagem
+
+    const btnPrev  = document.getElementById('progPrev');
+    const btnNext  = document.getElementById('progNext');
+    const counter  = document.getElementById('progCounter');
+    let idx = 0;
+
+    function mostrar(novo) {
+      idx = (novo + imgs.length) % imgs.length; // loop circular
+      imgs.forEach((img, i) => {
+        const ativo = i === idx;
+        img.classList.toggle('is-active', ativo);
+        img.hidden = !ativo;
+      });
+      if (counter) counter.textContent = `${idx + 1}/${imgs.length}`;
+    }
+
+    btnPrev && btnPrev.addEventListener('click', () => mostrar(idx - 1));
+    btnNext && btnNext.addEventListener('click', () => mostrar(idx + 1));
+
+    // Suporte a arrastar/deslizar (swipe) no toque
+    let startX = null;
+    carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    carousel.addEventListener('touchend', e => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) mostrar(dx < 0 ? idx + 1 : idx - 1);
+      startX = null;
+    }, { passive: true });
+  }
+
+  /* ─────────────────────────────────────────────
      UTILITÁRIOS
   ───────────────────────────────────────────── */
   function esc(str) {
@@ -330,16 +369,20 @@
      INICIALIZAÇÃO
   ───────────────────────────────────────────── */
   function init() {
-    // Inicializa calendário no mês atual
+    // Carrossel da programação do mês
+    initProgCarousel();
+
+    // O calendário SEMPRE começa no mês atual, mesmo que não haja
+    // evento neste mês. Não navegamos para o mês do evento mais recente.
     renderCalendario(mesAtual, anoAtual);
 
-    // Se URL tem ?id=X, tenta navegar até o mês do evento e carregar
+    // Se URL tem ?id=X (link direto para um evento), navega até o mês
+    // do evento e carrega suas fotos.
     const urlParams = new URLSearchParams(window.location.search);
     const idParam   = parseInt(urlParams.get('id'));
     if (idParam > 0) {
       const ev = EVENTOS.find(e => e.id === idParam);
       if (ev) {
-        // Navega para o mês do evento
         const d = new Date(ev.data_evento + 'T00:00:00');
         mesAtual = d.getMonth();
         anoAtual = d.getFullYear();
@@ -350,15 +393,18 @@
       }
     }
 
-    // Sem ?id: tenta o evento mais recente
-    if (EVENTOS.length > 0) {
-      const mais_recente = EVENTOS[0]; // já ordenado DESC por data
-      const d = new Date(mais_recente.data_evento + 'T00:00:00');
-      mesAtual = d.getMonth();
-      anoAtual = d.getFullYear();
-      evIdAtivo = mais_recente.id;
+    // Sem ?id: se houver evento(s) no mês atual, carrega o mais recente
+    // deles. Caso contrário, mantém o mês atual e mostra o placeholder.
+    const eventosDoMes = EVENTOS.filter(ev => {
+      const d = new Date(ev.data_evento + 'T00:00:00');
+      return d.getMonth() === mesAtual && d.getFullYear() === anoAtual;
+    });
+
+    if (eventosDoMes.length > 0) {
+      const ev = eventosDoMes[0]; // EVENTOS já vem ordenado por data DESC
+      evIdAtivo = ev.id;
       renderCalendario(mesAtual, anoAtual);
-      carregarEvento(mais_recente.id);
+      carregarEvento(ev.id);
     } else {
       setEstadoPanel('placeholder');
     }
