@@ -55,7 +55,7 @@ $base_url = rtrim(
     <!-- ══════════════════════════════════════
          HERO DA PÁGINA
     ══════════════════════════════════════ -->
-    <div class="page-hero" data-emoji="📅">
+    <div class="page-hero">
       <p class="ph-tag">Memórias &amp; Registros</p>
       <h1>Nossos <em>eventos</em></h1>
       <p>Programação cultural, encontros e registros do que acontece no Pé de Manga.</p>
