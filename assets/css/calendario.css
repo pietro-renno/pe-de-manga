@@ -1,4 +1,9 @@
+[hidden] {
+  display: none !important;
+}
+
 /* ── Shell principal: calendário esquerda + painel direita ── */
+
 .cal-shell {
   display: grid;
   grid-template-columns: 316px 1fr;
@@ -7,9 +12,6 @@
   margin-top: 40px;
 }
 
-/* ─────────────────────────────────────────────────────────
-   WIDGET DO CALENDÁRIO (coluna esquerda)
-───────────────────────────────────────────────────────── */
 .cal-widget {
   position: sticky;
   top: calc(var(--nav-h) + 16px);
