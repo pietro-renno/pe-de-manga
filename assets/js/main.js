@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── COPY TEXT ──
 function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('✅ Copiado!'));
+  navigator.clipboard.writeText(text).then(() => showToast('Copiado!'));
 }
 
 // ── TOAST ──

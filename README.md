@@ -19,8 +19,8 @@ Site institucional do **Ponto de Cultura Pé de Manga** desenvolvido em PHP com 
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/cardoso30s/pedemanga.git
-cd pedemanga
+git clone https://github.com/pietro-renno/pe-de-manga.git
+cd pe-de-manga
 ```
 
 ### 2. Crie o banco de dados
