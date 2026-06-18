@@ -39,7 +39,7 @@ $base_url = rtrim(
   <meta name="keywords"
     content="Pé de Manga, eventos culturais, programação, Caçapava, Ponto de Cultura, oficinas, arte">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
   <link rel="stylesheet" href="assets/css/calendario.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
@@ -251,7 +251,6 @@ $base_url = rtrim(
     window.PdM_Base = <?= json_encode($base_url) ?>;
   </script>
 
-  <script src="assets/js/main.js"></script>
   <script src="assets/js/calendario.js"></script>
 </body>
 

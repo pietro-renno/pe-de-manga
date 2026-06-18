@@ -177,7 +177,20 @@ nav {
   height: 2px;
   background: var(--marrom);
   border-radius: 2px;
-  transition: 0.3s;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ── SHARED LAYOUT ── */
@@ -244,6 +257,9 @@ nav {
   cursor: pointer;
   border: none;
   text-align: center;
+  max-width: 100%;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .btn:hover {
@@ -290,6 +306,7 @@ nav {
 }
 
 .container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
@@ -873,6 +890,7 @@ footer {
 .hero-btns {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .hero-image {
@@ -883,8 +901,9 @@ footer {
 
 .blob-wrapper {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
 }
 
 .floating-logo {
@@ -1236,6 +1255,8 @@ footer {
 
 .produto-body .btn {
   width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* ══════════════════════════════════
@@ -2036,10 +2057,6 @@ footer {
   }
 
   .nav-links {
-    display: none;
-  }
-
-  .nav-links.open {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -2050,9 +2067,23 @@ footer {
     border-bottom: 2px solid var(--amarelo);
     padding: 10px 0;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    
+    /* Animation base */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+    pointer-events: none;
   }
 
-  .nav-links.open a {
+  .nav-links.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-links a {
     height: auto;
     line-height: 1;
     padding: 14px 24px;
@@ -2074,7 +2105,7 @@ footer {
   /* botões do hero em coluna, sem corte */
   .hero-btns {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 10px;
     width: 100%;
   }
@@ -2082,6 +2113,7 @@ footer {
   .hero-btns .btn {
     width: 100%;
     text-align: center;
+    margin: 0;
   }
 
   /* quote não estoura */
@@ -2097,8 +2129,9 @@ footer {
     padding: 90px 5vw 40px;
   }
 
-  .hero-text h1 {
-    font-size: 3rem !important;
+  .hero-text h1,
+  .hero-title {
+    font-size: 2.6rem !important;
   }
 
   /* pillars: 2 colunas em vez de linha */
@@ -2211,19 +2244,24 @@ footer {
   }
 
   /* hero ainda mais compacto em telas pequenas */
-  .hero-title {
-    font-size: clamp(2rem, 9vw, 2.8rem);
+  .hero-title,
+  .hero-text h1 {
+    font-size: clamp(1.6rem, 8vw, 2.2rem) !important;
   }
 
-  .hero-sub {
-    font-size: .92rem;
-    margin-bottom: 24px;
+  .hero-sub,
+  .hero-text p {
+    font-size: 0.92rem !important;
+    margin-bottom: 24px !important;
   }
 
   .hero-eyebrow {
     font-size: .5rem;
     padding: 4px 10px;
     margin-bottom: 14px;
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
   }
 
   .container {
@@ -2245,9 +2283,7 @@ footer {
     margin: 5px;
   }
 
-  .hero-text h1 {
-    font-size: 3rem !important;
-  }
+  /* hero h1 size handled above */
 
   .card-comunica {
     grid-template-columns: 1fr !important;

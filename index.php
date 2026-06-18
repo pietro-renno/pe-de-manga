@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pé de Manga - Cultura e Afeto</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description"
     content="O Pé de Manga é um Ponto de Cultura dedicado à arte como caminho de cuidado, pertencimento e transformação social.">
@@ -28,8 +28,8 @@
         <p class="hero-sub">O Pé de Manga é um espaço onde cultura, saúde mental, sustentabilidade e afeto se encontram
           para transformar vidas e comunidades.</p>
         <div class="hero-btns">
-          <a href="quem-somos.php" class="btn btn-primary">Conheça a Gente</a>
-          <a href="o-que-fazemos.php" class="btn btn-outline">O Que Fazemos</a>
+          <a href="eventos.php" class="btn btn-primary">Ver a agenda de eventos</a>
+          <a href="https://wa.me/5512997624486" target="_blank" class="btn btn-outline">Contato</a>
           <a href="doacoes.php" class="btn btn-verde">Apoie</a>
         </div>
         <blockquote class="hero-quote quote-block" style="margin-top:56px;">

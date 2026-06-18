@@ -1,12 +1,15 @@
 // ── NAV TOGGLE ──
 function toggleNav() {
   document.getElementById('navLinks').classList.toggle('open');
+  document.querySelector('.hamburger').classList.toggle('open');
 }
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () =>
-      document.getElementById('navLinks').classList.remove('open')
-    );
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      const hamburger = document.querySelector('.hamburger');
+      if (hamburger) hamburger.classList.remove('open');
+    });
   });
 
   // ── SCROLL REVEAL ──
@@ -17,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── ACTIVE NAV ──
   const sections = document.querySelectorAll('section[id]');
-  const navAs    = document.querySelectorAll('.nav-links a');
+  const navAs = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
