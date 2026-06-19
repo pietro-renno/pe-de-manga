@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar'
     $cor  = $_POST['cor_fundo']      ?? array_key_first($cores);
     if (!array_key_exists($cor, $cores)) $cor = array_key_first($cores);
     $nova_foto = fazer_upload('foto', 'produto_');
+    $remover_foto_existente = ($_POST['remover_foto_existente'] ?? '0') === '1';
 
     if ($id > 0 && $nome !== '') {
         if ($nova_foto) {
@@ -55,8 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar'
             $db->prepare('UPDATE produtos SET nome=?,descricao=?,tag=?,foto=?,cor_fundo=? WHERE id=?')
                ->execute([$nome, $desc ?: null, $tag ?: null, $nova_foto, $cor, $id]);
         } else {
-            $db->prepare('UPDATE produtos SET nome=?,descricao=?,tag=?,cor_fundo=? WHERE id=?')
-               ->execute([$nome, $desc ?: null, $tag ?: null, $cor, $id]);
+            if ($remover_foto_existente) {
+                // apaga a foto antiga
+                $old = $db->prepare('SELECT foto FROM produtos WHERE id = ?');
+                $old->execute([$id]);
+                $old_foto = $old->fetchColumn();
+                if ($old_foto) {
+                    $path = __DIR__ . '/../data/uploads/' . $old_foto;
+                    if (file_exists($path)) unlink($path);
+                }
+                $db->prepare('UPDATE produtos SET nome=?,descricao=?,tag=?,foto=NULL,cor_fundo=? WHERE id=?')
+                   ->execute([$nome, $desc ?: null, $tag ?: null, $cor, $id]);
+            } else {
+                $db->prepare('UPDATE produtos SET nome=?,descricao=?,tag=?,cor_fundo=? WHERE id=?')
+                   ->execute([$nome, $desc ?: null, $tag ?: null, $cor, $id]);
+            }
         }
         $msg = 'Produto atualizado!';
         $tipo_msg = 'sucesso';
@@ -270,7 +284,14 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
         </div>
         <div class="form-group">
           <label>Foto do produto (opcional)</label>
-          <input type="file" name="foto" accept="image/*">
+          <div id="criar_foto_preview_container" style="margin-bottom:8px; display:none;">
+            <img id="criar_foto_preview_img" src="" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:2px solid var(--amarelo);margin-bottom:4px;">
+            <br>
+            <button type="button" class="btn-adm btn-adm-danger" id="btn_remover_foto_criar" style="padding:4px 8px;font-size:0.7rem;margin-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:2px;">close</span>Remover foto selecionada
+            </button>
+          </div>
+          <input type="file" name="foto" id="criar_foto_input" accept="image/*">
           <small style="font-size:.72rem;color:rgba(136,105,46,.5);">JPG, PNG, WEBP – máx. 5 MB. Se não enviar foto, a cor do cartão será usada.</small>
         </div>
         <div class="form-group">
@@ -312,9 +333,17 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
           </div>
         </div>
         <div class="form-group">
+          <input type="hidden" name="remover_foto_existente" id="edit_remover_foto_existente" value="0">
           <label>Nova foto (deixe vazio para manter)</label>
           <div id="edit_foto_preview" style="margin-bottom:8px;"></div>
-          <input type="file" name="foto" accept="image/*">
+          <div id="edit_nova_foto_preview_container" style="margin-bottom:8px; display:none;">
+            <img id="edit_nova_foto_preview_img" src="" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:2px solid var(--amarelo);margin-bottom:4px;">
+            <br>
+            <button type="button" class="btn-adm btn-adm-danger" id="btn_remover_foto_editar" style="padding:4px 8px;font-size:0.7rem;margin-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:2px;">close</span>Remover foto selecionada
+            </button>
+          </div>
+          <input type="file" name="foto" id="edit_foto_input" accept="image/*">
           <small style="font-size:.72rem;color:rgba(136,105,46,.5);">JPG, PNG, WEBP – máx. 5 MB.</small>
         </div>
         <div class="form-group">
@@ -335,21 +364,90 @@ $produtos = $db->query('SELECT * FROM produtos ORDER BY id')->fetchAll(PDO::FETC
     document.querySelectorAll('.modal-overlay').forEach(el => {
       el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
     });
+    function removerFotoAtual() {
+      if (confirm("Deseja mesmo remover a foto atual deste produto ao salvar?")) {
+        document.getElementById('edit_remover_foto_existente').value = '1';
+        document.getElementById('container_foto_atual').style.display = 'none';
+      }
+    }
+
     function abrirEdicao(p) {
       document.getElementById('edit_id').value = p.id;
       document.getElementById('edit_nome').value = p.nome;
       document.getElementById('edit_tag').value  = p.tag || '';
       document.getElementById('edit_desc').value = p.descricao || '';
+      
+      // Reset state for new edit session
+      document.getElementById('edit_remover_foto_existente').value = '0';
+      document.getElementById('edit_foto_input').value = '';
+      document.getElementById('edit_nova_foto_preview_container').style.display = 'none';
+      
       const sel = document.getElementById('edit_cor');
       for (let i = 0; i < sel.options.length; i++) {
         if (sel.options[i].value === p.cor_fundo) { sel.selectedIndex = i; break; }
       }
+      
       const prev = document.getElementById('edit_foto_preview');
       prev.innerHTML = p.foto
-        ? '<img src="../data/uploads/' + p.foto + '" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:2px solid var(--amarelo);margin-bottom:4px;">'
+        ? '<div id="container_foto_atual"><img src="../data/uploads/' + p.foto + '" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:2px solid var(--amarelo);margin-bottom:4px;"><br><button type="button" class="btn-adm btn-adm-danger" onclick="removerFotoAtual()" style="padding:4px 8px;font-size:0.7rem;margin-top:4px;"><span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:2px;">delete</span>Remover foto atual</button></div>'
         : '';
       abrirModal('modalEditar');
     }
+
+    // Preview for creation modal
+    const criarFotoInput = document.getElementById('criar_foto_input');
+    const criarFotoPreviewContainer = document.getElementById('criar_foto_preview_container');
+    const criarFotoPreviewImg = document.getElementById('criar_foto_preview_img');
+    const btnRemoverFotoCriar = document.getElementById('btn_remover_foto_criar');
+
+    criarFotoInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        criarFotoPreviewImg.src = URL.createObjectURL(file);
+        criarFotoPreviewContainer.style.display = 'block';
+      } else {
+        criarFotoPreviewContainer.style.display = 'none';
+      }
+    });
+
+    btnRemoverFotoCriar.addEventListener('click', function() {
+      criarFotoInput.value = '';
+      criarFotoPreviewContainer.style.display = 'none';
+    });
+
+    // Preview for edit modal (new photo selection)
+    const editFotoInput = document.getElementById('edit_foto_input');
+    const editNovaFotoPreviewContainer = document.getElementById('edit_nova_foto_preview_container');
+    const editNovaFotoPreviewImg = document.getElementById('edit_nova_foto_preview_img');
+    const btnRemoverFotoEditar = document.getElementById('btn_remover_foto_editar');
+
+    editFotoInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        editNovaFotoPreviewImg.src = URL.createObjectURL(file);
+        editNovaFotoPreviewContainer.style.display = 'block';
+        const containerFotoAtual = document.getElementById('container_foto_atual');
+        if (containerFotoAtual) {
+          containerFotoAtual.style.display = 'none';
+        }
+        document.getElementById('edit_remover_foto_existente').value = '0';
+      } else {
+        editNovaFotoPreviewContainer.style.display = 'none';
+        const containerFotoAtual = document.getElementById('container_foto_atual');
+        if (containerFotoAtual) {
+          containerFotoAtual.style.display = 'block';
+        }
+      }
+    });
+
+    btnRemoverFotoEditar.addEventListener('click', function() {
+      editFotoInput.value = '';
+      editNovaFotoPreviewContainer.style.display = 'none';
+      const containerFotoAtual = document.getElementById('container_foto_atual');
+      if (containerFotoAtual) {
+        containerFotoAtual.style.display = 'block';
+      }
+    });
   </script>
 </body>
 </html>

@@ -325,7 +325,9 @@ $meses_nome = [
                   </div>
                   <input type="file" id="fotosInput" name="fotos[]" multiple accept="image/*" style="display:none"
                     onchange="previewImagens(this)">
-                  <div class="upload-preview" id="uploadPreview"></div>
+                  <div id="fotos_preview_container" style="margin-top:12px; display:none;">
+                    <div class="upload-preview" id="uploadPreview"></div>
+                  </div>
                 </div>
                 <div class="form-actions">
                   <button type="button" class="btn-adm btn-adm-outline"
@@ -537,7 +539,9 @@ $meses_nome = [
                     </div>
                     <input type="file" id="progImgInput" name="imagens[]" accept="image/*" multiple style="display:none"
                       onchange="previewProgImg(this)">
-                    <div class="upload-preview" id="progImgPreview" style="margin-top:12px;"></div>
+                    <div id="prog_img_preview_container" style="margin-top:12px; display:none;">
+                      <div class="upload-preview" id="progImgPreview"></div>
+                    </div>
                   </div>
                   <div class="form-actions" style="justify-content:flex-start;">
                     <button type="submit" class="btn-adm btn-adm-primary">
@@ -609,34 +613,119 @@ $meses_nome = [
       abrirModal('modalEditar');
     }
 
+    let fotosSelecionadas = [];
+
     function previewImagens(input) {
-      const preview = document.getElementById('uploadPreview');
-      preview.innerHTML = '';
-      Array.from(input.files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = e => {
-          const div = document.createElement('div');
-          div.className = 'up-thumb';
-          div.innerHTML = '<img src="' + e.target.result + '" alt="">';
-          preview.appendChild(div);
-        };
-        reader.readAsDataURL(file);
-      });
+      if (input.files && input.files.length > 0) {
+        fotosSelecionadas = Array.from(input.files);
+      } else {
+        fotosSelecionadas = [];
+      }
+      renderPreviewFotos();
     }
 
+    function renderPreviewFotos() {
+      const container = document.getElementById('fotos_preview_container');
+      const preview = document.getElementById('uploadPreview');
+      const input = document.getElementById('fotosInput');
+      preview.innerHTML = '';
+      
+      if (fotosSelecionadas.length > 0) {
+        container.style.display = 'block';
+        
+        // Use Promise.all to read all files and keep their relative orders correct
+        const promises = fotosSelecionadas.map(file => {
+          return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.readAsDataURL(file);
+          });
+        });
+        
+        Promise.all(promises).then(results => {
+          preview.innerHTML = ''; // Clear preview first
+          results.forEach((src, index) => {
+            const div = document.createElement('div');
+            div.className = 'up-thumb';
+            div.innerHTML = `
+              <img src="${src}" alt="">
+              <button type="button" class="up-remove" onclick="removerFotoSelecionada(${index})">&times;</button>
+            `;
+            preview.appendChild(div);
+          });
+        });
+      } else {
+        container.style.display = 'none';
+        input.value = '';
+      }
+    }
+
+    function removerFotoSelecionada(index) {
+      const input = document.getElementById('fotosInput');
+      fotosSelecionadas.splice(index, 1);
+      
+      const dt = new DataTransfer();
+      fotosSelecionadas.forEach(file => dt.items.add(file));
+      input.files = dt.files;
+      
+      renderPreviewFotos();
+    }
+
+    let progImgsSelecionadas = [];
+
     function previewProgImg(input) {
+      if (input.files && input.files.length > 0) {
+        progImgsSelecionadas = Array.from(input.files);
+      } else {
+        progImgsSelecionadas = [];
+      }
+      renderPreviewProgImgs();
+    }
+
+    function renderPreviewProgImgs() {
+      const container = document.getElementById('prog_img_preview_container');
       const prev = document.getElementById('progImgPreview');
+      const input = document.getElementById('progImgInput');
       prev.innerHTML = '';
-      Array.from(input.files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = e => {
-          const div = document.createElement('div');
-          div.className = 'up-thumb';
-          div.innerHTML = '<img src="' + e.target.result + '" alt="">';
-          prev.appendChild(div);
-        };
-        reader.readAsDataURL(file);
-      });
+      
+      if (progImgsSelecionadas.length > 0) {
+        container.style.display = 'block';
+        
+        const promises = progImgsSelecionadas.map(file => {
+          return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.readAsDataURL(file);
+          });
+        });
+        
+        Promise.all(promises).then(results => {
+          prev.innerHTML = ''; // Clear preview first
+          results.forEach((src, index) => {
+            const div = document.createElement('div');
+            div.className = 'up-thumb';
+            div.innerHTML = `
+              <img src="${src}" alt="">
+              <button type="button" class="up-remove" onclick="removerProgImgSelecionada(${index})">&times;</button>
+            `;
+            prev.appendChild(div);
+          });
+        });
+      } else {
+        container.style.display = 'none';
+        input.value = '';
+      }
+    }
+
+    function removerProgImgSelecionada(index) {
+      const input = document.getElementById('progImgInput');
+      progImgsSelecionadas.splice(index, 1);
+      
+      const dt = new DataTransfer();
+      progImgsSelecionadas.forEach(file => dt.items.add(file));
+      input.files = dt.files;
+      
+      renderPreviewProgImgs();
     }
 
     function abrirProgImg(src) {

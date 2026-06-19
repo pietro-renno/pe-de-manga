@@ -144,7 +144,7 @@ $base_url = rtrim(
                         src="data/uploads/<?= htmlspecialchars($prog['imagem']) ?>"
                         alt="Programação de <?= $meses_pt[$mes_atual] ?> (<?= $i + 1 ?>)"
                         data-index="<?= $i ?>" <?= $i === 0 ? '' : 'hidden' ?>
-                        onclick="abrirProg(this.src)">
+                        onclick="abrirProg('data/uploads/<?= htmlspecialchars($prog['imagem']) ?>')">
                     <?php endforeach; ?>
 
                     <?php if (count($progs_atual) > 1): ?>
@@ -231,7 +231,7 @@ $base_url = rtrim(
       style="position:fixed;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:501;"
       aria-label="Fechar">&times;</button>
     <img id="progLightboxImg" src="" alt="Programação do mês"
-      style="max-width:94vw;max-height:94vh;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+      style="max-width:92vw;max-height:86vh;object-fit:contain;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6);">
   </div>
 
   <?php require 'includes/footer.php'; ?>

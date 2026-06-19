@@ -19,12 +19,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'adicion
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'editar') {
   $id = (int) ($_POST['id'] ?? 0);
   $novo_logo = fazer_upload('logo', 'parceiro_');
+  $remover_logo_existente = ($_POST['remover_logo_existente'] ?? '0') === '1';
+
   if ($novo_logo) {
+    // apaga a logo antiga se houver uma nova
+    $old = $db->prepare('SELECT logo FROM parceiros WHERE id = ?');
+    $old->execute([$id]);
+    $old_logo = $old->fetchColumn();
+    if ($old_logo) {
+      $path = __DIR__ . '/../data/uploads/' . $old_logo;
+      if (file_exists($path)) unlink($path);
+    }
     $st = $db->prepare('UPDATE parceiros SET nome=?, site=?, `desc`=?, logo=? WHERE id=?');
     $st->execute([trim($_POST['nome'] ?? ''), trim($_POST['site'] ?? '') ?: null, trim($_POST['desc'] ?? '') ?: null, $novo_logo, $id]);
   } else {
-    $st = $db->prepare('UPDATE parceiros SET nome=?, site=?, `desc`=? WHERE id=?');
-    $st->execute([trim($_POST['nome'] ?? ''), trim($_POST['site'] ?? '') ?: null, trim($_POST['desc'] ?? '') ?: null, $id]);
+    if ($remover_logo_existente) {
+      // apaga a logo antiga
+      $old = $db->prepare('SELECT logo FROM parceiros WHERE id = ?');
+      $old->execute([$id]);
+      $old_logo = $old->fetchColumn();
+      if ($old_logo) {
+        $path = __DIR__ . '/../data/uploads/' . $old_logo;
+        if (file_exists($path)) unlink($path);
+      }
+      $st = $db->prepare('UPDATE parceiros SET nome=?, site=?, `desc`=?, logo=NULL WHERE id=?');
+      $st->execute([trim($_POST['nome'] ?? ''), trim($_POST['site'] ?? '') ?: null, trim($_POST['desc'] ?? '') ?: null, $id]);
+    } else {
+      $st = $db->prepare('UPDATE parceiros SET nome=?, site=?, `desc`=? WHERE id=?');
+      $st->execute([trim($_POST['nome'] ?? ''), trim($_POST['site'] ?? '') ?: null, trim($_POST['desc'] ?? '') ?: null, $id]);
+    }
   }
   $msg = 'sucesso:Parceiro atualizado!';
 }
@@ -153,7 +176,17 @@ $parceiros = get_parceiros();
         </div>
         <div class="form-group"><label>Descrição</label><textarea name="desc"
             placeholder="Breve descrição do parceiro"></textarea></div>
-        <div class="form-group"><label>Logo (opcional)</label><input type="file" name="logo" accept="image/*"></div>
+        <div class="form-group">
+          <label>Logo (opcional)</label>
+          <div id="criar_logo_preview_container" style="margin-bottom:8px; display:none;">
+            <img id="criar_logo_preview_img" src="" style="height:48px;object-fit:contain;border-radius:6px;border:2px solid var(--amarelo);margin-bottom:4px;">
+            <br>
+            <button type="button" class="btn-adm btn-adm-danger" id="btn_remover_logo_criar" style="padding:4px 8px;font-size:0.7rem;margin-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:2px;">close</span>Remover foto selecionada
+            </button>
+          </div>
+          <input type="file" name="logo" id="criar_logo_input" accept="image/*">
+        </div>
         <div class="form-actions">
           <button type="button" class="btn-adm btn-adm-outline" onclick="closeModal('adicionar')">Cancelar</button>
           <button type="submit" class="btn-adm btn-adm-primary">Salvar parceiro</button>
@@ -174,9 +207,19 @@ $parceiros = get_parceiros();
           <div class="form-group"><label>Site</label><input type="url" name="site" id="edit_site"></div>
         </div>
         <div class="form-group"><label>Descrição</label><textarea name="desc" id="edit_desc"></textarea></div>
-        <div class="form-group"><label>Nova logo (deixe vazio para manter)</label><input type="file" name="logo"
-            accept="image/*"></div>
-        <div id="edit_logo_prev" style="margin-top:8px;"></div>
+        <div class="form-group">
+          <input type="hidden" name="remover_logo_existente" id="edit_remover_logo_existente" value="0">
+          <label>Nova logo (deixe vazio para manter)</label>
+          <div id="edit_logo_prev" style="margin-top:8px; margin-bottom:8px;"></div>
+          <div id="edit_nova_logo_preview_container" style="margin-bottom:8px; display:none;">
+            <img id="edit_nova_logo_preview_img" src="" style="height:48px;object-fit:contain;border-radius:6px;border:2px solid var(--amarelo);margin-bottom:4px;">
+            <br>
+            <button type="button" class="btn-adm btn-adm-danger" id="btn_remover_logo_editar" style="padding:4px 8px;font-size:0.7rem;margin-top:4px;">
+              <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:2px;">close</span>Remover foto selecionada
+            </button>
+          </div>
+          <input type="file" name="logo" id="edit_logo_input" accept="image/*">
+        </div>
         <div class="form-actions">
           <button type="button" class="btn-adm btn-adm-outline" onclick="closeModal('editar')">Cancelar</button>
           <button type="submit" class="btn-adm btn-adm-primary">Salvar</button>
@@ -189,15 +232,85 @@ $parceiros = get_parceiros();
     function openModal(id) { document.getElementById('modal-' + id).classList.add('open'); }
     function closeModal(id) { document.getElementById('modal-' + id).classList.remove('open'); }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open')); });
+    function removerLogoAtual() {
+      if (confirm("Deseja mesmo remover a logo atual deste parceiro ao salvar?")) {
+        document.getElementById('edit_remover_logo_existente').value = '1';
+        document.getElementById('container_logo_atual').style.display = 'none';
+      }
+    }
+
     function abrirEdicao(p) {
       document.getElementById('edit_id').value = p.id;
       document.getElementById('edit_nome').value = p.nome;
       document.getElementById('edit_site').value = p.site || '';
       document.getElementById('edit_desc').value = p.desc || '';
+      
+      // Reset state for new edit session
+      document.getElementById('edit_remover_logo_existente').value = '0';
+      document.getElementById('edit_logo_input').value = '';
+      document.getElementById('edit_nova_logo_preview_container').style.display = 'none';
+      
       const prev = document.getElementById('edit_logo_prev');
-      prev.innerHTML = p.logo ? '<img src="../data/uploads/' + p.logo + '" style="height:48px;object-fit:contain;border-radius:6px;">' : '';
+      prev.innerHTML = p.logo
+        ? '<div id="container_logo_atual"><img src="../data/uploads/' + p.logo + '" style="height:48px;object-fit:contain;border-radius:6px;"><br><button type="button" class="btn-adm btn-adm-danger" onclick="removerLogoAtual()" style="padding:4px 8px;font-size:0.7rem;margin-top:4px;"><span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:2px;">delete</span>Remover logo atual</button></div>'
+        : '';
       openModal('editar');
     }
+
+    // Preview for creation modal
+    const criarLogoInput = document.getElementById('criar_logo_input');
+    const criarLogoPreviewContainer = document.getElementById('criar_logo_preview_container');
+    const criarLogoPreviewImg = document.getElementById('criar_logo_preview_img');
+    const btnRemoverLogoCriar = document.getElementById('btn_remover_logo_criar');
+
+    criarLogoInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        criarLogoPreviewImg.src = URL.createObjectURL(file);
+        criarLogoPreviewContainer.style.display = 'block';
+      } else {
+        criarLogoPreviewContainer.style.display = 'none';
+      }
+    });
+
+    btnRemoverLogoCriar.addEventListener('click', function() {
+      criarLogoInput.value = '';
+      criarLogoPreviewContainer.style.display = 'none';
+    });
+
+    // Preview for edit modal (new logo selection)
+    const editLogoInput = document.getElementById('edit_logo_input');
+    const editNovaLogoPreviewContainer = document.getElementById('edit_nova_logo_preview_container');
+    const editNovaLogoPreviewImg = document.getElementById('edit_nova_logo_preview_img');
+    const btnRemoverLogoEditar = document.getElementById('btn_remover_logo_editar');
+
+    editLogoInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        editNovaLogoPreviewImg.src = URL.createObjectURL(file);
+        editNovaLogoPreviewContainer.style.display = 'block';
+        const containerLogoAtual = document.getElementById('container_logo_atual');
+        if (containerLogoAtual) {
+          containerLogoAtual.style.display = 'none';
+        }
+        document.getElementById('edit_remover_logo_existente').value = '0';
+      } else {
+        editNovaLogoPreviewContainer.style.display = 'none';
+        const containerLogoAtual = document.getElementById('container_logo_atual');
+        if (containerLogoAtual) {
+          containerLogoAtual.style.display = 'block';
+        }
+      }
+    });
+
+    btnRemoverLogoEditar.addEventListener('click', function() {
+      editLogoInput.value = '';
+      editNovaLogoPreviewContainer.style.display = 'none';
+      const containerLogoAtual = document.getElementById('container_logo_atual');
+      if (containerLogoAtual) {
+        containerLogoAtual.style.display = 'block';
+      }
+    });
   </script>
 </body>
 

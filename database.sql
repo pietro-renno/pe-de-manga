@@ -39,12 +39,6 @@ CREATE TABLE `colaboradores` (
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `colaboradores`
---
-
-INSERT INTO `colaboradores` (`id`, `nome`, `funcao`, `descricao`, `foto`, `criado_em`) VALUES
-(1, 'Prof Luis Felipe Cardoso', 'Professor', 'Teste', 'colab_69fc846657a86.jpg', '2026-05-08 13:54:53');
 
 -- --------------------------------------------------------
 
@@ -58,23 +52,10 @@ CREATE TABLE `eventos` (
   `nome` varchar(255) NOT NULL,
   `descricao` text DEFAULT NULL,
   `data_evento` date NOT NULL,
+  `horario` varchar(50) DEFAULT NULL COMMENT 'ex: "14h" ou "14:00-17:00"',
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `eventos`
---
-
-INSERT INTO `eventos` (`id`, `nome`, `descricao`, `data_evento`, `criado_em`) VALUES
-(1, 'AWS', 'Viagem a SP', '2026-05-11', '2026-05-10 22:03:50'),
-(2, 'Oficina de Artesanatao', 'Testando', '2026-05-06', '2026-05-10 22:09:48'),
-(3, 'ewewew', 'awerfaerf', '2026-04-15', '2026-05-10 22:21:56'),
-(4, 'eawefwerfsea', 'dsgzvbdfvzsf', '2026-05-12', '2026-05-10 22:22:06'),
-(5, 'Prof Luis Felipe Cardoso', 'arvsd\\cc', '2026-05-01', '2026-05-10 22:22:14'),
-(6, 'WFDGBZFds', 'fgdthrthr', '2026-04-16', '2026-05-10 22:22:26'),
-(7, 'LUIS FELIPE', 'tARWESDYTUFYDFTDZGR', '2026-04-05', '2026-05-10 22:22:50'),
-(8, 'ADSFHGSFZG', 'DAGHSFGDKJFH', '2026-05-08', '2026-05-10 22:23:38'),
-(9, 'S', 'gehjklgçhjgsd vd fhglkjçhyotilrukeyjthadgrsdhtjdyuki', '2025-10-16', '2026-05-11 00:09:29');
 
 -- --------------------------------------------------------
 
@@ -91,21 +72,6 @@ CREATE TABLE `evento_fotos` (
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `evento_fotos`
---
-
-INSERT INTO `evento_fotos` (`id`, `evento_id`, `arquivo`, `descricao`, `criado_em`) VALUES
-(1, 1, 'evento_6a010116aa049.png', 'AWS SEDE', '2026-05-10 22:05:10'),
-(2, 1, 'evento_6a010116ab6e4.png', 'AWS SEDE', '2026-05-10 22:05:10'),
-(3, 1, 'evento_6a010116ac44d.png', 'AWS SEDE', '2026-05-10 22:05:10'),
-(4, 1, 'evento_6a010116ad4be.png', 'AWS SEDE', '2026-05-10 22:05:10'),
-(5, 2, 'evento_6a010237a4ccb.png', NULL, '2026-05-10 22:09:59'),
-(6, 2, 'evento_6a010237a5ffb.png', NULL, '2026-05-10 22:09:59'),
-(7, 2, 'evento_6a010237a69e5.png', NULL, '2026-05-10 22:09:59'),
-(8, 2, 'evento_6a010237a77f0.png', NULL, '2026-05-10 22:09:59'),
-(9, 2, 'evento_6a010237a8296.png', NULL, '2026-05-10 22:09:59'),
-(10, 2, 'evento_6a010237a9099.png', NULL, '2026-05-10 22:09:59');
 
 -- --------------------------------------------------------
 
@@ -134,6 +100,21 @@ INSERT INTO `parceiros` (`id`, `nome`, `site`, `desc`, `logo`, `criado_em`) VALU
 (4, 'Turistando Por Aí', 'https://www.instagram.com/turistando_por_ai8?igsh=MWM4ZTZsbTE0ZzU5bg%3D%3D', NULL, 'parceiro_6a146455563d8.jpg', '2026-05-25 15:01:41'),
 (5, 'Ohquidea', 'https://www.ohquidea.com.br/sobre', NULL, 'parceiro_6a1464a418629.png', '2026-05-25 15:03:00'),
 (6, 'Smart link telecom', 'https://smartlinktelecom.net.br/', NULL, 'parceiro_6a1464e8d4a51.png', '2026-05-25 15:04:08');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `programacao_mes`
+--
+
+DROP TABLE IF EXISTS `programacao_mes`;
+CREATE TABLE `programacao_mes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `mes` tinyint(2) NOT NULL COMMENT '1=Jan ... 12=Dez',
+  `ano` smallint(4) NOT NULL,
+  `imagem` varchar(255) NOT NULL,
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -218,6 +199,13 @@ ALTER TABLE `parceiros`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `programacao_mes`
+--
+ALTER TABLE `programacao_mes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_mes_ano` (`mes`,`ano`);
+
+--
 -- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
@@ -257,6 +245,12 @@ ALTER TABLE `evento_fotos`
 --
 ALTER TABLE `parceiros`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de tabela `programacao_mes`
+--
+ALTER TABLE `programacao_mes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
